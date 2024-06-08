@@ -363,12 +363,12 @@
       <li class="nav-item">
         <a class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"><i class="ri-tools-fill fs-6"></i></a>
       </li>
-      <li class="nav-item">
+      {{-- <li class="nav-item">
         <a class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" href="#chat" role="tab" aria-controls="chat" aria-selected="false"><i class="ri-message-3-line fs-6"></i></a>
-      </li>
-      <li class="nav-item">
+      </li> --}}
+      {{-- <li class="nav-item">
         <a class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false"><i class="ri-timer-line fs-6"></i></a>
-      </li>
+      </li> --}}
     </ul>
     <div class="tab-content" id="pills-tabContent">
       <!-- Tab 1 -->
@@ -407,8 +407,7 @@
             </label>
           </div>
         </div>
-        <div class="p-3 border-bottom">
-          <!-- Logo BG -->
+        {{-- <div class="p-3 border-bottom">
           <h5 class="font-weight-medium mb-2 mt-2">Logo Backgrounds</h5>
           <ul class="theme-color m-0 p-0">
             <li class="theme-item list-inline-item me-1">
@@ -430,10 +429,8 @@
               <a href="javascript:void(0)" class="theme-link rounded-circle d-block" data-logobg="skin6"></a>
             </li>
           </ul>
-          <!-- Logo BG -->
-        </div>
-        <div class="p-3 border-bottom">
-          <!-- Navbar BG -->
+        </div> --}}
+        {{-- <div class="p-3 border-bottom">
           <h5 class="font-weight-medium mb-2 mt-2">Navbar Backgrounds</h5>
           <ul class="theme-color m-0 p-0">
             <li class="theme-item list-inline-item me-1">
@@ -455,10 +452,8 @@
               <a href="javascript:void(0)" class="theme-link rounded-circle d-block" data-navbarbg="skin6"></a>
             </li>
           </ul>
-          <!-- Navbar BG -->
         </div>
         <div class="p-3 border-bottom">
-          <!-- Logo BG -->
           <h5 class="font-weight-medium mb-2 mt-2">Sidebar Backgrounds</h5>
           <ul class="theme-color m-0 p-0">
             <li class="theme-item list-inline-item me-1">
@@ -480,12 +475,9 @@
               <a href="javascript:void(0)" class="theme-link rounded-circle d-block" data-sidebarbg="skin6"></a>
             </li>
           </ul>
-          <!-- Logo BG -->
-        </div>
+        </div> --}}
       </div>
-      <!-- End Tab 1 -->
-      <!-- Tab 2 -->
-      <div class="tab-pane fade" id="chat" role="tabpanel" aria-labelledby="pills-profile-tab">
+      {{-- <div class="tab-pane fade" id="chat" role="tabpanel" aria-labelledby="pills-profile-tab">
         <ul class="mailbox list-style-none mt-3">
           <li>
             <div class="message-center chat-scroll position-relative">
@@ -782,7 +774,7 @@
           </div>
         </div>
       </div>
-      <!-- End Tab 3 -->
+      <!-- End Tab 3 --> --}}
     </div>
   </div>
 </aside>

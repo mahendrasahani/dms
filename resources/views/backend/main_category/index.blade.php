@@ -21,19 +21,19 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                     
                     <div class="card-body">
                         <div class="table-responsive">
                             <table id="zero_config" class="table table-striped table-bordered text-nowrap">
                                 <thead>
                                     <tr>
+                                        <th>SN</th>
                                         <th>Name</th>
                                         <th>Description</th>
                                         <th style="text-align: end;">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
+                                    {{-- <tr>
                                         <td>Rhona Davidson</td>
                                         <td>Your Description</td>
                                         <td>
@@ -180,13 +180,16 @@
                                                 </button>
                                             </div>
                                         </td>
-                                    </tr>
+                                    </tr> --}}
+                                    @php $count = '1'; @endphp
+                                    @foreach ($main_categories as $main_cat) 
                                     <tr>
-                                        <td>Rhona Davidson</td>
-                                        <td>Your Description</td>
+                                        <td>{{$count++}}</td>
+                                        <td>{{$main_cat->name}}</td>
+                                        <td>{{$main_cat->description}}</td>
                                         <td>
                                             <div class="button-container">
-                                                <a href="{{route('backend.main_category.edit')}}">
+                                                <a href="{{route('backend.main_category.edit', [$main_cat->id])}}">
                                                     <button class="editBtn">
                                                         <svg height="1em" viewBox="0 0 512 512">
                                                             <path d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z"></path>
@@ -218,6 +221,7 @@
                                             </div>
                                         </td>
                                     </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -228,9 +232,9 @@
         <div class="card w-100">
             <div class="d-flexborder-bottomtitle-part-paddingalign-items-center">
                 <div class="ms-auto flex-shrink-0">
-                    <button class="btn btn-light-primary text-primary rounded-pill text-decoration-none btn-sm" title="View Code" data-bs-toggle="modal" data-bs-target="#view-code5-1-modal">
+                    {{-- <button class="btn btn-light-primary text-primary rounded-pill text-decoration-none btn-sm" title="View Code" data-bs-toggle="modal" data-bs-target="#view-code5-1-modal">
                         <i data-feather="code" class="feather-sm fill-white"></i>
-                    </button>
+                    </button> --}}
                     <div id="view-code5-1-modal" class="modal fade" tabindex="-1" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -242,13 +246,14 @@
                                         <div class="card">
                                             <div class="card-body">
                                                 <h4 class="card-title">Add Main Category</h4>
-                                                <form>
+                                                <form method="POST" action="{{route('backend.main_category.store')}}" enctype="multipart/form-data">
+                                                    @csrf
                                                     <div class="form-floating mb-3">
-                                                            <input type="text" class="form-control" placeholder="Category Name" require=""/>
+                                                            <input type="text" class="form-control" placeholder="Category Name" require="" name="category_name"/>
                                                             <label><i data-feather="user" class="feather-sm text-dark fill-white me-2"></i>Category Name</label>
                                                         </div>
                                                         <div class="form-floating mb-3">
-                                                            <input type="email" class="form-control" placeholder="Discription" />
+                                                            <input type="text" class="form-control" placeholder="Discription" name="discription" />
                                                             <label><i data-feather="mail" class="feather-sm text-dark fill-white me-2"></i>Discription</label>
                                                         </div>
                                                     <div class="d-md-flex align-items-center">
@@ -274,4 +279,117 @@
         </div>
     </div>
 </div>
+@section('javascript-section')
+@if(Session::has('success'))
+        <script> 
+            Swal.fire({
+            title: "Success!",
+            text: "{{Session::get('success')}}",
+            icon: "success",
+            timer: 5000,
+            });
+        </script>
+        @elseif(Session::has('error'))
+        <script> 
+            Swal.fire({
+            title: "Success!",
+            text: "{{Session::get('error')}}",
+            icon: "error",
+            timer: 5000,
+            });
+        </script>   
+        @endif
+
+        {{-- <script>
+            $(document).on('change', '#status', function(){
+                var $toggleButton = $(this);
+                var status = $toggleButton.prop('checked') ? '1':'0';
+                var main_category_id = $(this).data('id');
+                $.ajax({
+                            url: "{{route('backend.main_category.change_status')}}",
+                            data: {'status':status, 'main_category_id':main_category_id},
+                            type: "GET",
+                            success: function(response){
+                                if(response.status == 200){
+                                    Swal.fire({
+                                        title: "Success!",
+                                        text: "Status successfully updated.",
+                                        icon: "success"
+                                    });  
+                                }
+                            }
+                        });
+            });
+        </script> --}}
+
+        {{-- <script> 
+            $(document).on('click', '#delete_btn', function(){
+                const id = $(this).val();
+                
+
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You won't be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, delete it!"
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                        url: "{{route('backend.main_category.destroy')}}",
+                        data:{'id':id},
+                        type:"GET",
+                    success:function(response){
+                       if(response.status == 200 && response.message == "deleted"){
+                            Swal.fire({
+                            title: "Deleted!",
+                            text: "Main category has been deleted !",
+                            icon: "success"
+                            });
+                            $("#cat_list_"+id).hide(); 
+                    }else if(response.status == 400 && response.message == "exist_in_product"){
+                        Swal.fire({
+                            title: "Warning!",
+                            text: "This main category is used in product !",
+                            icon: "warning"
+                            });
+                    }else if(response.status == 400 && response.message == "exist_in_s_cat"){
+                        Swal.fire({
+                            title: "Warning!",
+                            text: "This main category is used in sub category !",
+                            icon: "warning"
+                            });
+                    }
+                    }
+                })       
+                    }
+                    });  
+            });
+        </script> --}}
+
+    {{-- <script>
+            $(document).ready(function (){
+                $(document).on('keydown', '#search', function (){
+                    const search_val = $(this).val();   
+                    if(search_val === ''){
+                        $('#my_pagination').show();
+
+                    }else{
+                    $.ajax({
+                        url:"{{route('backend.main_category.search')}}",
+                        method: "GET", 
+                        data: {'search_val': search_val},
+                        success: function(result){ 
+                            $("#category_table_body").html(result);
+                            $('#my_pagination').hide();
+                        }
+                    }); 
+                }
+                 
+                });
+            }); 
+        </script> --}}
+@endsection
 @endsection

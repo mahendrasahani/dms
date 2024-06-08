@@ -16,8 +16,9 @@ Route::middleware(['auth', 'verified'])->group(function(){
 
     // main category  
     Route::get('/admin/main-category', [MainCategoryController::class, 'index'])->name('backend.main_category.index');
-    Route::get('/admin/main-category/edit', [MainCategoryController::class, 'edit'])->name('backend.main_category.edit');
-    Route::get('/admin/main-category/create', [MainCategoryController::class, 'create'])->name('backend.main_category.create');
+    Route::get('/admin/main-category/edit/{id}', [MainCategoryController::class, 'edit'])->name('backend.main_category.edit');
+    Route::post('/admin/main-category/store', [MainCategoryController::class, 'store'])->name('backend.main_category.store');
+    Route::get('/admin/main-category/update/{id}', [MainCategoryController::class, 'update'])->name('backend.main_category.update');
 
 
 
@@ -38,15 +39,8 @@ Route::middleware(['auth', 'verified'])->group(function(){
     // Route::get('/admin/login-audit/edit', [LoginAuditController::class, 'edit'])->name('backend.login_audit.edit');
 
 
-
-
-    // admi route
-    // Route::get('/admin/login-audit', [LoginAuditController::class, 'index'])->name('backend.login_audit.index');
-    // Route::get('/admin/login-audit/edit', [LoginAuditController::class, 'edit'])->name('backend.login_audit.edit');
-
     // user Profile
     Route::get('/admin/profile', [UserProfileController::class, 'index'])->name('backend.user_profile.index');
-    // Route::get('/admin/login-audit/edit', [LoginAuditController::class, 'edit'])->name('backend.user_profile.edit');
 });
 
 

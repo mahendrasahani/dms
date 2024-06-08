@@ -1152,7 +1152,7 @@
 <!-- ============================================================= -->
 <!-- customizer Panel -->
 <!-- ============================================================= -->
-<aside class="customizer">
+{{-- <aside class="customizer">
   <a href="javascript:void(0)" class="service-panel-toggle"><i class="fa fa-spin ri-settings-3-line fs-7"></i></a>
   <div class="customizer-body">
     <ul class="nav customizer-tab" role="tablist">
@@ -1581,7 +1581,7 @@
       <!-- End Tab 3 -->
     </div>
   </div>
-</aside>
+</aside> --}}
 <div class="chat-windows"></div>
 
   
