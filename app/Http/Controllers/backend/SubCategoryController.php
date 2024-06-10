@@ -11,7 +11,7 @@ use App\Models\backend\MainCategory;
 class SubCategoryController extends Controller
 {
     public function index(){
-        $sub_categories = SubCategory::get();
+        $sub_categories = SubCategory::with('getMainCategory:id,name')->get();
         $main_categories = MainCategory::get();
         return view('backend.sub_category.index', compact('sub_categories', 'main_categories'));
     }

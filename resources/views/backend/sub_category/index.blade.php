@@ -42,7 +42,7 @@
                                         <td>{{$count++}}</td>
                                         <td>{{$sub_cat->name}}</td>
                                         <td>{{$sub_cat->description}}</td>
-                                        <td>{{$sub_cat->main_category_id}}</td>
+                                        <td>{{$sub_cat->getMainCategory->name}}</td>
                                         <td>
                                             <div class="form-check form-switch">
                                             <input class="form-check-input" {{$sub_cat->status === 1 ? 'checked':''}} value="{{$sub_cat->status}}" type="checkbox" id="flexSwitchCheckChecked"/>

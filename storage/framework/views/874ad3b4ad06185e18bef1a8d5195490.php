@@ -14,11 +14,13 @@
     <link rel="stylesheet" href="<?php echo e(url('public/assets/backend/assets/extra-libs/taskboard/css/jquery-ui.min.css')); ?>" />
     <link rel="stylesheet" type="text/css" href="<?php echo e(url('public/assets/backend/assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css')); ?>" />
     <link href="<?php echo e(url('public/assets/backend/dist/css/style.min.css')); ?>" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="<?php echo e(url('public/assets/backend/assets/libs/dropzone/dist/min/dropzone.min.css')); ?>" />   
+    <link rel="stylesheet" type="text/css" href="<?php echo e(url('public/assets/backend/assets/libs/dropzone/dist/min/dropzone.min.css')); ?>" />
+    <link rel="stylesheet" type="text/css" href="<?php echo e(url('public/assets/backend/assets/libs/select2/dist/css/select2.min.css')); ?>" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <style>
     <style>
         .button-container {
-            display: flex;
+            /* display: flex; */
             gap: 10px;
             /* Adjust the gap between buttons if needed */
             align-items: flex-end;

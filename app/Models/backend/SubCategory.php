@@ -15,4 +15,9 @@ class SubCategory extends Model
         'main_category_id',
         'status'
     ];
+
+
+    public function getMainCategory(){
+        return $this->belongsTo(MainCategory::class, 'main_category_id');
+    }
 }

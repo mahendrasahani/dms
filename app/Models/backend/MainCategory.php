@@ -14,5 +14,10 @@ class MainCategory extends Model
         "description",
         "status"
     ];
+
+    public function getSubCategory(){
+        return $this->hasMany(SubCategory::class, 'main_category_id');
+    }
+
     
 }
