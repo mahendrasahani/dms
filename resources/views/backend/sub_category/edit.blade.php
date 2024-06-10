@@ -13,18 +13,19 @@
                     </div>
                     <div class="card-body">
                         <form>
+                            @csrf
                             <div class="row">
                                 <div class="col-md-4 mb-3">
                                     <label for="validationDefault01">Category ID</label>
-                                    <input type="text" class="form-control" id="validationDefault01" placeholder="First name" value="1231" require />
+                                    <input type="text" class="form-control" id="validationDefault01" placeholder="Id" value="" require disabled/>
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label for="validationDefault02">Category Name</label>
-                                    <input type="text" class="form-control" id="validationDefault02" placeholder="Last name" value="Category" require />
+                                    <input type="text" class="form-control" id="validationDefault02" placeholder="Sub Category Name" value="" require />
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label for="validationDefault02">Main Category Name</label>
-                                    <input type="text" class="form-control" id="validationDefault02" placeholder="Last name" value="main Category" require />
+                                    <input type="text" class="form-control" id="validationDefault02" placeholder="Main Category Name" value="" require />
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label for="validationDefaultUsername">Description</label>

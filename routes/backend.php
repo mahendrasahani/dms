@@ -19,14 +19,16 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/admin/main-category/edit/{id}', [MainCategoryController::class, 'edit'])->name('backend.main_category.edit');
     Route::post('/admin/main-category/store', [MainCategoryController::class, 'store'])->name('backend.main_category.store');
     Route::get('/admin/main-category/update/{id}', [MainCategoryController::class, 'update'])->name('backend.main_category.update');
+    Route::get('/admin/main-category/delete/{id}', [MainCategoryController::class, 'destroy'])->name('backend.main_category.delete');
 
 
 
     
     // sub category  
     Route::get('/admin/sub-category', [SubCategoryController::class, 'index'])->name('backend.sub_category.index');
-    Route::get('/admin/sub-category/edit', [SubCategoryController::class, 'edit'])->name('backend.sub_category.edit');
-    Route::get('/admin/sub-category/create', [SubCategoryController::class, 'create'])->name('backend.sub_category.create');
+    Route::get('/admin/sub-category/edit/{id}', [SubCategoryController::class, 'edit'])->name('backend.sub_category.edit');
+    Route::post('/admin/sub-category/create', [SubCategoryController::class, 'create'])->name('backend.sub_category.create');
+    Route::get('/admin/sub-category/delete/{id}', [SubCategoryController::class, 'destroy'])->name('backend.sub_category.delete');
 
     // All document
     Route::get('/admin/all-document', [AllDocumentController::class, 'index'])->name('backend.all_document.index');

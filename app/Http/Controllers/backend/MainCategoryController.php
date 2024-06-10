@@ -19,26 +19,31 @@ class MainCategoryController extends Controller
         $main_categories = MainCategory::where('id', $id)->first();
         return view('backend.main_category.edit', compact('main_categories'));
     }
-     
 
 
-        public function update(Request $request, $id){
-            $category_name = $request->category_name;
-            $description = $request->discription;
-            MainCategory::where('id', $id)->update([
-                'name' => $category_name,
-                'description' => $description
-            ]);
-            return redirect()->route('backend.main_category.index')->with('update', "Main Category has been update successfully");  
 
-        }
+    public function update(Request $request, $id)
+    {
+        $category_name = $request->category_name;
+        $description = $request->discription;
+        MainCategory::where('id', $id)->update([
+            'name' => $category_name,
+            'description' => $description
+        ]);
+        return redirect()->route('backend.main_category.index')->with('update', "Main Category has been update successfully");
+    }
+    
+    public function destroy(Request $request, $id){
+        
+        MainCategory::where('id', $id)->delete();
+        return redirect()->route('backend.main_category.index')->with('update', "Main Category has been delete successfully");
+    }
 
 
     public function store(Request $request)
     {
         $category_name = $request->category_name;
-        $discription = $request->discription;
-
+        $discription = $request->discription; 
         $newMainCategory = MainCategory::create([
             'name' => $category_name,
             'description' => $discription,
