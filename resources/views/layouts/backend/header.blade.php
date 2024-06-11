@@ -591,6 +591,12 @@
                                 <span class="hide-menu">Profile Page</span>
                             </a>
                         </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark" href="{{route('backend.create_role.index')}}" aria-expanded="false">
+                                <i data-feather="target"></i>
+                                <span class="hide-menu">Create Role</span>
+                            </a>
+                        </li>
                     </ul>
                 </nav>
             </div>

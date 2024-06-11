@@ -1,6 +1,9 @@
 
 @extends('layouts/backend/main')
 @section('main-section')
+
+
+
 <div class="page-wrapper">
   <div class="page-titles">
     <div class="row">

@@ -6,6 +6,7 @@ use App\Http\Controllers\backend\AllDocumentController;
 use App\Http\Controllers\backend\LoginAuditController;
 use App\Http\Controllers\backend\UserProfileController;
 use App\Http\Controllers\backend\HotalController;
+use App\Http\Controllers\backend\CreateRoleController;
 
 
 
@@ -50,6 +51,14 @@ Route::middleware(['auth', 'verified'])->group(function(){
 
     // user Profile
     Route::get('/admin/profile', [UserProfileController::class, 'index'])->name('backend.user_profile.index');
+
+     // create role Profile
+    Route::get('/admin/roles', [CreateRoleController::class, 'index'])->name('backend.create_role.index');
+    Route::post('/admin/roles', [CreateRoleController::class, 'create'])->name('backend.create_role.create');
+    Route::get('/admin/roles/edit/{id}', [CreateRoleController::class, 'edit'])->name('backend.create_role.edit');
+    Route::get('/admin/roles/delete/{id}', [CreateRoleController::class, 'update'])->name('backend.create_role.update');
+    Route::get('/admin/roles/update/{id}', [CreateRoleController::class, 'destroy'])->name('backend.create_role.delete');
+    Route::get('/admin/roles/update-status', [CreateRoleController::class, 'updateStatus'])->name('backend.create_role.update_status');
 });
 
 
