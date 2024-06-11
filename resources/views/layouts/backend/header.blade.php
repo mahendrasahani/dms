@@ -14,132 +14,12 @@
     <link rel="stylesheet" href="{{ url('public/assets/backend/assets/extra-libs/taskboard/css/jquery-ui.min.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ url('public/assets/backend/assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}" />
     <link href="{{ url('public/assets/backend/dist/css/style.min.css') }}" rel="stylesheet" />
+    <link href="{{ url('public/assets/backend/dist/css/custom.css') }}" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="{{ url('public/assets/backend/assets/libs/dropzone/dist/min/dropzone.min.css')}}" />
     <link rel="stylesheet" type="text/css" href="{{ url('public/assets/backend/assets/libs/select2/dist/css/select2.min.css')}}" />
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <style>
-    <style>
-        .button-container {
-            gap: 10px;
-            align-items: flex-end;
-            justify-content: flex-end;
-        }
-
-        .editBtn {
-            width: 30px;
-            height: 30px;
-            border-radius: 10px;
-            border: none;
-            background-color: rgb(93, 93, 116);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.123);
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s;
-        }
-
-        .editBtn::before {
-            content: "";
-            width: 100%;
-            height: 100%;
-            background-color: rgb(102, 102, 141);
-            position: absolute;
-            z-index: 1;
-            transform: scale(0);
-            transition: all 0.3s;
-            border-radius: 50%;
-            filter: blur(10px);
-        }
-
-        .editBtn:hover::before {
-            transform: scale(1);
-        }
-
-        .editBtn:hover {
-            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.336);
-        }
-
-        .editBtn svg {
-            height: 17px;
-            fill: white;
-            z-index: 3;
-            transition: all 0.2s;
-            transform-origin: bottom;
-        }
-
-        .editBtn:hover svg {
-            transform: rotate(-15deg) translateX(1px);
-        }
-
-        .editBtn::after {
-            content: "";
-            width: 25px;
-            height: 1.5px;
-            position: absolute;
-            bottom: 4px;
-            left: -3px;
-            background-color: white;
-            border-radius: 2px;
-            z-index: 2;
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.5s ease-out;
-        }
-
-        .editBtn:hover::after {
-            transform: scaleX(1);
-            left: 0px;
-            transform-origin: right;
-        }
-
-        .button {
-            width: 30px;
-            height: 30px;
-            border-radius: 10px;
-            background-color: rgb(93, 93, 116);
-            border: none;
-            font-weight: 600;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.164);
-            cursor: pointer;
-            transition-duration: 0.3s;
-            overflow: hidden;
-            position: relative;
-            gap: 2px;
-        }
-
-        .svgIcon {
-            width: 10px;
-            transition-duration: 0.3s;
-            margin-right: 2px;
-        }
-
-        .svgIcon path {
-            fill: white;
-        }
-
-        .button:hover {
-            transition-duration: 0.3s;
-            background-color: rgb(255, 69, 69);
-            align-items: center;
-            gap: 0;
-        }
-
-        .bin-top {
-            transform-origin: bottom right;
-        }
-
-        .button:hover .bin-top {
-            transition-duration: 0.5s;
-            transform: rotate(160deg);
-        }
-    </style>
+</style>
 </head>
 
 <body>
@@ -181,979 +61,385 @@
                         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><i
                             class="ri-more-line fs-6"></i></a>
                 </div>
+                <div class="navbar-collapse collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto">
+                        <!-- This is  -->
+                        <li class="nav-item">
+                            <a class="nav-link sidebartoggler d-none d-md-block" href="javascript:void(0)"><i
+                                    data-feather="menu"></i></a>
+                        </li>
+                        <!-- search -->
+                        <li class="nav-item search-box">
+                            <a class="nav-link" href="javascript:void(0)">
+                                <i data-feather="search"></i>
+                            </a>
+                            <form class="app-search position-absolute">
+                                <input type="text" class="form-control border-0" placeholder="Search &amp; enter" />
+                                <a class="srh-btn"><i data-feather="x-circle" class="feather-sm text-muted"></i></a>
+                            </form>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link nav-sidebar" href="javascript:void(0)">
+                                <i data-feather="shopping-cart"></i>
+                            </a>
+                        </li>
 
-
-
-                 
-          <div class="navbar-collapse collapse" id="navbarSupportedContent">
-            <!-- ============================================================== -->
-            <!-- toggle and nav items -->
-            <!-- ============================================================== -->
-            <ul class="navbar-nav me-auto">
-              <!-- This is  -->
-              <li class="nav-item">
-                <a
-                  class="nav-link sidebartoggler d-none d-md-block"
-                  href="javascript:void(0)"
-                  ><i data-feather="menu"></i
-                ></a>
-              </li>
-              <!-- search -->
-              <li class="nav-item search-box">
-                <a class="nav-link" href="javascript:void(0)">
-                  <i data-feather="search"></i>
-                </a>
-                <form class="app-search position-absolute">
-                  <input
-                    type="text"
-                    class="form-control border-0"
-                    placeholder="Search &amp; enter"
-                  />
-                  <a class="srh-btn"
-                    ><i
-                      data-feather="x-circle"
-                      class="feather-sm text-muted"
-                    ></i
-                  ></a>
-                </form>
-              </li>
-            </ul>
-            <!-- ============================================================== -->
-            <!-- Right side toggle and nav items -->
-            <!-- ============================================================== -->
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link nav-sidebar" href="javascript:void(0)">
-                  <i data-feather="shopping-cart"></i>
-                </a>
-              </li>
-              <!-- ============================================================== -->
-              <!-- Messages -->
-              <!-- ============================================================== -->
-              <li class="nav-item dropdown">
-                <a
-                  class="nav-link dropdown-toggle"
-                  href="#"
-                  id="2"
-                  data-bs-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
-                  <i data-feather="message-square"></i>
-                  <div class="notify">
-                    <span class="point bg-warning"></span>
-                  </div>
-                </a>
-                <div
-                  class="
-                    dropdown-menu
-                    mailbox
-                    dropdown-menu-end dropdown-menu-animate-up
-                  "
-                  aria-labelledby="2"
-                >
-                  <ul class="list-style-none">
-                    <li>
-                      <div
-                        class="rounded-top p-30 pb-2 d-flex align-items-center"
-                      >
-                        <h3 class="card-title mb-0">Messages</h3>
-                        <span class="badge bg-primary ms-3">5 new</span>
-                      </div>
-                    </li>
-                    <li class="p-30 pt-0">
-                      <div
-                        class="message-center message-body position-relative"
-                      >
-                        <!-- Message -->
-                        <a
-                          href="javascript:void(0)"
-                          class="
-                            message-item
-                            px-2
-                            d-flex
-                            align-items-center
-                            border-bottom
-                            py-3
-                          "
-                        >
-                          <span
-                            class="user-img position-relative d-inline-block"
-                          >
-                            <img
-                              src="../../assets/images/users/1.jpg"
-                              alt="user"
-                              class="rounded-circle w-100"
-                            />
-                            <span
-                              class="profile-status rounded-circle online"
-                            ></span>
-                          </span>
-                          <div class="w-75 d-inline-block v-middle ps-3 ms-1">
-                            <h5
-                              class="
-                                message-title
-                                mb-0
-                                mt-1
-                                fs-4
-                                font-weight-medium
-                              "
-                            >
-                              Roman Joined the Team!
-                            </h5>
-                            <span
-                              class="
-                                fs-3
-                                text-nowrap
-                                d-block
-                                time
-                                text-truncate
-                                fw-normal
-                                mt-1
-                                text-muted
-                              "
-                              >Congratulate him</span
-                            >
-                            <span
-                              class="
-                                fs-2
-                                text-nowrap
-                                d-block
-                                subtext
-                                text-muted
-                              "
-                              >9:08 AM</span
-                            >
-                          </div>
-                        </a>
-                        <!-- Message -->
-                        <a
-                          href="javascript:void(0)"
-                          class="
-                            message-item
-                            px-2
-                            d-flex
-                            align-items-center
-                            border-bottom
-                            py-3
-                          "
-                        >
-                          <span
-                            class="user-img position-relative d-inline-block"
-                          >
-                            <img
-                              src="../../assets/images/users/2.jpg"
-                              alt="user"
-                              class="rounded-circle w-100"
-                            />
-                            <span
-                              class="profile-status rounded-circle busy"
-                            ></span>
-                          </span>
-                          <div class="w-75 d-inline-block v-middle ps-3 ms-1">
-                            <h5
-                              class="
-                                message-title
-                                mb-0
-                                mt-1
-                                fs-4
-                                font-weight-medium
-                              "
-                            >
-                              New message received
-                            </h5>
-                            <span
-                              class="
-                                fs-3
-                                text-nowrap
-                                d-block
-                                time
-                                text-truncate
-                                fw-normal
-                                mt-1
-                                text-muted
-                              "
-                              >Salma sent you new message</span
-                            >
-                            <span
-                              class="
-                                fs-2
-                                text-nowrap
-                                d-block
-                                subtext
-                                text-muted
-                              "
-                              >9:08 AM</span
-                            >
-                          </div>
-                        </a>
-                        <!-- Message -->
-                        <a
-                          href="javascript:void(0)"
-                          class="
-                            message-item
-                            px-2
-                            d-flex
-                            align-items-center
-                            border-bottom
-                            py-3
-                          "
-                        >
-                          <span
-                            class="user-img position-relative d-inline-block"
-                          >
-                            <img
-                              src="../../assets/images/users/4.jpg"
-                              alt="user"
-                              class="rounded-circle w-100"
-                            />
-                            <span
-                              class="profile-status rounded-circle busy"
-                            ></span>
-                          </span>
-                          <div class="w-75 d-inline-block v-middle ps-3 ms-1">
-                            <h5
-                              class="
-                                message-title
-                                mb-0
-                                mt-1
-                                fs-4
-                                font-weight-medium
-                              "
-                            >
-                              New Payment received
-                            </h5>
-                            <span
-                              class="
-                                fs-3
-                                text-nowrap
-                                d-block
-                                time
-                                text-truncate
-                                fw-normal
-                                mt-1
-                                text-muted
-                              "
-                              >Check your earnings</span
-                            >
-                            <span
-                              class="
-                                fs-2
-                                text-nowrap
-                                d-block
-                                subtext
-                                text-muted
-                              "
-                              >9:08 AM</span
-                            >
-                          </div>
-                        </a>
-                        <!-- Message -->
-                        <a
-                          href="javascript:void(0)"
-                          class="
-                            message-item
-                            px-2
-                            d-flex
-                            align-items-center
-                            py-3
-                          "
-                        >
-                          <span
-                            class="user-img position-relative d-inline-block"
-                          >
-                            <img
-                              src="../../assets/images/users/5.jpg"
-                              alt="user"
-                              class="rounded-circle w-100"
-                            />
-                            <span
-                              class="profile-status rounded-circle away"
-                            ></span>
-                          </span>
-                          <div class="w-75 d-inline-block v-middle ps-3 ms-1">
-                            <h5
-                              class="
-                                message-title
-                                mb-0
-                                mt-1
-                                fs-4
-                                font-weight-medium
-                              "
-                            >
-                              Jolly completed tasks
-                            </h5>
-                            <span
-                              class="
-                                fs-3
-                                text-nowrap
-                                d-block
-                                time
-                                text-truncate
-                                fw-normal
-                                mt-1
-                                text-muted
-                              "
-                              >Assign her new tasks</span
-                            >
-                            <span
-                              class="
-                                fs-2
-                                text-nowrap
-                                d-block
-                                subtext
-                                text-muted
-                              "
-                              >9:08 AM</span
-                            >
-                          </div>
-                        </a>
-                        <!-- Message -->
-                        <a
-                          href="javascript:void(0)"
-                          class="
-                            message-item
-                            px-2
-                            d-flex
-                            align-items-center
-                            py-3
-                          "
-                        >
-                          <span
-                            class="user-img position-relative d-inline-block"
-                          >
-                            <img
-                              src="../../assets/images/users/1.jpg"
-                              alt="user"
-                              class="rounded-circle w-100"
-                            />
-                            <span
-                              class="profile-status rounded-circle online"
-                            ></span>
-                          </span>
-                          <div class="w-75 d-inline-block v-middle ps-3 ms-1">
-                            <h5
-                              class="
-                                message-title
-                                mb-0
-                                mt-1
-                                fs-4
-                                font-weight-medium
-                              "
-                            >
-                              Payment deducted
-                            </h5>
-                            <span
-                              class="
-                                fs-3
-                                text-nowrap
-                                d-block
-                                time
-                                text-truncate
-                                fw-normal
-                                mt-1
-                                text-muted
-                              "
-                              >$230 deducted from account</span
-                            >
-                            <span
-                              class="
-                                fs-2
-                                text-nowrap
-                                d-block
-                                subtext
-                                text-muted
-                              "
-                              >9:08 AM</span
-                            >
-                          </div>
-                        </a>
-                      </div>
-                      <div class="mt-4">
-                        <a
-                          class="btn btn-info text-white"
-                          href="javascript:void(0);"
-                        >
-                          See all messages
-                        </a>
-                      </div>
-                    </li>
-                  </ul>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="2"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i data-feather="message-square"></i>
+                                <div class="notify">
+                                    <span class="point bg-warning"></span>
+                                </div>
+                            </a>
+                            <div class=" dropdown-menu mailbox dropdown-menu-end dropdown-menu-animate-up "
+                                aria-labelledby="2">
+                                <ul class="list-style-none">
+                                    <li>
+                                        <div class="rounded-top p-30 pb-2 d-flex align-items-center">
+                                            <h3 class="card-title mb-0">Messages</h3>
+                                            <span class="badge bg-primary ms-3">5 new</span>
+                                        </div>
+                                    </li>
+                                    <li class="p-30 pt-0">
+                                        <div class="message-center message-body position-relative">
+                                            <!-- Message -->
+                                            <a href="javascript:void(0)"
+                                                class=" message-item px-2 d-flex align-items-center border-bottom py-3 ">
+                                                <span class="user-img position-relative d-inline-block">
+                                                    <img src="assets/images/users/1.jpg" alt="user"
+                                                        class="rounded-circle w-100" />
+                                                    <span class="profile-status rounded-circle online"></span>
+                                                </span>
+                                                <div class="w-75 d-inline-block v-middle ps-3 ms-1">
+                                                    <h5 class=" message-title mb-0  mt-1 fs-4 font-weight-medium ">
+                                                        Roman Joined the Team!
+                                                    </h5>
+                                                    <span
+                                                        class=" fs-3 text-nowrap d-block time text-truncate fw-normal mt-1 text-muted ">Congratulate
+                                                        him</span>
+                                                    <span
+                                                        class="  fs-2 text-nowrap  d-block  subtext  text-muted ">9:08
+                                                        AM</span>
+                                                </div>
+                                            </a>
+                                            <!-- Message -->
+                                            <a href="javascript:void(0)"
+                                                class=" message-item px-2 d-flex align-items-center border-bottom py-3 ">
+                                                <span class="user-img position-relative d-inline-block">
+                                                    <img src="assets/images/users/2.jpg" alt="user"
+                                                        class="rounded-circle w-100" />
+                                                    <span class="profile-status rounded-circle busy"></span>
+                                                </span>
+                                                <div class="w-75 d-inline-block v-middle ps-3 ms-1">
+                                                    <h5 class="  message-title mb-0  mt-1 fs-4 font-weight-medium ">
+                                                        New message received
+                                                    </h5>
+                                                    <span class=" fs-3 text-nowrap d-block time text-truncate fw-normal mt-1 text-muted ">Salma
+                                                        sent you new message</span>
+                                                    <span class=" fs-2 text-nowrap d-block subtext text-muted ">9:08
+                                                        AM</span>
+                                                </div>
+                                            </a>
+                                            <!-- Message -->
+                                            <a href="javascript:void(0)" class=" message-item px-2 d-flex align-items-center border-bottom py-3 ">
+                                                <span class="user-img position-relative d-inline-block">
+                                                    <img src="assets/images/users/4.jpg" alt="user"
+                                                        class="rounded-circle w-100" />
+                                                    <span class="profile-status rounded-circle busy"></span>
+                                                </span>
+                                                <div class="w-75 d-inline-block v-middle ps-3 ms-1">
+                                                    <h5 class=" message-title mb-0 mt-1 fs-4 font-weight-medium ">
+                                                        New Payment received
+                                                    </h5>
+                                                    <span class=" fs-3 text-nowrap d-block time text-truncate fw-normal mt-1 text-muted ">Check
+                                                        your earnings</span>
+                                                    <span class=" fs-2 text-nowrap d-block subtext text-muted ">9:08
+                                                        AM</span>
+                                                </div>
+                                            </a>
+                                            <!-- Message -->
+                                            <a href="javascript:void(0)" class=" message-item px-2 d-flex align-items-center py-3 ">
+                                                <span class="user-img position-relative d-inline-block">
+                                                    <img src="assets/images/users/5.jpg" alt="user"
+                                                        class="rounded-circle w-100" />
+                                                    <span class="profile-status rounded-circle away"></span>
+                                                </span>
+                                                <div class="w-75 d-inline-block v-middle ps-3 ms-1">
+                                                    <h5 class=" message-title mb-0 mt-1 fs-4 font-weight-medium ">
+                                                        Jolly completed tasks
+                                                    </h5>
+                                                    <span class=" fs-3 text-nowrap d-block time text-truncate fw-normal mt-1 text-muted ">Assign
+                                                        her new tasks</span>
+                                                    <span class=" fs-2 text-nowrap d-block subtext text-muted ">9:08 AM</span>
+                                                </div>
+                                            </a>
+                                            <!-- Message -->
+                                            <a href="javascript:void(0)" class=" message-item px-2 d-flex align-items-center py-3 ">
+                                                <span class="user-img position-relative d-inline-block">
+                                                    <img src="assets/images/users/1.jpg" alt="user"
+                                                        class="rounded-circle w-100" />
+                                                    <span class="profile-status rounded-circle online"></span>
+                                                </span>
+                                                <div class="w-75 d-inline-block v-middle ps-3 ms-1">
+                                                    <h5 class=" message-title mb-0 mt-1 fs-4 font-weight-medium ">
+                                                        Payment deducted
+                                                    </h5>
+                                                    <span class=" fs-3 text-nowrap d-block time text-truncate fw-normal mt-1 text-muted ">$230
+                                                        deducted from account</span>
+                                                    <span class=" fs-2 text-nowrap d-block subtext text-muted ">9:08
+                                                        AM</span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="mt-4">
+                                            <a class="btn btn-info text-white" href="javascript:void(0);">
+                                                See all messages
+                                            </a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                <i data-feather="bell"></i>
+                                <div class="notify">
+                                    <span class="point bg-primary"></span>
+                                </div>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end mailbox dropdown-menu-animate-up">
+                                <ul class="list-style-none">
+                                    <li>
+                                        <div class="rounded-top p-30 pb-2 d-flex align-items-center">
+                                            <h3 class="card-title mb-0">Notifications</h3>
+                                            <span class="badge bg-warning ms-3">5 new</span>
+                                        </div>
+                                    </li>
+                                    <li class="p-30 pt-0">
+                                        <div class="message-center message-body position-relative">
+                                            <!-- Message -->
+                                            <a href="javascript:void(0)"
+                                                class="message-item px-2 d-flex align-items-center border-bottom py-3">
+                                                <span class="user-img position-relative d-inline-block">
+                                                    <img src="{{ url('public/assets/backend/assets/images/users/1.jpg') }}"
+                                                        alt="user" class="rounded-circle w-100" /></span>
+                                                <div class="w-75 d-inline-block v-middle ps-3 ms-1">
+                                                    <h5 class="message-title mb-0 mt-1 fs-4 font-weight-medium">
+                                                        Roman Joined the Team!
+                                                    </h5>
+                                                    <span
+                                                        class="fs-3 text-nowrap d-block time text-truncate fw-normal mt-1 text-muted">Congratulate
+                                                        him</span>
+                                                </div>
+                                            </a>
+                                            <!-- Message -->
+                                            <a href="javascript:void(0)"
+                                                class="message-item px-2 d-flex align-items-center border-bottom py-3">
+                                                <span class="user-img position-relative d-inline-block">
+                                                    <img src="assets/images/users/2.jpg" alt="user"
+                                                        class="rounded-circle w-100" />
+                                                </span>
+                                                <div class="w-75 d-inline-block v-middle ps-3 ms-1">
+                                                    <h5 class="message-title mb-0 mt-1 fs-4 font-weight-medium">
+                                                        New message received
+                                                    </h5>
+                                                    <span
+                                                        class="fs-3 text-nowrap d-block time text-truncate fw-normal mt-1 text-muted">Salma
+                                                        sent you new message</span>
+                                                </div>
+                                            </a>
+                                            <!-- Message -->
+                                            <a href="javascript:void(0)"
+                                                class="message-item px-2 d-flex align-items-center border-bottom py-3">
+                                                <span class="btn btn-light-info text-info btn-circle">
+                                                    <i data-feather="dollar-sign" class="feather-sm fill-white"></i>
+                                                </span>
+                                                <div class="w-75 d-inline-block v-middle ps-3 ms-1">
+                                                    <h5 class="message-title mb-0 mt-1 fs-4 font-weight-medium">
+                                                        New Payment received
+                                                    </h5>
+                                                    <span
+                                                        class="fs-3 text-nowrap d-block time text-truncate fw-normal mt-1 text-muted">Check
+                                                        your earnings</span>
+                                                </div>
+                                            </a>
+                                            <!-- Message -->
+                                            <a href="javascript:void(0)"
+                                                class="message-item px-2 d-flex align-items-center py-3">
+                                                <span class="user-img position-relative d-inline-block">
+                                                    <img src="assets/images/users/4.jpg" alt="user"
+                                                        class="rounded-circle w-100" />
+                                                </span>
+                                                <div class="w-75 d-inline-block v-middle ps-3 ms-1">
+                                                    <h5 class="message-title mb-0 mt-1 fs-4 font-weight-medium ">
+                                                        Jolly completed tasks
+                                                    </h5>
+                                                    <span
+                                                        class=" fs-3 text-nowrap d-block time text-truncate fw-normal mt-1 text-muted">Assign
+                                                        her new tasks</span>
+                                                </div>
+                                            </a>
+                                            <!-- Message -->
+                                            <a href="javascript:void(0)"
+                                                class=" message-item px-2 d-flex align-items-center py-3">
+                                                <span class="btn btn-light-danger text-danger btn-circle">
+                                                    <i data-feather="credit-card" class="feather-sm fill-white"></i>
+                                                </span>
+                                                <div class="w-75 d-inline-block v-middle ps-3 ms-1">
+                                                    <h5 class=" message-title mb-0 mt-1 fs-4 font-weight-medium ">
+                                                        Payment deducted
+                                                    </h5>
+                                                    <span
+                                                        class=" fs-3 text-nowrap d-block time text-truncate fw-normal mt-1 text-muted">$230
+                                                        deducted from account</span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="mt-4">
+                                            <a class="btn btn-info text-white" href="javascript:void(0);">
+                                                See all notifications
+                                            </a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown profile-dropdown">
+                            <a class="nav-link dropdown-toggle d-flex align-items-center"  href="{{route('backend.user_profile.index')}}"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="{{ url('public/assets/backend/assets/images/users/user.jpg') }}" alt="user" width="30" class="profile-pic rounded-circle" />
+                                <div class="d-none d-md-flex">
+                                    <span class="ms-2">Hi,
+                                        <span class="text-dark fw-bold">{{Auth::user()->name}}</span></span>
+                                    <span>
+                                        <i data-feather="chevron-down" class="feather-sm"></i>
+                                    </span>
+                                </div>
+                            </a>
+                            <div class=" dropdown-menu dropdown-menu-end mailbox dropdown-menu-animate-up ">
+                                <ul class="list-style-none">
+                                    <li class="p-30 pb-2">
+                                        <div class="rounded-top d-flex align-items-center">
+                                            <h3 class="card-title mb-0">User Profile</h3>
+                                            <div class="ms-auto">
+                                                <a href="javascript:void(0)" class="link py-0">
+                                                    <i data-feather="x-circle"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="d-flexalign-items-centermt-4pt-3pb-4border-bottom">
+                                            <img src="{{ url('public/assets/backend/assets/images/users/user.jpg')}}" alt="user" width="90" class="rounded-circle" />
+                                            <div class="ms-4">
+                                                <h4 class="mb-0">{{Auth::user()->name}}</h4>
+                                                @php
+                                                $user = Auth::user()->role_type_id;
+                                                @endphp
+                                                @if($user === 1)
+                                                <span class="text-muted">Super Admin </span>
+                                                @elseif ($user === 2)
+                                                <span class="text-muted"> Admin </span>
+                                                @elseif ($user === 3)
+                                                <span class="text-muted"> Employee </span>
+                                                @elseif ($user === 4)
+                                                <span class="text-muted"> Staff </span>
+                                                @endif
+                                                <p class="text-muted mb-0 mt-1">
+                                                    <i data-feather="mail" class="feather-sm me-1"></i>
+                                                    {{Auth::user()->email}}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="p-30 pt-0">
+                                        <div class="message-center message-body position-relative"
+                                            style="height: 210px">
+                                            <a href="{{route('backend.user_profile.index')}}"
+                                                class=" message-item px-2 d-flex align-items-center border-bottom py-3">
+                                                <span class="btn btn-light-info btn-rounded-lg text-info">
+                                                    <i data-feather="dollar-sign" class="feather-sm fill-white"></i>
+                                                </span>
+                                                <div class="w-75 d-inline-block v-middle ps-3 ms-1">
+                                                    <h5 class=" message-title mb-0 mt-1 fs-4 font-weight-medium">
+                                                        My Profile
+                                                    </h5>
+                                                    <span
+                                                        class=" fs-3 text-nowrap d-block time text-truncate fw-normal mt-1 text-muted ">Account
+                                                        Settings</span>
+                                                </div>
+                                            </a>
+                                            {{-- <a href="javascript:void(0)"
+                                                class=" message-item px-2 d-flex align-items-center border-bottom py-3">
+                                                <span class="btn btn-light-success btn-rounded-lgtext-success ">
+                                                    <i data-feather="shield" class="feather-sm fill-white"></i>
+                                                </span>
+                                                <div class="w-75 d-inline-block v-middle ps-3 ms-1">
+                                                    <h5
+                                                        class="message-title mb-0mt-1 fs-4 font-weight-medium d-flex align-items-center ">
+                                                        My Inbox
+                                                        <span class="mt-n2 ms-1"><i
+                                                                class="mdi mdi-checkbox-blank-circlefs-1text-success"></i></span>
+                                                    </h5>
+                                                    <span
+                                                        class="fs-3text-nowrapd-blocktimetext-truncatefw-normalmt-1text-muted">Messages
+                                                        & Emails</span>
+                                                </div>
+                                            </a> --}}
+                                            {{-- <a href="javascript:void(0)"
+                                                class="message-itempx-2d-flexalign-items-centerborder-bottompy-3">
+                                                <span class="btn btn-light-danger btn-rounded-lgtext-danger">
+                                                    <i data-feather="credit-card" class="feather-sm fill-white"></i>
+                                                </span>
+                                                <div class="w-75 d-inline-block v-middle ps-3 ms-1">
+                                                    <h5 class="message-titlemb-0mt-1fs-4font-weight-medium">
+                                                        My Tasks
+                                                    </h5>
+                                                    <span
+                                                        class="fs-3text-nowrapd-blocktimetext-truncatefw-normalmt-1text-muted">To-do
+                                                        and Daily Tasks</span>
+                                                </div>
+                                            </a>
+                                            <div class="mt-4">
+                                                <a href="javascript:void(0)"
+                                                    class="text-darkfs-3font-weight-mediumhover-primary">
+                                                    Account Settings
+                                                </a>
+                                                <a href="javascript:void(0)"
+                                                    class="text-darkfs-3font-weight-mediumhover-primary">
+                                                    Frequently Asked Questions
+                                                </a>
+                                                <a href="javascript:void(0)"
+                                                    class="text-darkfs-3font-weight-mediumhover-primary">
+                                                    Pricing
+                                                </a>
+                                            </div> --}}
+                                        </div>
+                                        {{-- <div class="mt-4">
+                                            <a class="btn btn-info text-white" href="">
+                                                Logout
+                                            </a>
+                                        </div> --}}
+                                        {{-- <li class="nav-item" id="login_logout_btn"> --}}
+                                            @if(Auth::check())
+                                            <form method="POST" action="{{ route('logout') }}">
+                                                      @csrf
+                                                      <div class="btn btn-info text-white">
+                                                        <input type="submit" class="nav-link" value="LOGOUT" style="border:none; background:transparent">
+                                                      </div>
+                                                </form>
+                                             @else
+                                            <a class="nav-link" href="#" id="login_modal"><i class="fa-regular fa-circle-user"></i>LOGIN</a>
+                                          @endif 
+                                          {{-- </li> --}}
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
-              </li>
-              <!-- ============================================================== -->
-              <!-- End Messages -->
-              <!-- ============================================================== -->
-              <!-- ============================================================== -->
-              <!-- Comment -->
-              <!-- ============================================================== -->
-              <li class="nav-item dropdown">
-                <a
-                  class="nav-link dropdown-toggle"
-                  href="#"
-                  data-bs-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
-                  <i data-feather="bell"></i>
-                  <div class="notify">
-                    <span class="point bg-primary"></span>
-                  </div>
-                </a>
-                <div
-                  class="
-                    dropdown-menu dropdown-menu-end
-                    mailbox
-                    dropdown-menu-animate-up
-                  "
-                >
-                  <ul class="list-style-none">
-                    <li>
-                      <div
-                        class="rounded-top p-30 pb-2 d-flex align-items-center"
-                      >
-                        <h3 class="card-title mb-0">Notifications</h3>
-                        <span class="badge bg-warning ms-3">5 new</span>
-                      </div>
-                    </li>
-                    <li class="p-30 pt-0">
-                      <div
-                        class="message-center message-body position-relative"
-                      >
-                        <!-- Message -->
-                        <a
-                          href="javascript:void(0)"
-                          class="
-                            message-item
-                            px-2
-                            d-flex
-                            align-items-center
-                            border-bottom
-                            py-3
-                          "
-                        >
-                          <span
-                            class="user-img position-relative d-inline-block"
-                          >
-                            <img
-                              src="../../assets/images/users/1.jpg"
-                              alt="user"
-                              class="rounded-circle w-100"
-                          /></span>
-                          <div class="w-75 d-inline-block v-middle ps-3 ms-1">
-                            <h5
-                              class="
-                                message-title
-                                mb-0
-                                mt-1
-                                fs-4
-                                font-weight-medium
-                              "
-                            >
-                              Roman Joined the Team!
-                            </h5>
-                            <span
-                              class="
-                                fs-3
-                                text-nowrap
-                                d-block
-                                time
-                                text-truncate
-                                fw-normal
-                                mt-1
-                                text-muted
-                              "
-                              >Congratulate him</span
-                            >
-                          </div>
-                        </a>
-                        <!-- Message -->
-                        <a
-                          href="javascript:void(0)"
-                          class="
-                            message-item
-                            px-2
-                            d-flex
-                            align-items-center
-                            border-bottom
-                            py-3
-                          "
-                        >
-                          <span
-                            class="user-img position-relative d-inline-block"
-                          >
-                            <img
-                              src="../../assets/images/users/2.jpg"
-                              alt="user"
-                              class="rounded-circle w-100"
-                            />
-                          </span>
-                          <div class="w-75 d-inline-block v-middle ps-3 ms-1">
-                            <h5
-                              class="
-                                message-title
-                                mb-0
-                                mt-1
-                                fs-4
-                                font-weight-medium
-                              "
-                            >
-                              New message received
-                            </h5>
-                            <span
-                              class="
-                                fs-3
-                                text-nowrap
-                                d-block
-                                time
-                                text-truncate
-                                fw-normal
-                                mt-1
-                                text-muted
-                              "
-                              >Salma sent you new message</span
-                            >
-                          </div>
-                        </a>
-                        <!-- Message -->
-                        <a
-                          href="javascript:void(0)"
-                          class="
-                            message-item
-                            px-2
-                            d-flex
-                            align-items-center
-                            border-bottom
-                            py-3
-                          "
-                        >
-                          <span class="btn btn-light-info text-info btn-circle">
-                            <i
-                              data-feather="dollar-sign"
-                              class="feather-sm fill-white"
-                            ></i>
-                          </span>
-                          <div class="w-75 d-inline-block v-middle ps-3 ms-1">
-                            <h5
-                              class="
-                                message-title
-                                mb-0
-                                mt-1
-                                fs-4
-                                font-weight-medium
-                              "
-                            >
-                              New Payment received
-                            </h5>
-                            <span
-                              class="
-                                fs-3
-                                text-nowrap
-                                d-block
-                                time
-                                text-truncate
-                                fw-normal
-                                mt-1
-                                text-muted
-                              "
-                              >Check your earnings</span
-                            >
-                          </div>
-                        </a>
-                        <!-- Message -->
-                        <a
-                          href="javascript:void(0)"
-                          class="
-                            message-item
-                            px-2
-                            d-flex
-                            align-items-center
-                            py-3
-                          "
-                        >
-                          <span
-                            class="user-img position-relative d-inline-block"
-                          >
-                            <img
-                              src="../../assets/images/users/4.jpg"
-                              alt="user"
-                              class="rounded-circle w-100"
-                            />
-                          </span>
-                          <div class="w-75 d-inline-block v-middle ps-3 ms-1">
-                            <h5
-                              class="
-                                message-title
-                                mb-0
-                                mt-1
-                                fs-4
-                                font-weight-medium
-                              "
-                            >
-                              Jolly completed tasks
-                            </h5>
-                            <span
-                              class="
-                                fs-3
-                                text-nowrap
-                                d-block
-                                time
-                                text-truncate
-                                fw-normal
-                                mt-1
-                                text-muted
-                              "
-                              >Assign her new tasks</span
-                            >
-                          </div>
-                        </a>
-                        <!-- Message -->
-                        <a
-                          href="javascript:void(0)"
-                          class="
-                            message-item
-                            px-2
-                            d-flex
-                            align-items-center
-                            py-3
-                          "
-                        >
-                          <span
-                            class="btn btn-light-danger text-danger btn-circle"
-                          >
-                            <i
-                              data-feather="credit-card"
-                              class="feather-sm fill-white"
-                            ></i>
-                          </span>
-                          <div class="w-75 d-inline-block v-middle ps-3 ms-1">
-                            <h5
-                              class="
-                                message-title
-                                mb-0
-                                mt-1
-                                fs-4
-                                font-weight-medium
-                              "
-                            >
-                              Payment deducted
-                            </h5>
-                            <span
-                              class="
-                                fs-3
-                                text-nowrap
-                                d-block
-                                time
-                                text-truncate
-                                fw-normal
-                                mt-1
-                                text-muted
-                              "
-                              >$230 deducted from account</span
-                            >
-                          </div>
-                        </a>
-                      </div>
-                      <div class="mt-4">
-                        <a
-                          class="btn btn-info text-white"
-                          href="javascript:void(0);"
-                        >
-                          See all notifications
-                        </a>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </li>
-              <!-- ============================================================== -->
-              <!-- End Comment -->
-              <!-- ============================================================== -->
-
-              <!-- ============================================================== -->
-              <!-- Profile -->
-              <!-- ============================================================== -->
-              <li class="nav-item dropdown profile-dropdown">
-                <a
-                  class="nav-link dropdown-toggle d-flex align-items-center"
-                  href="#"
-                  data-bs-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
-                  <img
-                    src="../../assets/images/users/user.jpg"
-                    alt="user"
-                    width="30"
-                    class="profile-pic rounded-circle"
-                  />
-                  <div class="d-none d-md-flex">
-                    <span class="ms-2"
-                      >Hi,
-                      <span class="text-dark fw-bold">Johnathan</span></span
-                    >
-                    <span>
-                      <i data-feather="chevron-down" class="feather-sm"></i>
-                    </span>
-                  </div>
-                </a>
-                <div
-                  class="
-                    dropdown-menu dropdown-menu-end
-                    mailbox
-                    dropdown-menu-animate-up
-                  "
-                >
-                  <ul class="list-style-none">
-                    <li class="p-30 pb-2">
-                      <div class="rounded-top d-flex align-items-center">
-                        <h3 class="card-title mb-0">User Profile</h3>
-                        <div class="ms-auto">
-                          <a href="javascript:void(0)" class="link py-0">
-                            <i data-feather="x-circle"></i>
-                          </a>
-                        </div>
-                      </div>
-                      <div
-                        class="
-                          d-flex
-                          align-items-center
-                          mt-4
-                          pt-3
-                          pb-4
-                          border-bottom
-                        "
-                      >
-                        <img
-                          src="../../assets/images/users/user.jpg"
-                          alt="user"
-                          width="90"
-                          class="rounded-circle"
-                        />
-                        <div class="ms-4">
-                          <h4 class="mb-0">Johnathan Doe</h4>
-                          <span class="text-muted">Administrator</span>
-                          <p class="text-muted mb-0 mt-1">
-                            <i data-feather="mail" class="feather-sm me-1"></i>
-                            info@Flexy.com
-                          </p>
-                        </div>
-                      </div>
-                    </li>
-                    <li class="p-30 pt-0">
-                      <div
-                        class="message-center message-body position-relative"
-                        style="height: 210px"
-                      >
-                        <!-- Message -->
-                        <a
-                          href="javascript:void(0)"
-                          class="
-                            message-item
-                            px-2
-                            d-flex
-                            align-items-center
-                            border-bottom
-                            py-3
-                          "
-                        >
-                          <span
-                            class="btn btn-light-info btn-rounded-lg text-info"
-                          >
-                            <i
-                              data-feather="dollar-sign"
-                              class="feather-sm fill-white"
-                            ></i>
-                          </span>
-                          <div class="w-75 d-inline-block v-middle ps-3 ms-1">
-                            <h5
-                              class="
-                                message-title
-                                mb-0
-                                mt-1
-                                fs-4
-                                font-weight-medium
-                              "
-                            >
-                              My Profile
-                            </h5>
-                            <span
-                              class="
-                                fs-3
-                                text-nowrap
-                                d-block
-                                time
-                                text-truncate
-                                fw-normal
-                                mt-1
-                                text-muted
-                              "
-                              >Account Settings</span
-                            >
-                          </div>
-                        </a>
-                        <!-- Message -->
-                        <a
-                          href="javascript:void(0)"
-                          class="
-                            message-item
-                            px-2
-                            d-flex
-                            align-items-center
-                            border-bottom
-                            py-3
-                          "
-                        >
-                          <span
-                            class="
-                              btn btn-light-success btn-rounded-lg
-                              text-success
-                            "
-                          >
-                            <i
-                              data-feather="shield"
-                              class="feather-sm fill-white"
-                            ></i>
-                          </span>
-                          <div class="w-75 d-inline-block v-middle ps-3 ms-1">
-                            <h5
-                              class="
-                                message-title
-                                mb-0
-                                mt-1
-                                fs-4
-                                font-weight-medium
-                                d-flex
-                                align-items-center
-                              "
-                            >
-                              My Inbox
-                              <span class="mt-n2 ms-1"
-                                ><i
-                                  class="
-                                    mdi mdi-checkbox-blank-circle
-                                    fs-1
-                                    text-success
-                                  "
-                                ></i
-                              ></span>
-                            </h5>
-                            <span
-                              class="
-                                fs-3
-                                text-nowrap
-                                d-block
-                                time
-                                text-truncate
-                                fw-normal
-                                mt-1
-                                text-muted
-                              "
-                              >Messages & Emails</span
-                            >
-                          </div>
-                        </a>
-                        <!-- Message -->
-                        <a
-                          href="javascript:void(0)"
-                          class="
-                            message-item
-                            px-2
-                            d-flex
-                            align-items-center
-                            border-bottom
-                            py-3
-                          "
-                        >
-                          <span
-                            class="
-                              btn btn-light-danger btn-rounded-lg
-                              text-danger
-                            "
-                          >
-                            <i
-                              data-feather="credit-card"
-                              class="feather-sm fill-white"
-                            ></i>
-                          </span>
-                          <div class="w-75 d-inline-block v-middle ps-3 ms-1">
-                            <h5
-                              class="
-                                message-title
-                                mb-0
-                                mt-1
-                                fs-4
-                                font-weight-medium
-                              "
-                            >
-                              My Tasks
-                            </h5>
-                            <span
-                              class="
-                                fs-3
-                                text-nowrap
-                                d-block
-                                time
-                                text-truncate
-                                fw-normal
-                                mt-1
-                                text-muted
-                              "
-                              >To-do and Daily Tasks</span
-                            >
-                          </div>
-                        </a>
-                        <div class="mt-4">
-                          <a
-                            href="javascript:void(0)"
-                            class="
-                              text-dark
-                              fs-3
-                              font-weight-medium
-                              hover-primary
-                            "
-                          >
-                            Account Settings
-                          </a>
-                          <a
-                            href="javascript:void(0)"
-                            class="
-                              text-dark
-                              fs-3
-                              font-weight-medium
-                              hover-primary
-                            "
-                          >
-                            Frequently Asked Questions
-                          </a>
-                          <a
-                            href="javascript:void(0)"
-                            class="
-                              text-dark
-                              fs-3
-                              font-weight-medium
-                              hover-primary
-                            "
-                          >
-                            Pricing
-                          </a>
-                        </div>
-                      </div>
-                      <div class="mt-4">
-                        <a
-                          class="btn btn-info text-white"
-                          href="javascript:void(0);"
-                        >
-                          Logout
-                        </a>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </li>
-            </ul>
-          </div>
-		  
             </nav>
         </header>
         <aside class="left-sidebar">
@@ -1197,12 +483,6 @@
                         <li class="sidebar-item">
                             <a class="sidebar-link waves-effect waves-dark" href="users.php" aria-expanded="false"><i data-feather="users"></i>
                                 <span class="hide-menu">Users</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark" href="{{route('backend.user_profile.index')}}" aria-expanded="false">
-                                <i data-feather="users"></i>
-                                <span class="hide-menu">Profile Page</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
