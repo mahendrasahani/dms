@@ -16,8 +16,11 @@ class SubCategoryController extends Controller
         return view('backend.sub_category.index', compact('sub_categories', 'main_categories'));
     }
 
-    public function edit(){
-        return view('backend.sub_category.edit');
+    public function edit($id){
+         
+        $main_categories = MainCategory::where('status', 1)->get();
+        $sub_category = SubCategory::with('getMainCategory:id,name')->where('id', $id)->first();
+        return view('backend.sub_category.edit', compact('sub_category', 'main_categories'));
     }
 
     public function create(Request $request)
@@ -33,9 +36,39 @@ class SubCategoryController extends Controller
         ]);
         return redirect()->route('backend.sub_category.index')->with('success', "Sub Category has been added successfully");
     }
-    public function destroy(Request $request, $id){
+    public function destroy($id){
         
         SubCategory::where('id', $id)->delete();
         return redirect()->route('backend.sub_category.index')->with('update', "Sub Category has been Deleted successfully");
     }
+
+    
+    public function update(Request $request, $id)
+    {
+        $category_name = $request->sub_category_name;
+        $main_category_id = $request->main_category_id;
+        $description = $request->discription;
+        SubCategory::where('id', $id)->update([
+            'name' => $category_name,
+            'description' => $description,
+            'main_category_id' => $main_category_id
+        ]);
+        return redirect()->route('backend.sub_category.index')->with('update', "Sub Category  has been update successfully");
+    }
+
+
+
+    public function updateStatus(Request $request){
+        $id = $request->id;
+        $status = $request->status;
+        SubCategory::where('id', $id)->update([
+            'status' => $status
+        ]);
+        return response()->json([
+            'status' => 200,
+            'message' => "success"
+        ]);
+    }
+
+
 }

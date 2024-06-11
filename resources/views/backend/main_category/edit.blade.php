@@ -13,11 +13,6 @@
                                 @csrf
                                 <div class="row">
                                     <div class="col-md-4 mb-3">
-                                        <label for="validationDefault01">Category ID</label>
-                                        <input type="text" class="form-control" id="validationDefault01" 
-                                            placeholder="First name" value="{{$main_categories->id}}"disabled/>
-                                    </div>
-                                    <div class="col-md-4 mb-3">
                                         <label for="validationDefault02">Category Name</label>
                                         <input type="text" class="form-control" id="validationDefault02" name="category_name"
                                             placeholder="Last name" value="{{$main_categories->name}}" require />

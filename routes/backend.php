@@ -5,6 +5,7 @@ use App\Http\Controllers\backend\SubCategoryController;
 use App\Http\Controllers\backend\AllDocumentController;
 use App\Http\Controllers\backend\LoginAuditController;
 use App\Http\Controllers\backend\UserProfileController;
+use App\Http\Controllers\backend\HotalController;
 
 
 
@@ -20,6 +21,7 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::post('/admin/main-category/store', [MainCategoryController::class, 'store'])->name('backend.main_category.store');
     Route::get('/admin/main-category/update/{id}', [MainCategoryController::class, 'update'])->name('backend.main_category.update');
     Route::get('/admin/main-category/delete/{id}', [MainCategoryController::class, 'destroy'])->name('backend.main_category.delete');
+    Route::get('/admin/main-category/update-status', [MainCategoryController::class, 'updateStatus'])->name('backend.main_category.update_status');
 
 
 
@@ -29,17 +31,22 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/admin/sub-category/edit/{id}', [SubCategoryController::class, 'edit'])->name('backend.sub_category.edit');
     Route::post('/admin/sub-category/create', [SubCategoryController::class, 'create'])->name('backend.sub_category.create');
     Route::get('/admin/sub-category/delete/{id}', [SubCategoryController::class, 'destroy'])->name('backend.sub_category.delete');
+    Route::get('/admin/sub-category/update/{id}', [SubCategoryController::class, 'update'])->name('backend.sub_category.update');
+    Route::get('/admin/sub-category/update-status', [SubCategoryController::class, 'updateStatus'])->name('backend.sub_category.update_status');
 
     // All document
     Route::get('/admin/all-document', [AllDocumentController::class, 'index'])->name('backend.all_document.index');
-    // Route::get('/admin/all-document/edit', [AllDocumentController::class, 'edit'])->name('backend.all_document.edit');
     Route::get('/admin/all-document/create', [AllDocumentController::class, 'create'])->name('backend.all_document.create');
 
 
     // login Audit route
     Route::get('/admin/login-audit', [LoginAuditController::class, 'index'])->name('backend.login_audit.index');
-    // Route::get('/admin/login-audit/edit', [LoginAuditController::class, 'edit'])->name('backend.login_audit.edit');
 
+
+    // Hotal route
+    Route::get('/admin/hotal', [HotalController::class, 'index'])->name('backend.hotals.index');
+    Route::get('/admin/hotal/create', [HotalController::class, 'create'])->name('backend.hotals.create');
+    Route::post('/admin/hotal/store', [HotalController::class, 'store'])->name('backend.hotals.store');
 
     // user Profile
     Route::get('/admin/profile', [UserProfileController::class, 'index'])->name('backend.user_profile.index');

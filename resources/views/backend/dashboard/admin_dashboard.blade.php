@@ -1,31 +1,17 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-           Admin {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    {{ __("You're logged in!") }}
-                </div>
-            </div>
-        </div>
-    </div>
-</x-app-layout>
-
+@extends('layouts/backend/main')
+@section('main-section')
 <div class="page-wrapper">
   <div class="page-titles">
     <div class="row">
+      @php @endphp
       <div class="col-lg-8 col-md-6 col-12 align-self-center">
         <!-- <h4 class="text-muted mb-0 fw-normal">Welcome Johnathan</h4> -->
         <h1 class="mb-0 fw-bold">Dashboard</h1>
       </div>
       <div class="col-lg-4 col-md-6 d-none d-md-flex align-items-center justify-content-end">
         <select class="form-select theme-select border-0" aria-label="Default select example">
-          <option value="1">Today 23 March</option>
+          <option value="1">{{ Auth::user()->id}}</option>
           <option value="2">Today 24 March</option>
           <option value="3">Today 25 March</option>
         </select>
@@ -1583,5 +1569,6 @@
   </div>
 </aside> --}}
 <div class="chat-windows"></div>
+@endsection
 
   

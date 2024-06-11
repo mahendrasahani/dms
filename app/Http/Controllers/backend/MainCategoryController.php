@@ -4,6 +4,7 @@ namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\backend\MainCategory;
+use App\Models\backend\SubCategory;
 use Illuminate\Http\Request;
 
 class MainCategoryController extends Controller
@@ -33,11 +34,21 @@ class MainCategoryController extends Controller
         return redirect()->route('backend.main_category.index')->with('update', "Main Category has been update successfully");
     }
     
-    public function destroy(Request $request, $id){
-        
-        MainCategory::where('id', $id)->delete();
-        return redirect()->route('backend.main_category.index')->with('update', "Main Category has been delete successfully");
+    public function destroy($id){
+        $main_category = MainCategory::with('getSubCategory:id,main_category_id')->where('id', $id)->first();
+
+        if ($main_category) {
+            if ($main_category->getSubCategory->isEmpty()) {
+                $main_category->delete();
+                return redirect()->route('backend.main_category.index')->with('success', "Main Category has been deleted successfully");
+            } else {
+                return redirect()->route('backend.main_category.index')->with('warning', "Main Category cannot be deleted because it has associated Sub Categories");
+            }
+        } else {
+            return redirect()->route('backend.main_category.index')->with('error', "Main Category not found");
+        }
     }
+    
 
 
     public function store(Request $request)
@@ -50,5 +61,18 @@ class MainCategoryController extends Controller
             'status' => 1
         ]);
         return redirect()->route('backend.main_category.index')->with('success', "Main Category has been added successfully");
+    }
+
+
+    public function updateStatus(Request $request){
+        $id = $request->id;
+        $status = $request->status;
+        MainCategory::where('id', $id)->update([
+            'status' => $status
+        ]);
+        return response()->json([
+            'status' => 200,
+            'message' => "success"
+        ]);
     }
 }

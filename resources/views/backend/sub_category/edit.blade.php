@@ -12,25 +12,26 @@
                         <h4 class="mb-0">Edit Sub Category</h4>
                     </div>
                     <div class="card-body">
-                        <form>
+                        <form action="{{route('backend.sub_category.update', [$sub_category->id])}}">
                             @csrf
                             <div class="row">
                                 <div class="col-md-4 mb-3">
-                                    <label for="validationDefault01">Category ID</label>
-                                    <input type="text" class="form-control" id="validationDefault01" placeholder="Id" value="" require disabled/>
-                                </div>
-                                <div class="col-md-4 mb-3">
                                     <label for="validationDefault02">Category Name</label>
-                                    <input type="text" class="form-control" id="validationDefault02" placeholder="Sub Category Name" value="" require />
+                                    <input type="text" class="form-control" id="validationDefault02" placeholder="Sub Category Name" value="{{$sub_category->name}}" required name="sub_category_name"/>
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label for="validationDefault02">Main Category Name</label>
-                                    <input type="text" class="form-control" id="validationDefault02" placeholder="Main Category Name" value="" require />
+                                    <select class="form-control" name="main_category_id" required>
+                                        <option>Select Main Category</option>
+                                        @foreach ($main_categories as $main_cat)
+                                        <option value="{{$main_cat->id}}" {{$main_cat->id == $sub_category->getMainCategory->id ? 'selected' : '' }}>{{$main_cat->name}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label for="validationDefaultUsername">Description</label>
                                     <div class="input-group">
-                                        <input type="text" class="form-control" id="validationDefaultUsername" placeholder="Description" aria-describedby="inputGroupPrepend2" require value="Description" />
+                                        <input type="text" class="form-control" id="validationDefaultUsername" placeholder="Description" aria-describedby="inputGroupPrepend2" required value="{{$sub_category->description}}" name="discription" />
                                     </div>
                                 </div>
                             </div>
