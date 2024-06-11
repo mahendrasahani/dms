@@ -20,9 +20,7 @@
     <style>
     <style>
         .button-container {
-            /* display: flex; */
             gap: 10px;
-            /* Adjust the gap between buttons if needed */
             align-items: flex-end;
             justify-content: flex-end;
         }
@@ -471,7 +469,6 @@
                                     <li class="p-30 pt-0">
                                         <div class="message-center message-body position-relative"
                                             style="height: 210px">
-                                            <!-- Message -->
                                             <a href="javascript:void(0)"
                                                 class=" message-item px-2 d-flex align-items-center border-bottom py-3">
                                                 <span class="btn btn-light-info btn-rounded-lg text-info">
@@ -486,7 +483,6 @@
                                                         Settings</span>
                                                 </div>
                                             </a>
-                                            <!-- Message -->
                                             <a href="javascript:void(0)"
                                                 class=" message-item px-2 d-flex align-items-center border-bottom py-3">
                                                 <span class="btn btn-light-success btn-rounded-lgtext-success ">
@@ -504,7 +500,6 @@
                                                         & Emails</span>
                                                 </div>
                                             </a>
-                                            <!-- Message -->
                                             <a href="javascript:void(0)"
                                                 class="message-itempx-2d-flexalign-items-centerborder-bottompy-3">
                                                 <span class="btn btn-light-danger btn-rounded-lgtext-danger">
@@ -558,40 +553,50 @@
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a href="<?php echo e(route('backend.main_category.index')); ?>" class="sidebar-link  waves-effect waves-dark"><i
-                                    class="ri-layout-top-2-line"></i><span class="hide-menu">All Main
-                                    Category</span></a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="<?php echo e(route('backend.sub_category.index')); ?>" class="sidebar-link  waves-effect waves-dark"><i
-                                    class="ri-layout-right-2-line"></i><span class="hide-menu">All Sub
-                                    Category</span></a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<?php echo e(route('backend.all_document.index')); ?>"
-                                aria-expanded="false">
-                                <i class=" fas fa-file-alt"></i><span class="hide-menu">All Document</span>
+                            <a href="<?php echo e(route('backend.main_category.index')); ?>" class="sidebar-link  waves-effect waves-dark"><i class="ri-layout-top-2-line"></i>
+                                <span class="hide-menu">All Main Category</span>
                             </a>
                         </li>
-                        <li class="nav-small-cap">
-                            <i class="nav-small-line"></i>
-                            <span class="hide-menu">Users</span>
+                        <li class="sidebar-item">
+                            <a href="<?php echo e(route('backend.sub_category.index')); ?>" class="sidebar-link  waves-effect waves-dark"><i class="ri-layout-right-2-line"></i>
+                                <span class="hide-menu">All Sub Category</span>
+                            </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link  waves-effect waves-dark" href="<?php echo e(route('backend.login_audit.index')); ?>"
-                                aria-expanded="false"><i data-feather="user-check"></i><span class="hide-menu">Login
-                                    Audits</span></a>
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<?php echo e(route('backend.all_document.index')); ?>" aria-expanded="false">
+                                <i class=" fas fa-file-alt"></i>
+                                <span class="hide-menu">All Document</span>
+                            </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link  waves-effect waves-dark" href="admin.php"
-                                aria-expanded="false"><i data-feather="user"></i><span
-                                    class="hide-menu">Admins</span></a>
+                            <a class="sidebar-link  waves-effect waves-dark"href="<?php echo e(route('backend.hotals.index')); ?>" aria-expanded="false">
+                                <i data-feather="home"></i>
+                                <span class="hide-menu">Hotels</span>
+                            </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark" href="users.php" aria-expanded="false"><i
-                                    data-feather="users"></i><span class="hide-menu">Users</span></a>
+                            <a class="sidebar-link  waves-effect waves-dark" href="<?php echo e(route('backend.login_audit.index')); ?>" aria-expanded="false">
+                                <i data-feather="user-check"></i>
+                                <span class="hide-menu">Login Audits</span>
+                            </a>
                         </li>
-                        
+                        <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark" href="users.php" aria-expanded="false"><i data-feather="users"></i>
+                                <span class="hide-menu">Users</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark" href="<?php echo e(route('backend.user_profile.index')); ?>" aria-expanded="false">
+                                <i data-feather="users"></i>
+                                <span class="hide-menu">Profile Page</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark" href="<?php echo e(route('backend.create_role.index')); ?>" aria-expanded="false">
+                                <i data-feather="target"></i>
+                                <span class="hide-menu">Create Role</span>
+                            </a>
+                        </li>
                     </ul>
                 </nav>
             </div>
