@@ -14,132 +14,12 @@
     <link rel="stylesheet" href="{{ url('public/assets/backend/assets/extra-libs/taskboard/css/jquery-ui.min.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ url('public/assets/backend/assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}" />
     <link href="{{ url('public/assets/backend/dist/css/style.min.css') }}" rel="stylesheet" />
+    <link href="{{ url('public/assets/backend/dist/css/custom.css') }}" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="{{ url('public/assets/backend/assets/libs/dropzone/dist/min/dropzone.min.css')}}" />
     <link rel="stylesheet" type="text/css" href="{{ url('public/assets/backend/assets/libs/select2/dist/css/select2.min.css')}}" />
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <style>
-    <style>
-        .button-container {
-            gap: 10px;
-            align-items: flex-end;
-            justify-content: flex-end;
-        }
-
-        .editBtn {
-            width: 30px;
-            height: 30px;
-            border-radius: 10px;
-            border: none;
-            background-color: rgb(93, 93, 116);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.123);
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s;
-        }
-
-        .editBtn::before {
-            content: "";
-            width: 100%;
-            height: 100%;
-            background-color: rgb(102, 102, 141);
-            position: absolute;
-            z-index: 1;
-            transform: scale(0);
-            transition: all 0.3s;
-            border-radius: 50%;
-            filter: blur(10px);
-        }
-
-        .editBtn:hover::before {
-            transform: scale(1);
-        }
-
-        .editBtn:hover {
-            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.336);
-        }
-
-        .editBtn svg {
-            height: 17px;
-            fill: white;
-            z-index: 3;
-            transition: all 0.2s;
-            transform-origin: bottom;
-        }
-
-        .editBtn:hover svg {
-            transform: rotate(-15deg) translateX(1px);
-        }
-
-        .editBtn::after {
-            content: "";
-            width: 25px;
-            height: 1.5px;
-            position: absolute;
-            bottom: 4px;
-            left: -3px;
-            background-color: white;
-            border-radius: 2px;
-            z-index: 2;
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.5s ease-out;
-        }
-
-        .editBtn:hover::after {
-            transform: scaleX(1);
-            left: 0px;
-            transform-origin: right;
-        }
-
-        .button {
-            width: 30px;
-            height: 30px;
-            border-radius: 10px;
-            background-color: rgb(93, 93, 116);
-            border: none;
-            font-weight: 600;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.164);
-            cursor: pointer;
-            transition-duration: 0.3s;
-            overflow: hidden;
-            position: relative;
-            gap: 2px;
-        }
-
-        .svgIcon {
-            width: 10px;
-            transition-duration: 0.3s;
-            margin-right: 2px;
-        }
-
-        .svgIcon path {
-            fill: white;
-        }
-
-        .button:hover {
-            transition-duration: 0.3s;
-            background-color: rgb(255, 69, 69);
-            align-items: center;
-            gap: 0;
-        }
-
-        .bin-top {
-            transform-origin: bottom right;
-        }
-
-        .button:hover .bin-top {
-            transition-duration: 0.5s;
-            transform: rotate(160deg);
-        }
-    </style>
+</style>
 </head>
 
 <body>
@@ -205,6 +85,7 @@
                                 <i data-feather="shopping-cart"></i>
                             </a>
                         </li>
+
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="2"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -430,13 +311,10 @@
                         <li class="nav-item dropdown profile-dropdown">
                             <a class="nav-link dropdown-toggle d-flex align-items-center"  href="{{route('backend.user_profile.index')}}"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                {{-- <a href="{{route('backend.user_profile.index')}}"> --}}
-                                <img src="{{ url('public/assets/backend/assets/images/users/user.jpg') }}"
-                                    alt="user" width="30" class="profile-pic rounded-circle" />
-                                {{-- </a> --}}
+                                <img src="{{ url('public/assets/backend/assets/images/users/user.jpg') }}" alt="user" width="30" class="profile-pic rounded-circle" />
                                 <div class="d-none d-md-flex">
                                     <span class="ms-2">Hi,
-                                        <span class="text-dark fw-bold">Johnathan</span></span>
+                                        <span class="text-dark fw-bold">{{Auth::user()->name}}</span></span>
                                     <span>
                                         <i data-feather="chevron-down" class="feather-sm"></i>
                                     </span>
@@ -454,14 +332,24 @@
                                             </div>
                                         </div>
                                         <div class="d-flexalign-items-centermt-4pt-3pb-4border-bottom">
-                                            <img src="assets/images/users/user.jpg" alt="user" width="90"
-                                                class="rounded-circle" />
+                                            <img src="{{ url('public/assets/backend/assets/images/users/user.jpg')}}" alt="user" width="90" class="rounded-circle" />
                                             <div class="ms-4">
-                                                <h4 class="mb-0">Johnathan Doe</h4>
-                                                <span class="text-muted">Administrator</span>
+                                                <h4 class="mb-0">{{Auth::user()->name}}</h4>
+                                                @php
+                                                $user = Auth::user()->role_type_id;
+                                                @endphp
+                                                @if($user === 1)
+                                                <span class="text-muted">Super Admin </span>
+                                                @elseif ($user === 2)
+                                                <span class="text-muted"> Admin </span>
+                                                @elseif ($user === 3)
+                                                <span class="text-muted"> Employee </span>
+                                                @elseif ($user === 4)
+                                                <span class="text-muted"> Staff </span>
+                                                @endif
                                                 <p class="text-muted mb-0 mt-1">
                                                     <i data-feather="mail" class="feather-sm me-1"></i>
-                                                    info@Flexy.com
+                                                    {{Auth::user()->email}}
                                                 </p>
                                             </div>
                                         </div>
@@ -469,7 +357,7 @@
                                     <li class="p-30 pt-0">
                                         <div class="message-center message-body position-relative"
                                             style="height: 210px">
-                                            <a href="javascript:void(0)"
+                                            <a href="{{route('backend.user_profile.index')}}"
                                                 class=" message-item px-2 d-flex align-items-center border-bottom py-3">
                                                 <span class="btn btn-light-info btn-rounded-lg text-info">
                                                     <i data-feather="dollar-sign" class="feather-sm fill-white"></i>
@@ -483,7 +371,7 @@
                                                         Settings</span>
                                                 </div>
                                             </a>
-                                            <a href="javascript:void(0)"
+                                            {{-- <a href="javascript:void(0)"
                                                 class=" message-item px-2 d-flex align-items-center border-bottom py-3">
                                                 <span class="btn btn-light-success btn-rounded-lgtext-success ">
                                                     <i data-feather="shield" class="feather-sm fill-white"></i>
@@ -499,8 +387,8 @@
                                                         class="fs-3text-nowrapd-blocktimetext-truncatefw-normalmt-1text-muted">Messages
                                                         & Emails</span>
                                                 </div>
-                                            </a>
-                                            <a href="javascript:void(0)"
+                                            </a> --}}
+                                            {{-- <a href="javascript:void(0)"
                                                 class="message-itempx-2d-flexalign-items-centerborder-bottompy-3">
                                                 <span class="btn btn-light-danger btn-rounded-lgtext-danger">
                                                     <i data-feather="credit-card" class="feather-sm fill-white"></i>
@@ -527,13 +415,25 @@
                                                     class="text-darkfs-3font-weight-mediumhover-primary">
                                                     Pricing
                                                 </a>
-                                            </div>
+                                            </div> --}}
                                         </div>
-                                        <div class="mt-4">
-                                            <a class="btn btn-info text-white" href="javascript:void(0);">
+                                        {{-- <div class="mt-4">
+                                            <a class="btn btn-info text-white" href="">
                                                 Logout
                                             </a>
-                                        </div>
+                                        </div> --}}
+                                        {{-- <li class="nav-item" id="login_logout_btn"> --}}
+                                            @if(Auth::check())
+                                            <form method="POST" action="{{ route('logout') }}">
+                                                      @csrf
+                                                      <div class="btn btn-info text-white">
+                                                        <input type="submit" class="nav-link" value="LOGOUT" style="border:none; background:transparent">
+                                                      </div>
+                                                </form>
+                                             @else
+                                            <a class="nav-link" href="#" id="login_modal"><i class="fa-regular fa-circle-user"></i>LOGIN</a>
+                                          @endif 
+                                          {{-- </li> --}}
                                     </li>
                                 </ul>
                             </div>
@@ -583,12 +483,6 @@
                         <li class="sidebar-item">
                             <a class="sidebar-link waves-effect waves-dark" href="users.php" aria-expanded="false"><i data-feather="users"></i>
                                 <span class="hide-menu">Users</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark" href="{{route('backend.user_profile.index')}}" aria-expanded="false">
-                                <i data-feather="users"></i>
-                                <span class="hide-menu">Profile Page</span>
                             </a>
                         </li>
                         <li class="sidebar-item">

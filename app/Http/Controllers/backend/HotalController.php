@@ -13,8 +13,8 @@ class HotalController extends Controller
     
     public function index()
     {
-        $hotal = Hotal::get();
-        return view('backend.hotals.index',compact( 'hotal'));
+        $hotel = Hotal::with('getUser')->get();
+        return view('backend.hotals.index',compact( 'hotel'));
     }
     public function create()
     {
