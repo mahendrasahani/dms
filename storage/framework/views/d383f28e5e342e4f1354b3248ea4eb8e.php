@@ -1,11 +1,10 @@
-
 <!DOCTYPE html>
 <html dir="ltr">
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="robots" content="noindex,nofollow" />
-    <title>Flexy Bootstrap Dashboard - by Wrappixel</title>
+    <title>DMS</title>
     <link rel="canonical" href="https://www.wrappixel.com/templates/flexy-bootstrap-admin-template/" />
     <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon.png"  />
     <link href="<?php echo e(url('public/assets/backend/dist/css/style.min.css')); ?>" rel="stylesheet" />
