@@ -3,8 +3,9 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-
-use App\Models\backend\Hotal;
+use App\Models\backend\Hotel;
+use App\Models\backend\role_types;
+use App\Models\backend\RoleType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -25,7 +26,11 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role_type_id'
+        'phone',
+        'profile_image',
+        'admin_id',
+        'role_type_id',
+        'status'
     ];
 
     /**
@@ -48,6 +53,15 @@ class User extends Authenticatable
     ];
     public function getHotels()
     {
-        return $this->hasMany(Hotal::class, 'user_id');
+        return $this->hasMany(Hotel::class, 'user_id');
+    }
+
+    // public function getRoleName() 
+    // {
+    //     return $this->belongsTo(role_types::class,'id');
+    // }
+    public function roleType()
+    {
+        return $this->belongsTo(RoleType::class, 'role_type_id');
     }
 }

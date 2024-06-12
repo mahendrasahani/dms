@@ -18,8 +18,7 @@
     <link rel="stylesheet" type="text/css" href="{{ url('public/assets/backend/assets/libs/dropzone/dist/min/dropzone.min.css')}}" />
     <link rel="stylesheet" type="text/css" href="{{ url('public/assets/backend/assets/libs/select2/dist/css/select2.min.css')}}" />
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <style>
-</style>
+
 </head>
 
 <body>
@@ -80,13 +79,13 @@
                         </li>
                     </ul>
                     <ul class="navbar-nav">
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a class="nav-link nav-sidebar" href="javascript:void(0)">
                                 <i data-feather="shopping-cart"></i>
                             </a>
-                        </li>
+                        </li> --}}
 
-                        <li class="nav-item dropdown">
+                        {{-- <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="2"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i data-feather="message-square"></i>
@@ -202,7 +201,7 @@
                                     </li>
                                 </ul>
                             </div>
-                        </li>
+                        </li> --}}
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
@@ -221,81 +220,25 @@
                                     </li>
                                     <li class="p-30 pt-0">
                                         <div class="message-center message-body position-relative">
-                                            <!-- Message -->
-                                            <a href="javascript:void(0)"
-                                                class="message-item px-2 d-flex align-items-center border-bottom py-3">
-                                                <span class="user-img position-relative d-inline-block">
-                                                    <img src="{{ url('public/assets/backend/assets/images/users/1.jpg') }}"
-                                                        alt="user" class="rounded-circle w-100" /></span>
-                                                <div class="w-75 d-inline-block v-middle ps-3 ms-1">
-                                                    <h5 class="message-title mb-0 mt-1 fs-4 font-weight-medium">
-                                                        Roman Joined the Team!
-                                                    </h5>
-                                                    <span
-                                                        class="fs-3 text-nowrap d-block time text-truncate fw-normal mt-1 text-muted">Congratulate
-                                                        him</span>
-                                                </div>
-                                            </a>
-                                            <!-- Message -->
-                                            <a href="javascript:void(0)"
-                                                class="message-item px-2 d-flex align-items-center border-bottom py-3">
-                                                <span class="user-img position-relative d-inline-block">
-                                                    <img src="assets/images/users/2.jpg" alt="user"
-                                                        class="rounded-circle w-100" />
-                                                </span>
-                                                <div class="w-75 d-inline-block v-middle ps-3 ms-1">
-                                                    <h5 class="message-title mb-0 mt-1 fs-4 font-weight-medium">
-                                                        New message received
-                                                    </h5>
-                                                    <span
-                                                        class="fs-3 text-nowrap d-block time text-truncate fw-normal mt-1 text-muted">Salma
-                                                        sent you new message</span>
-                                                </div>
-                                            </a>
-                                            <!-- Message -->
-                                            <a href="javascript:void(0)"
-                                                class="message-item px-2 d-flex align-items-center border-bottom py-3">
-                                                <span class="btn btn-light-info text-info btn-circle">
-                                                    <i data-feather="dollar-sign" class="feather-sm fill-white"></i>
-                                                </span>
-                                                <div class="w-75 d-inline-block v-middle ps-3 ms-1">
-                                                    <h5 class="message-title mb-0 mt-1 fs-4 font-weight-medium">
-                                                        New Payment received
-                                                    </h5>
-                                                    <span
-                                                        class="fs-3 text-nowrap d-block time text-truncate fw-normal mt-1 text-muted">Check
-                                                        your earnings</span>
-                                                </div>
-                                            </a>
-                                            <!-- Message -->
                                             <a href="javascript:void(0)"
                                                 class="message-item px-2 d-flex align-items-center py-3">
                                                 <span class="user-img position-relative d-inline-block">
-                                                    <img src="assets/images/users/4.jpg" alt="user"
+                                                    <img src="{{ url('public/assets/backend/assets/images/users/4.jpg')}}" alt="user"
                                                         class="rounded-circle w-100" />
                                                 </span>
                                                 <div class="w-75 d-inline-block v-middle ps-3 ms-1">
-                                                    <h5 class="message-title mb-0 mt-1 fs-4 font-weight-medium ">
-                                                        Jolly completed tasks
-                                                    </h5>
-                                                    <span
-                                                        class=" fs-3 text-nowrap d-block time text-truncate fw-normal mt-1 text-muted">Assign
-                                                        her new tasks</span>
+                                                    <h5 class="message-title mb-0 mt-1 fs-4 font-weight-medium "> Jolly completed tasks</h5>
+                                                    <span class=" fs-3 text-nowrap d-block time text-truncate fw-normal mt-1 text-muted">Assign her new tasks</span>
                                                 </div>
                                             </a>
-                                            <!-- Message -->
                                             <a href="javascript:void(0)"
                                                 class=" message-item px-2 d-flex align-items-center py-3">
                                                 <span class="btn btn-light-danger text-danger btn-circle">
                                                     <i data-feather="credit-card" class="feather-sm fill-white"></i>
                                                 </span>
                                                 <div class="w-75 d-inline-block v-middle ps-3 ms-1">
-                                                    <h5 class=" message-title mb-0 mt-1 fs-4 font-weight-medium ">
-                                                        Payment deducted
-                                                    </h5>
-                                                    <span
-                                                        class=" fs-3 text-nowrap d-block time text-truncate fw-normal mt-1 text-muted">$230
-                                                        deducted from account</span>
+                                                    <h5 class=" message-title mb-0 mt-1 fs-4 font-weight-medium ">Payment deducted</h5>
+                                                    <span class=" fs-3 text-nowrap d-block time text-truncate fw-normal mt-1 text-muted">$230 deducted from account</span>
                                                 </div>
                                             </a>
                                         </div>
@@ -424,7 +367,7 @@
                                         </div> --}}
                                         {{-- <li class="nav-item" id="login_logout_btn"> --}}
                                             @if(Auth::check())
-                                            <form method="POST" action="{{ route('logout') }}">
+                                                <form method="POST" action="{{ route('logout') }}">
                                                       @csrf
                                                       <div class="btn btn-info text-white">
                                                         <input type="submit" class="nav-link" value="LOGOUT" style="border:none; background:transparent">
@@ -446,6 +389,10 @@
             <div class="scroll-sidebar">
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
+                        {{-- For Super Admin  --}}
+                        @if ($user == 1)
+                            
+                        
                         <li class="sidebar-item">
                             <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{route('dashboard')}}"
                                 aria-expanded="false">
@@ -469,7 +416,7 @@
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link  waves-effect waves-dark"href="{{route('backend.hotals.index')}}" aria-expanded="false">
+                            <a class="sidebar-link  waves-effect waves-dark"href="{{route('backend.hotels.index')}}" aria-expanded="false">
                                 <i data-feather="home"></i>
                                 <span class="hide-menu">Hotels</span>
                             </a>
@@ -481,7 +428,7 @@
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark" href="users.php" aria-expanded="false"><i data-feather="users"></i>
+                            <a class="sidebar-link waves-effect waves-dark" href="{{route('backend.employee.index')}}" aria-expanded="false"><i data-feather="users"></i>
                                 <span class="hide-menu">Users</span>
                             </a>
                         </li>
@@ -491,6 +438,35 @@
                                 <span class="hide-menu">Create Role</span>
                             </a>
                         </li>
+                        @elseif ($user == 2)
+
+
+                        {{-- For Admin --}}
+                        <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{route('dashboard')}}"
+                                aria-expanded="false">
+                                <i data-feather="pie-chart"></i><span class="hide-menu">Dashboards</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark" href="{{route('backend.create_role.index')}}" aria-expanded="false">
+                                <i data-feather="target"></i>
+                                <span class="hide-menu">Create Role</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link  waves-effect waves-dark" href="{{route('backend.login_audit.index')}}" aria-expanded="false">
+                                <i data-feather="user-check"></i>
+                                <span class="hide-menu">Login Audits</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark" href="{{route('backend.employee.index')}}" aria-expanded="false"><i data-feather="users"></i>
+                                <span class="hide-menu">Users</span>
+                            </a>
+                        </li>
+                        
+                        @endif
                     </ul>
                 </nav>
             </div>

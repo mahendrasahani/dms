@@ -22,17 +22,9 @@
                                     </div>
                                     <div class="col-md-5">
                                         <div class="mb-3">
-                                            <input type="text" class="form-control" id="Schoolname" name="meta_tag"
-                                                placeholder="Meta Tag" />
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-1">
-                                        <div class="mb-3">
-                                            <button
-                                                onclick="education_fields();"class="btn rounded-pill px-4 btn-light-success text-success font-weight-medium waves-effect waves-light"
-                                                type="button">
-                                                <i class="ri-add-circle-line fs-5"></i>
-                                            </button>
+                                            <select name="role-type" id="" class="form-control">
+                                                <option selected></option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="mb-3m col-md-6">

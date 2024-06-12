@@ -5,8 +5,9 @@ use App\Http\Controllers\backend\SubCategoryController;
 use App\Http\Controllers\backend\AllDocumentController;
 use App\Http\Controllers\backend\LoginAuditController;
 use App\Http\Controllers\backend\UserProfileController;
-use App\Http\Controllers\backend\HotalController;
+use App\Http\Controllers\backend\HotelController;
 use App\Http\Controllers\backend\CreateRoleController;
+use App\Http\Controllers\backend\EmployeeController;
 
 
 
@@ -45,9 +46,10 @@ Route::middleware(['auth', 'verified'])->group(function(){
 
 
     // Hotal route
-    Route::get('/admin/hotal', [HotalController::class, 'index'])->name('backend.hotals.index');
-    Route::get('/admin/hotal/create', [HotalController::class, 'create'])->name('backend.hotals.create');
-    Route::post('/admin/hotal/store', [HotalController::class, 'store'])->name('backend.hotals.store');
+    Route::get('/admin/hotel', [HotelController::class, 'index'])->name('backend.hotels.index');
+    Route::get('/admin/hotel/create', [HotelController::class, 'create'])->name('backend.hotels.create');
+    Route::post('/admin/hotel/store', [HotelController::class, 'store'])->name('backend.hotels.store');
+    Route::get('/admin/hotel/update-status', [EmployeeController::class, 'updateStatus'])->name('backend.hotel.update_status');
 
     // user Profile
     Route::get('/admin/profile', [UserProfileController::class, 'index'])->name('backend.user_profile.index');
@@ -59,6 +61,14 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/admin/roles/delete/{id}', [CreateRoleController::class, 'update'])->name('backend.create_role.update');
     Route::get('/admin/roles/update/{id}', [CreateRoleController::class, 'destroy'])->name('backend.create_role.delete');
     Route::get('/admin/roles/update-status', [CreateRoleController::class, 'updateStatus'])->name('backend.create_role.update_status');
+
+    // Employee 
+    Route::get('/admin/users', [EmployeeController::class, 'index'])->name('backend.employee.index');
+    Route::get('/admin/users/create', [EmployeeController::class, 'create'])->name('backend.employee.create');
+    Route::post('/admin/users/store', [EmployeeController::class, 'store'])->name('backend.employee.store');
+    Route::get('/admin/users/update-status', [EmployeeController::class, 'updateStatus'])->name('backend.employee.update_status');
+
+
 });
 
 

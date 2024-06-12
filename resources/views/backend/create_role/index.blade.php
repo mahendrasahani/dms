@@ -6,6 +6,7 @@ test
     <div class="page-titles">
         <div class="row">
             <div class="col-lg-8 col-md-6 col-12 align-self-center">
+                <h4 class="text-muted mb-0 fw-normal">Welcome {{Auth::user()->name}}</h4>
                 <h1 class="mb-0 fw-bold">All Role</h1>
             </div>
             <div class="col-lg-4 col-md-6 d-none d-md-flex align-items-center justify-content-end">
