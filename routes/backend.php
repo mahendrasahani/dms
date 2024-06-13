@@ -10,6 +10,7 @@ use App\Http\Controllers\backend\HotelController;
 use App\Http\Controllers\backend\CreateRoleController;
 use App\Http\Controllers\backend\EmployeeController;
 use App\Http\Controllers\backend\DataBaseEntryController;
+use App\Http\Controllers\backend\CheckListController;
 
 
 
@@ -30,7 +31,7 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/admin/sub-category', [SubCategoryController::class, 'index'])->name('backend.sub_category.index');
     Route::get('/admin/sub-category/edit/{id}', [SubCategoryController::class, 'edit'])->name('backend.sub_category.edit');
     Route::post('/admin/sub-category/create', [SubCategoryController::class, 'create'])->name('backend.sub_category.create');
-    Route::get('/admin/sub-category/delete/{id}', [SubCategoryController::class, 'destroy'])->name('backend.sub_category.delete');
+    Route::get('/admin/sub-category/delete', [SubCategoryController::class, 'destroy'])->name('backend.sub_category.delete');
     Route::get('/admin/sub-category/update/{id}', [SubCategoryController::class, 'update'])->name('backend.sub_category.update');
     Route::get('/admin/sub-category/update-status', [SubCategoryController::class, 'updateStatus'])->name('backend.sub_category.update_status');
 
@@ -66,7 +67,10 @@ Route::middleware(['auth', 'verified'])->group(function(){
 
     // for database entry (delete after work)
     Route::get('/admin/entry', [DataBaseEntryController::class, 'index'])->name('backend.database_entry.index'); 
-    Route::post('/admin/entry/create', [DataBaseEntryController::class, 'create'])->name('backend.database_entry.create'); 
+    Route::post('/admin/entry/create', [DataBaseEntryController::class, 'create'])->name('backend.database_entry.create');
+
+    // check box
+    Route::get('/admin/check-list/create', [CheckListController::class, 'index'])->name('backend.check_list.index'); 
 
 
 });

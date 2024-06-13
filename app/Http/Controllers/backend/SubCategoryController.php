@@ -50,11 +50,23 @@ class SubCategoryController extends Controller
         }
     } 
 
-    public function destroy($id)
-    {        
-        SubCategory::where('id', $id)->delete();
-        return redirect()->route('backend.sub_category.index')->with('update', "Sub Category has been Deleted successfully");
+    public function destroy(Request $request)
+    {
+        $id = $request->id;
+        try {
+            SubCategory::where('id', $id)->delete();
+            return response()->json([
+                'status' => 200,
+                'message' => "Sub Category has been deleted successfully"
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 500,
+                'message' => "An error occurred"
+            ]);
+        }
     }
+
 
     
     public function update(Request $request, $id)

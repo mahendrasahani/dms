@@ -442,6 +442,11 @@
                                 <span class="hide-menu">Entry</span>
                             </a>
                         </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark" href="{{route('backend.check_list.index')}}" aria-expanded="false"><i data-feather="users"></i>
+                                <span class="hide-menu">Master List</span>
+                            </a>
+                        </li>
                         @elseif ($user == 2)
 
 
