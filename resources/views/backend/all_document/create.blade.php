@@ -23,15 +23,23 @@
                                     <div class="col-md-5">
                                         <div class="mb-3">
                                             <select name="role-type" id="" class="form-control">
-                                                <option selected></option>
+                                                <option selected>Select Role</option>
+                                                <option >Employe</option>
+                                                <option >Staff</option>
+                                                <option >Department</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="mb-3m col-md-6">
-                                        <input type="text" class="form-control" id="desig" placeholder="Category" />
+                                     <select name="categories" id="" class="form-control">
+                                        <option value="0" selected>Select Sub Category</option>
+                                        <option value="2"> Category</option>
+                                     </select>
                                     </div>
                                     <div class="mb-3m col-md-6">
-                                        <div id="education_fields" class="mb-3"></div>
+                                        <div class="row">
+                                            .col-sm-
+                                        </div>
                                     </div>
                                     <div class="row" style="margin-top: 20px;">
                                         <div class="mb-3">
@@ -39,7 +47,12 @@
                                         </div>
                                     </div>
                                     <div class="mb-3m col-md-6" style="margin-bottom: 20px;">
-                                        <input type="text" class="form-control" id="desig" placeholder="Assign/share with roles"/>
+                                        <select name="role-type" id="" class="form-control">
+                                            <option selected>Select Role</option>
+                                            <option >Employe</option>
+                                            <option >Staff</option>
+                                            <option >Department</option>
+                                        </select>
                                     </div>
                                     <div class="mb-3m col-md-6">
                                         <input type="text" class="form-control" id="desig" placeholder="Assign/share with users" />
