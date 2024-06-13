@@ -4,7 +4,7 @@
         <div class="page-titles">
             <div class="row">
                 <div class="col-lg-8 col-md-6 col-12 align-self-center">
-                    <h4 class="text-muted mb-0 fw-normal">Welcome Johnathan</h4>
+                    <h4 class="text-muted mb-0 fw-normal">Welcome {{Auth::user()->name}}</h4>
                     <h1 class="mb-0 fw-bold">Sub Category</h1>
                 </div>
                 <div class=" col-lg-4 col-md-6 d-none d-md-flex align-items-center justify-content-end ">
@@ -176,7 +176,6 @@
             </div>
         </div>
     </div>
-
 @section('javascript-section')
     @if (Session::has('success'))
         <script>
@@ -193,6 +192,15 @@
                 title: "Success!",
                 text: "{{ Session::get('update') }}",
                 icon: "success",
+                timer: 5000,
+            });
+        </script>
+        @elseif(Session::has('warning'))
+        <script>
+            Swal.fire({
+                title: "Warning!",
+                text: "{{ Session::get('warning') }}",
+                icon: "warning",
                 timer: 5000,
             });
         </script>
@@ -223,6 +231,23 @@
             }
         });
       });
+//       Swal.fire({
+//   title: "Are you sure?",
+//   text: "You won't be able to revert this!",
+//   icon: "warning",
+//   showCancelButton: true,
+//   confirmButtonColor: "#3085d6",
+//   cancelButtonColor: "#d33",
+//   confirmButtonText: "Yes, delete it!"
+// }).then((result) => {
+//   if (result.isConfirmed) {
+//     Swal.fire({
+//       title: "Deleted!",
+//       text: "Your file has been deleted.",
+//       icon: "success"
+//     });
+//   }
+// });
     </script>
 @endsection
 @endsection

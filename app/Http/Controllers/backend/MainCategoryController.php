@@ -49,17 +49,21 @@ class MainCategoryController extends Controller
         }
     }
     
-
-
     public function store(Request $request)
     {
         $category_name = $request->category_name;
-        $discription = $request->discription; 
+        $description = $request->discription;
+
+        $existingCategory = MainCategory::where('name', $category_name)->first();
+        if ($existingCategory) {
+            return redirect()->route('backend.main_category.index')->with('warning', "Main Category Already Exists");
+        }
         $newMainCategory = MainCategory::create([
             'name' => $category_name,
-            'description' => $discription,
-            'status' => 1
+            'description' => $description,
+            'status' => 1,
         ]);
+
         return redirect()->route('backend.main_category.index')->with('success', "Main Category has been added successfully");
     }
 

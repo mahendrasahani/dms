@@ -9,6 +9,7 @@ use App\Http\Controllers\backend\UserProfileController;
 use App\Http\Controllers\backend\HotelController;
 use App\Http\Controllers\backend\CreateRoleController;
 use App\Http\Controllers\backend\EmployeeController;
+use App\Http\Controllers\backend\DataBaseEntryController;
 
 
 
@@ -62,6 +63,12 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/admin/users/create', [EmployeeController::class, 'create'])->name('backend.employee.create');
     Route::post('/admin/users/store', [EmployeeController::class, 'store'])->name('backend.employee.store');
     Route::get('/admin/users/update-status', [EmployeeController::class, 'updateStatus'])->name('backend.employee.update_status');
+
+    // for database entry (delete after work)
+    Route::get('/admin/entry', [DataBaseEntryController::class, 'index'])->name('backend.database_entry.index'); 
+    Route::post('/admin/entry/create', [DataBaseEntryController::class, 'create'])->name('backend.database_entry.create'); 
+
+
 });
 
 

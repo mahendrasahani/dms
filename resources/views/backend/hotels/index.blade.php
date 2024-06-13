@@ -135,6 +135,7 @@
         });
       });
         </script>
+        
         {{--  willClose: () => {
                     window.location.href = "{{ route('backend.hotals.index') }}";
                 } --}}

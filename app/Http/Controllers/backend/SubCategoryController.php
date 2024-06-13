@@ -10,33 +10,48 @@ use App\Models\backend\MainCategory;
 
 class SubCategoryController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $sub_categories = SubCategory::with('getMainCategory:id,name')->get();
-        $main_categories = MainCategory::get();
+        $main_categories = MainCategory::where('status', 1)->get();
         return view('backend.sub_category.index', compact('sub_categories', 'main_categories'));
     }
 
-    public function edit($id){
-         
+    public function edit($id)
+    {      
         $main_categories = MainCategory::where('status', 1)->get();
         $sub_category = SubCategory::with('getMainCategory:id,name')->where('id', $id)->first();
         return view('backend.sub_category.edit', compact('sub_category', 'main_categories'));
     }
 
+
     public function create(Request $request)
     {
-        $category_name = $request->sub_category_name;
-        $discription = $request->sub_category_disc; 
-        $main_category_id = $request->main_category_id; 
-        $newSubCategory = SubCategory::create([
-            'name' => $category_name,
-            'description' => $discription,
-            'main_category_id' => $main_category_id,
-            'status' => 1
-        ]);
-        return redirect()->route('backend.sub_category.index')->with('success', "Sub Category has been added successfully");
-    }
-    public function destroy($id){ 
+        $sub_category_name = $request->sub_category_name;
+        $sub_category_disc = $request->sub_category_disc; 
+        $main_category_id = $request->main_category_id;
+
+        $existingCategory = SubCategory::where('name', $sub_category_name)->first();
+
+        if ($existingCategory) {
+            return redirect()->route('backend.sub_category.index')->with('warning', 'Sub Category Already Exists');
+        }
+        try {
+            $newSubCategory = SubCategory::create([
+                'name' => $sub_category_name,
+                'description' => $sub_category_disc,
+                'main_category_id' => $main_category_id,
+                'status' => 1,
+            ]);
+    
+            return redirect()->route('backend.sub_category.index')->with('success', 'Sub Category has been added successfully');
+        } catch (\Exception $e) {
+            return redirect()->route('backend.sub_category.index')->with('error', 'An error occurred while adding the subcategory');
+        }
+    } 
+
+    public function destroy($id)
+    {        
         SubCategory::where('id', $id)->delete();
         return redirect()->route('backend.sub_category.index')->with('update', "Sub Category has been Deleted successfully");
     }
@@ -53,11 +68,10 @@ class SubCategoryController extends Controller
             'main_category_id' => $main_category_id
         ]);
         return redirect()->route('backend.sub_category.index')->with('update', "Sub Category  has been update successfully");
-    }
+    } 
 
-
-
-    public function updateStatus(Request $request){
+    public function updateStatus(Request $request)
+    {
         $id = $request->id;
         $status = $request->status;
         SubCategory::where('id', $id)->update([
@@ -68,6 +82,5 @@ class SubCategoryController extends Controller
             'message' => "success"
         ]);
     }
-
-
+ 
 }
