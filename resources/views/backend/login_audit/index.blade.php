@@ -65,7 +65,6 @@
                                         <td>63</td>
                                         <td>2011/07/25</td>
                                         <td>$170,750</td>
-                                        
                                         <td>-60.69754</td>
                                         <th>1</th>
                                     </tr>
@@ -76,7 +75,6 @@
                                         <td>66</td>
                                         <td>2009/01/12</td>
                                         <td>$86,000</td>
-                                        
                                         <td>-60.69754</td>
                                         <th>1</th>
                                     </tr>
@@ -87,7 +85,6 @@
                                         <td>22</td>
                                         <td>2012/03/29</td>
                                         <td>$433,060</td>
-                                        
                                         <td>-60.69754</td>
                                         <th>1</th>
                                     </tr>
@@ -98,23 +95,10 @@
                                         <td>33</td>
                                         <td>2008/11/28</td>
                                         <td>$162,700</td>
-                                        
                                         <td>-60.69754</td>
                                         <th>1</th>
                                     </tr>
                                 </tbody>
-                                <tfoot>
-                                    <tr>
-                                    <th>Name</th>
-                                        <th>User Name</th>
-                                        <th>Email</th>
-                                        <th>IP Address</th>
-                                        <th>Date & time</th>
-                                        <th>Latitude</th>
-                                        <th>Longitude</th>
-                                        <th>status</th>
-                                    </tr>
-                                </tfoot>
                             </table>
                         </div>
                     </div>

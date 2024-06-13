@@ -392,7 +392,6 @@
                         {{-- For Super Admin  --}}
                         @if ($user == 1)
                             
-                        
                         <li class="sidebar-item">
                             <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{route('dashboard')}}"
                                 aria-expanded="false">
