@@ -1,5 +1,6 @@
 <?php
 use App\Http\Controllers\backend\DashboardController;
+use App\Http\Controllers\backend\DepartmentController;
 use App\Http\Controllers\backend\MainCategoryController;
 use App\Http\Controllers\backend\SubCategoryController;
 use App\Http\Controllers\backend\AllDocumentController;
@@ -49,12 +50,12 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/admin/profile', [UserProfileController::class, 'index'])->name('backend.user_profile.index');
 
      // create role Profile
-    Route::get('/admin/roles', [CreateRoleController::class, 'index'])->name('backend.create_role.index');
-    Route::post('/admin/roles', [CreateRoleController::class, 'create'])->name('backend.create_role.create');
-    Route::get('/admin/roles/edit/{id}', [CreateRoleController::class, 'edit'])->name('backend.create_role.edit');
-    Route::get('/admin/roles/delete/{id}', [CreateRoleController::class, 'update'])->name('backend.create_role.update');
-    Route::get('/admin/roles/update/{id}', [CreateRoleController::class, 'destroy'])->name('backend.create_role.delete');
-    Route::get('/admin/roles/update-status', [CreateRoleController::class, 'updateStatus'])->name('backend.create_role.update_status');
+    Route::get('/admin/department', [DepartmentController::class, 'index'])->name('backend.create_role.index');
+    Route::post('/admin/department', [DepartmentController::class, 'create'])->name('backend.create_role.create');
+    Route::get('/admin/department/edit/{id}', [DepartmentController::class, 'edit'])->name('backend.create_role.edit');
+    Route::get('/admin/department/delete/{id}', [DepartmentController::class, 'update'])->name('backend.create_role.update');
+    Route::get('/admin/department/update/{id}', [DepartmentController::class, 'destroy'])->name('backend.create_role.delete');
+    Route::get('/admin/department/update-status', [DepartmentController::class, 'updateStatus'])->name('backend.create_role.update_status');
 
     // Employee 
     Route::get('/admin/users', [EmployeeController::class, 'index'])->name('backend.employee.index');

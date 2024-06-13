@@ -34,11 +34,7 @@
                                         <input type="text" class="form-control" id="desig" placeholder="Owner Email"
                                             name="owner_email" required />
                                     </div>
-                                    <div class="mb-3 col-md-6">
-                                        <select class="form-control" name="user_type" required>
-                                            <option value="2" @checked(true)>Admin</option>
-                                        </select>
-                                    </div>
+                                     
                                     <div class="mb-3 col-md-6">
                                         <input type="text" class="form-control" placeholder="Create Password"
                                             name="password" required />
@@ -58,18 +54,6 @@
         </div>
     </div>
 @section('javascript-section')
-    @if (Session::has('success'))
-        <script>
-            Swal.fire({
-                title: "Success!",
-                text: "{{ Session::get('success') }}",
-                icon: "success",
-                timer: 5000,
-                willClose: () => {
-                    window.location.href = "{{ route('backend.hotels.index') }}";
-                }
-            });
-        </script>
-    @endif
+ 
 @endsection
 @endsection

@@ -8,6 +8,7 @@ use App\Models\backend\RoleType;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules;
 
 class EmployeeController extends Controller
 {
@@ -19,18 +20,24 @@ class EmployeeController extends Controller
         // return $roles;
         return view('backend.employee.index', compact('roles'));
     }
-    public function create()
-    {
+    public function create(){
         $user = Auth::user()->id;
-        $roles = RoleType::where('user_id', $user)->get();
+        $roles = RoleType::where('status', 1)->get();
         return view('backend.employee.create', compact('roles'));
     }
-    public function store(Request $request)
-    {
-        $user_name = $request->user_name;
-        $user_email = $request->user_email;
-        $user_phone = $request->user_phone;
-        $role_type_id = $request->role_type_id;
+    public function store(Request $request){
+
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ]);
+
+
+        $user_name = $request->name;
+        $user_email = $request->email;
+        $user_phone = $request->phone;
+        $role_type_id = $request->department;
         $password = Hash::make($request->password);
 
         $newUser = User::create([

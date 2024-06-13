@@ -18,5 +18,6 @@ class Menu extends Model
         'parent_menu_id',
         'status',
         'display_name', 
+        'icon'
     ];
 }

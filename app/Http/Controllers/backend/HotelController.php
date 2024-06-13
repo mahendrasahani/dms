@@ -38,7 +38,7 @@ class HotelController extends Controller
             'user_id' => $user->id,
             'status' => 1
         ]);
-        return redirect()->route('backend.hotels.create')->with('success', "Hotel has been added successfully");
+        return redirect()->route('backend.hotels.index')->with('success', "Hotel has been added successfully");
     }
     public function updateStatus(Request $request){
         $id = $request->id;

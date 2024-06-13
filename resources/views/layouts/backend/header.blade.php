@@ -428,13 +428,13 @@
                         </li>
                         <li class="sidebar-item">
                             <a class="sidebar-link waves-effect waves-dark" href="{{route('backend.employee.index')}}" aria-expanded="false"><i data-feather="users"></i>
-                                <span class="hide-menu">Users</span>
+                                <span class="hide-menu">All Employees</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
                             <a class="sidebar-link waves-effect waves-dark" href="{{route('backend.create_role.index')}}" aria-expanded="false">
                                 <i data-feather="target"></i>
-                                <span class="hide-menu">Create Role</span>
+                                <span class="hide-menu">All Departments</span>
                             </a>
                         </li>
                         @elseif ($user == 2)
