@@ -271,6 +271,11 @@
                                 <span class="hide-menu">All Departments</span>
                             </a>
                         </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark" href="<?php echo e(route('backend.database_entry.index')); ?>" aria-expanded="false"><i data-feather="users"></i>
+                                <span class="hide-menu">Entry</span>
+                            </a>
+                        </li>
                         <?php elseif($user == 2): ?>
 
 

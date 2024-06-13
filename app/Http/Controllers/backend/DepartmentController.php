@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -8,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 class DepartmentController extends Controller
 {
     public function index(){
-        $roles = RoleType::whereNotIn('id', [1])->get();
+        $roles = RoleType::whereNotIn('id', [1, 2])->get();
         return view('backend.departments.index', compact('roles'));
     }
  

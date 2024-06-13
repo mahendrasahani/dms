@@ -28,16 +28,23 @@
                                     </div>
                                     <div class="mb-3 col-md-6">
                                         <input type="text" class="form-control" id="desig" placeholder="Owner Name"
-                                            name="owner_name"required />
+                                            name="name"required />
                                     </div>
                                     <div class="mb-3 col-md-6">
                                         <input type="text" class="form-control" id="desig" placeholder="Owner Email"
-                                            name="owner_email" required />
+                                            name="email" required />
                                     </div>
                                      
                                     <div class="mb-3 col-md-6">
-                                        <input type="text" class="form-control" placeholder="Create Password"
+                                        <input type="text" class="form-control" placeholder="Password"
                                             name="password" required />
+                                    </div>
+                                    @error('password')
+                                    <p style="color:red">{{$message}}</p>   
+                                    @enderror
+                                    <div class="mb-3 col-md-6">
+                                        <input type="text" class="form-control" placeholder="Confirm Password"
+                                            name="password_confirmation" required />
                                     </div>
                                     <div class="mb-3">
                                         <button class="btn btn-primary rounded-pill px-4 mt-3" type="submit">

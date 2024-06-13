@@ -19,13 +19,13 @@
                                 @csrf
                                 <div class="row">
                                     <div class="mb-3 col-md-6">
-                                        <input type="text" class="form-control" placeholder="User Name" name="name" required value=""/>
+                                        <input type="text" class="form-control" placeholder="User Name" name="name" required value="{{old('name')}}"/>
                                     </div>
                                     <div class="mb-3 col-md-6">
-                                        <input type="email" class="form-control" placeholder="User Email" name="email" required />
+                                        <input type="email" class="form-control" placeholder="User Email" name="email" required value="{{old('email')}}"/>
                                     </div>
                                     <div class="mb-3 col-md-6">
-                                        <input type="number" class="form-control" id="desig" placeholder="User Phone" name="phone"required />
+                                        <input type="number" class="form-control" id="desig" placeholder="User Phone" name="phone"required {{old('phone')}}/>
                                     </div>
                                     <div class="mb-3 col-md-6">
                                     <select name="department" required class="select2 js-programmatic form-control"  style="width: 100%; height: 36px">
@@ -42,7 +42,7 @@
                                     <p style="color:red">{{$message}}</p>   
                                     @enderror
                                     <div class="mb-3 col-md-6">
-                                        <input type="text" class="form-control" placeholder="Confirm Password" name="confirm_password" required />
+                                        <input type="text" class="form-control" placeholder="Confirm Password" name="password_confirmation" required />
                                     </div>
                                     @error('confirm_password')
                                     <p style="color:red">{{$message}}</p>   

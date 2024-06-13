@@ -12,27 +12,21 @@ use Illuminate\Validation\Rules;
 
 class EmployeeController extends Controller
 {
-    public function index()
-    {
-        $id = Auth::user()->id;
-        // $roles = User::where('admin_id', $id)->get();
-        $roles = User::with('roleType:id,name')->where('admin_id', $id)->get();
-        // return $roles;
+    public function index(){ 
+        $roles = User::with('roleType:id,name')->where('created_by', Auth::user()->id)->get(); 
         return view('backend.employee.index', compact('roles'));
     }
     public function create(){
         $user = Auth::user()->id;
-        $roles = RoleType::where('status', 1)->get();
+        $roles = RoleType::whereNotIn('id', [1,2])->where('status', 1)->get();
         return view('backend.employee.create', compact('roles'));
     }
     public function store(Request $request){
-
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
-
 
         $user_name = $request->name;
         $user_email = $request->email;
@@ -44,11 +38,10 @@ class EmployeeController extends Controller
             'name' => $user_name,
             'email' => $user_email,
             'phone' => $user_phone,
-            'admin_id' => Auth::user()->id,
+            'created_by' => Auth::user()->id,
             'role_type_id' => $role_type_id,
             'password' => $password,
             'status' => 1
-
         ]);
         return redirect()->route('backend.employee.index')->with('success', "User has been added successfully");
     }
