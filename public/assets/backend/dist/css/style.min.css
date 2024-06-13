@@ -56858,3 +56858,7 @@ html[dir=rtl] [type=radio].material-inputs+label:before {
   border-radius: 10px;
   border: 1px solid rgba( 255, 255, 255, 0.18 );
 }
+
+.mt-3.check-box {
+  text-align: end;
+}

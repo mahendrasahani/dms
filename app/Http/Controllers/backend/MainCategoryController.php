@@ -34,18 +34,51 @@ class MainCategoryController extends Controller
         return redirect()->route('backend.main_category.index')->with('update', "Main Category has been update successfully");
     }
     
-    public function destroy($id){
+    // public function destroy($id){
+    //     $main_category = MainCategory::with('getSubCategory:id,main_category_id')->where('id', $id)->first();
+
+    //     if ($main_category) {
+    //         if ($main_category->getSubCategory->isEmpty()) {
+    //             $main_category->delete();
+    //             return redirect()->route('backend.main_category.index')->with('success', "Main Category has been deleted successfully");
+    //         } else {
+    //             return redirect()->route('backend.main_category.index')->with('warning', "Main Category cannot be deleted because it has associated Sub Categories");
+    //         }
+    //     } else {
+    //         return redirect()->route('backend.main_category.index')->with('error', "Main Category not found");
+    //     }
+    // }
+    public function destroy($id)
+    {
+        // $id = $request->id;
         $main_category = MainCategory::with('getSubCategory:id,main_category_id')->where('id', $id)->first();
 
-        if ($main_category) {
-            if ($main_category->getSubCategory->isEmpty()) {
+        if($main_category){
+            if($main_category->getSubCategory->isEmpty()){
                 $main_category->delete();
-                return redirect()->route('backend.main_category.index')->with('success', "Main Category has been deleted successfully");
+                try {
+                    MainCategory::where('id', $id)->delete();
+                    return response()->json([
+                        'status' => 200,
+                        'message' => "Main Category has been deleted successfully"
+                    ]);
+                } catch (\Exception $e) {
+                    return response()->json([
+                        'status' => 500,
+                        'message' => "An error occurred while deleting main category"
+                    ]);
+                }
             } else {
-                return redirect()->route('backend.main_category.index')->with('warning', "Main Category cannot be deleted because it has associated Sub Categories");
+                return response()->json([
+                    'status' => 400,
+                    'message' => "Main Category cannot be deleted because it has associated Sub Categories"
+                ]);
             }
         } else {
-            return redirect()->route('backend.main_category.index')->with('error', "Main Category not found");
+            return response()->json([
+                'status' => 404,
+                'message' => "Main Category not found"
+            ]);
         }
     }
     
