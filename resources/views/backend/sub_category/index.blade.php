@@ -144,7 +144,7 @@
                                                                     class="feather-sm text-dark fill-white me-2"></i>Select
                                                                 Main Category</label>
                                                             <select class="form-control" name="main_category_id" required>
-                                                                <option>Select Main Category</option>
+                                                                <option value="">Select Main Category</option>
                                                                 @foreach ($main_categories as $main_categories)
                                                                     <option value="{{ $main_categories->id }}">
                                                                         {{ $main_categories->name }}</option>

@@ -16,7 +16,7 @@ class EmployeeCheck
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::user()->role_type_id == 4){ 
+        if(Auth::user()->role_type_id != 1 || Auth::user()->role_type_id != 2){ 
             return $next($request);
         } else{
             return redirect('/');

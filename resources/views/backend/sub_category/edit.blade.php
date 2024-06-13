@@ -22,7 +22,7 @@
                                 <div class="col-md-4 mb-3">
                                     <label for="validationDefault02">Main Category Name</label>
                                     <select class="form-control" name="main_category_id" required>
-                                        <option>Select Main Category</option>
+                                        <option value="">Select Main Category</option>
                                         @foreach ($main_categories as $main_cat)
                                         <option value="{{$main_cat->id}}" {{$main_cat->id == $sub_category->getMainCategory->id ? 'selected' : '' }}>{{$main_cat->name}}</option>
                                         @endforeach
