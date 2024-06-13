@@ -46,7 +46,7 @@ class CreateRoleController extends Controller
             'user_id' => Auth::user()->id,
             'status' => 1
         ]);
-        return view('backend.create_role.index')->with('success', "New role has been added successfully");
+        return redirect()->route('backend.create_role.index')->with('success', "New role has been added successfully");
     }
 
 
