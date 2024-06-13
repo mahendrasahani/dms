@@ -16,7 +16,6 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('dashboard', [DashboardController::class, 'redirectDashboard'])->name('dashboard');
     Route::get('/admin', [DashboardController::class, 'redirectDashboard'])->name('dashboard');
 
-
     // main category  
     Route::get('/admin/main-category', [MainCategoryController::class, 'index'])->name('backend.main_category.index');
     Route::get('/admin/main-category/edit/{id}', [MainCategoryController::class, 'edit'])->name('backend.main_category.edit');
@@ -25,9 +24,6 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/admin/main-category/delete/{id}', [MainCategoryController::class, 'destroy'])->name('backend.main_category.delete');
     Route::get('/admin/main-category/update-status', [MainCategoryController::class, 'updateStatus'])->name('backend.main_category.update_status');
 
-
-
-    
     // sub category  
     Route::get('/admin/sub-category', [SubCategoryController::class, 'index'])->name('backend.sub_category.index');
     Route::get('/admin/sub-category/edit/{id}', [SubCategoryController::class, 'edit'])->name('backend.sub_category.edit');
@@ -40,10 +36,8 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/admin/all-document', [AllDocumentController::class, 'index'])->name('backend.all_document.index');
     Route::get('/admin/all-document/create', [AllDocumentController::class, 'create'])->name('backend.all_document.create');
 
-
     // login Audit route
     Route::get('/admin/login-audit', [LoginAuditController::class, 'index'])->name('backend.login_audit.index');
-
 
     // Hotal route
     Route::get('/admin/hotel', [HotelController::class, 'index'])->name('backend.hotels.index');
@@ -67,8 +61,6 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/admin/users/create', [EmployeeController::class, 'create'])->name('backend.employee.create');
     Route::post('/admin/users/store', [EmployeeController::class, 'store'])->name('backend.employee.store');
     Route::get('/admin/users/update-status', [EmployeeController::class, 'updateStatus'])->name('backend.employee.update_status');
-
-
 });
 
 
@@ -79,8 +71,9 @@ Route::middleware(['auth', 'super-admin', 'web'])->group(function(){
 Route::middleware(['auth', 'admin', 'web'])->group(function(){ 
 });
 
-Route::middleware(['auth', 'department', 'web'])->group(function(){ 
-});
+// Route::middleware(['auth', 'department', 'web'])->group(function(){ 
+// });
 
 Route::middleware(['auth', 'employee', 'web'])->group(function(){ 
+
 });

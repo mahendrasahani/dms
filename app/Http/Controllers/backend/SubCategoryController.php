@@ -36,8 +36,7 @@ class SubCategoryController extends Controller
         ]);
         return redirect()->route('backend.sub_category.index')->with('success', "Sub Category has been added successfully");
     }
-    public function destroy($id){
-        
+    public function destroy($id){ 
         SubCategory::where('id', $id)->delete();
         return redirect()->route('backend.sub_category.index')->with('update', "Sub Category has been Deleted successfully");
     }
