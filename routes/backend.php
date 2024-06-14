@@ -46,6 +46,7 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/admin/hotel', [HotelController::class, 'index'])->name('backend.hotels.index');
     Route::get('/admin/hotel/create', [HotelController::class, 'create'])->name('backend.hotels.create');
     Route::post('/admin/hotel/store', [HotelController::class, 'store'])->name('backend.hotels.store');
+    // hotel edit
     Route::get('/admin/hotel/update-status', [EmployeeController::class, 'updateStatus'])->name('backend.hotel.update_status');
 
     // user Profile
@@ -63,6 +64,7 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/admin/users', [EmployeeController::class, 'index'])->name('backend.employee.index');
     Route::get('/admin/users/create', [EmployeeController::class, 'create'])->name('backend.employee.create');
     Route::post('/admin/users/store', [EmployeeController::class, 'store'])->name('backend.employee.store');
+    // employee edit 
     Route::get('/admin/users/update-status', [EmployeeController::class, 'updateStatus'])->name('backend.employee.update_status');
 
     // for database entry (delete after work)

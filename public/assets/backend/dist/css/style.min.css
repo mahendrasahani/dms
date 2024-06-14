@@ -56862,3 +56862,11 @@ html[dir=rtl] [type=radio].material-inputs+label:before {
 .mt-3.check-box {
   text-align: end;
 }
+
+.d-flex.align-items-center.mb-3.label-1{
+  margin-left: 13px;
+}
+
+.section-container {
+    border-bottom: 1px solid #ddd;
+}

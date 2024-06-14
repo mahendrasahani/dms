@@ -27,7 +27,7 @@
   </div>
   <div class="container-fluid">
     <div class="row">
-      <div class="col-lg-12">
+      {{-- <div class="col-lg-12">
         <div class="card">
           <div class="border-bottom title-part-padding">
             <h4 class="mb-0">Pie Chart</h4>
@@ -38,7 +38,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> --}}
       <div>
         <div class="card">
           <div class="">
