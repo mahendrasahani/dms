@@ -27,7 +27,7 @@ class DepartmentController extends Controller
         return view('backend.departments.edit', compact('role_name'));
     }
  
-    public function create(Request $request)
+    public function store(Request $request)
     {
         $name = $request->role_name;
         $newRole = RoleType::create([

@@ -25,7 +25,7 @@ class SubCategoryController extends Controller
     }
 
 
-    public function create(Request $request)
+    public function store(Request $request)
     {
         $sub_category_name = $request->sub_category_name;
         $sub_category_disc = $request->sub_category_disc; 

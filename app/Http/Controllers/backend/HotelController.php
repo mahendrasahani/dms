@@ -7,28 +7,39 @@ use App\Models\backend\Hotel;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules;
+
 
 class HotelController extends Controller
 {
     public function index()
     {
-        $hotel = Hotel::with('getUser')->get();
-        return view('backend.hotels.index',compact( 'hotel'));
+        $hotels = Hotel::with('getUser')->get();
+        return view('backend.hotels.index', compact( 'hotels'));
     }
     public function create()
     {
         return view('backend.hotels.create');
     }
-    public function store(Request $request)
-    {
+    public function store(Request $request){
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ]);
 
         $hotel_name = $request->hotal_name;
         $hotel_location = $request->hotel_location;
-      
+        $name = $request->name;
+        $email = $request->email;
+        $phone = $request->phone;
+        $password = $request->password;
+
         $user = User::create([
-            'name' => $request->owner_name,
-            'email' => $request->owner_email,
-            'password' => Hash::make($request->password),
+            'name' => $name,
+            'email' => $email,
+            'phone' => $phone,
+            'password' => Hash::make($password),
             'role_type_id' => 2,
             'status' => 1
         ]);
