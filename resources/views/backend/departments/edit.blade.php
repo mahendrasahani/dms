@@ -9,7 +9,7 @@
                             <h4 class="mb-0">Edit Main Category</h4>
                         </div>
                         <div class="card-body">
-                            <form action="{{route('backend.create_role.update',[$role_name->id])}}">
+                            <form action="{{route('backend.department.update',[$role_name->id])}}">
                                 @csrf
                                 <div class="row">
                                     <div class="col-md-4 mb-3">
@@ -23,7 +23,7 @@
                                         <button class="btn btn-primary rounded-pill px-4 mt-3" type="submit">
                                             Submit
                                         </button>
-                                        <a href="{{ route('backend.create_role.index') }}"
+                                        <a href="{{ route('backend.department.index') }}"
                                             class="btn btn-danger rounded-pill px-4 mt-3">Cancle</a>
                                     </div>
                                 </div>

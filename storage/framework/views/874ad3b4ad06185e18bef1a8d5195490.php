@@ -79,9 +79,7 @@
                         </li>
                     </ul>
                     <ul class="navbar-nav">
-                        
-
-                        
+                         
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
@@ -159,17 +157,9 @@
                                             <div class="ms-4">
                                                 <h4 class="mb-0"><?php echo e(Auth::user()->name); ?></h4>
                                                 <?php
-                                                $user = Auth::user()->role_type_id;
+                                                $user_role = App\Models\User::with('roleType:id,name')->where('id', Auth::user()->id)->first();
                                                 ?>
-                                                <?php if($user === 1): ?>
-                                                <span class="text-muted">Super Admin </span>
-                                                <?php elseif($user === 2): ?>
-                                                <span class="text-muted"> Admin </span>
-                                                <?php elseif($user === 3): ?>
-                                                <span class="text-muted"> Employee </span>
-                                                <?php elseif($user === 4): ?>
-                                                <span class="text-muted"> Staff </span>
-                                                <?php endif; ?>
+                                                    <?php echo e($user_role->roleType->name); ?> 
                                                 <p class="text-muted mb-0 mt-1">
                                                     <i data-feather="mail" class="feather-sm me-1"></i>
                                                     <?php echo e(Auth::user()->email); ?>
@@ -196,10 +186,7 @@
                                                 </div>
                                             </a>
                                             
-                                            
-                                        </div>
-                                        
-                                        
+                                        </div> 
                                             <?php if(Auth::check()): ?>
                                                 <form method="POST" action="<?php echo e(route('logout')); ?>">
                                                       <?php echo csrf_field(); ?>
@@ -224,14 +211,19 @@
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
                         
-                        <?php if($user == 1): ?>
-                            
+                        <?php
+                        $dashboard_check = App\Models\backend\UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 1)->exists();
+                        ?>
+                        <?php if($dashboard_check): ?>
                         <li class="sidebar-item">
                             <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<?php echo e(route('dashboard')); ?>"
                                 aria-expanded="false">
                                 <i data-feather="pie-chart"></i><span class="hide-menu">Dashboards</span>
                             </a>
                         </li>
+                        <?php endif; ?>
+
+
                         <li class="sidebar-item">
                             <a href="<?php echo e(route('backend.main_category.index')); ?>" class="sidebar-link  waves-effect waves-dark"><i class="ri-layout-top-2-line"></i>
                                 <span class="hide-menu">All Main Category</span>
@@ -243,21 +235,21 @@
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<?php echo e(route('backend.all_document.index')); ?>" aria-expanded="false">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<?php echo e(route('backend.document.index')); ?>" aria-expanded="false">
                                 <i class=" fas fa-file-alt"></i>
                                 <span class="hide-menu">All Document</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link  waves-effect waves-dark"href="<?php echo e(route('backend.hotels.index')); ?>" aria-expanded="false">
+                            <a class="sidebar-link  waves-effect waves-dark"href="<?php echo e(route('backend.hotel.index')); ?>" aria-expanded="false">
                                 <i data-feather="home"></i>
                                 <span class="hide-menu">Hotels</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link  waves-effect waves-dark" href="<?php echo e(route('backend.login_audit.index')); ?>" aria-expanded="false">
-                                <i data-feather="user-check"></i>
-                                <span class="hide-menu">Login Audits</span>
+                            <a class="sidebar-link waves-effect waves-dark" href="<?php echo e(route('backend.department.index')); ?>" aria-expanded="false">
+                                <i data-feather="target"></i>
+                                <span class="hide-menu">All Departments</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
@@ -265,46 +257,26 @@
                                 <span class="hide-menu">All Employees</span>
                             </a>
                         </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark" href="<?php echo e(route('backend.create_role.index')); ?>" aria-expanded="false">
-                                <i data-feather="target"></i>
-                                <span class="hide-menu">All Departments</span>
-                            </a>
-                        </li>
+                          
                         <li class="sidebar-item">
                             <a class="sidebar-link waves-effect waves-dark" href="<?php echo e(route('backend.database_entry.index')); ?>" aria-expanded="false"><i data-feather="users"></i>
-                                <span class="hide-menu">Entry</span>
-                            </a>
-                        </li>
-                        <?php elseif($user == 2): ?>
-
-
-                        
-                        <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<?php echo e(route('dashboard')); ?>"
-                                aria-expanded="false">
-                                <i data-feather="pie-chart"></i><span class="hide-menu">Dashboards</span>
+                                <span class="hide-menu">Add Permission</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark" href="<?php echo e(route('backend.create_role.index')); ?>" aria-expanded="false">
-                                <i data-feather="target"></i>
-                                <span class="hide-menu">Create Role</span>
+                            <a class="sidebar-link waves-effect waves-dark" href="<?php echo e(route('backend.check_list.index')); ?>" aria-expanded="false"><i data-feather="users"></i>
+                                <span class="hide-menu">Master List</span>
                             </a>
-                        </li>
+                        </li> 
                         <li class="sidebar-item">
                             <a class="sidebar-link  waves-effect waves-dark" href="<?php echo e(route('backend.login_audit.index')); ?>" aria-expanded="false">
                                 <i data-feather="user-check"></i>
                                 <span class="hide-menu">Login Audits</span>
                             </a>
                         </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark" href="<?php echo e(route('backend.employee.index')); ?>" aria-expanded="false"><i data-feather="users"></i>
-                                <span class="hide-menu">Users</span>
-                            </a>
-                        </li>
+                         
                         
-                        <?php endif; ?>
+                      
                     </ul>
                 </nav>
             </div>

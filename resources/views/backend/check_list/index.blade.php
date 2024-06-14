@@ -8,7 +8,7 @@
                 <h1 class="mb-0 fw-bold">Check List</h1>
             </div>
             <div class="col-lg-4 col-md-6 d-none d-md-flex align-items-center justify-content-end">
-                 <a href="{{route('backend.all_document.create')}}">
+                 <a href="{{route('backend.document.create')}}">
                 <button class="btn btn-info d-flex align-items-center ms-2" title="View Code" data-bs-toggle="modal" data-bs-target="#view-code5-1-modal">
                     <i class="ri-add-line me-1"></i>
                     Add New List

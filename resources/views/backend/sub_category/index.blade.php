@@ -120,7 +120,7 @@
                                             <div class="card">
                                                 <div class="card-body">
                                                     <h4 class="card-title">Add Sub Category</h4>
-                                                    <form action="{{ route('backend.sub_category.create') }}"
+                                                    <form action="{{ route('backend.sub_category.store') }}"
                                                         enctype="multipart/form-data" method="POST">
                                                         @csrf
                                                         <div class="form-floating mb-3">

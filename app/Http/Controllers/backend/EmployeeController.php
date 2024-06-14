@@ -10,9 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 
-class EmployeeController extends Controller
-{
-    public function index(){ 
+class EmployeeController extends Controller{
+    public function index(){  
         $roles = User::with('roleType:id,name')->where('created_by', Auth::user()->id)->get(); 
         return view('backend.employee.index', compact('roles'));
     }
@@ -27,13 +26,11 @@ class EmployeeController extends Controller
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
-
         $user_name = $request->name;
         $user_email = $request->email;
         $user_phone = $request->phone;
         $role_type_id = $request->department;
         $password = Hash::make($request->password);
-
         $newUser = User::create([
             'name' => $user_name,
             'email' => $user_email,

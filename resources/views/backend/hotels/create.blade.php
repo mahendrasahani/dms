@@ -27,12 +27,16 @@
                                             name="hotel_location" required />
                                     </div>
                                     <div class="mb-3 col-md-6">
-                                        <input type="text" class="form-control" id="desig" placeholder="Owner Name"
-                                            name="name"required />
+                                        <input type="text" class="form-control" id="name" placeholder="Owner Name"
+                                            name="name" required />
                                     </div>
                                     <div class="mb-3 col-md-6">
-                                        <input type="text" class="form-control" id="desig" placeholder="Owner Email"
+                                        <input type="text" class="form-control" id="email" placeholder="Owner Email"
                                             name="email" required />
+                                    </div>
+                                    <div class="mb-3 col-md-6">
+                                        <input type="text" class="form-control" id="phone" placeholder="Owner phone"
+                                            name="phone" required />
                                     </div>
                                      
                                     <div class="mb-3 col-md-6">
