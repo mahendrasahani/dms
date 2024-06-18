@@ -54,6 +54,18 @@ class EmployeeController extends Controller{
             'message' => "success"
         ]);
     }
+
+    public function edit($id){
+       $user = User::where('id', $id)->first();
+       $roles = User::with('roleType:id,name')->where('created_by', Auth::user()->id)->get(); 
+       return view('backend.employee.edit', compact('user', 'roles'));
+    }
+
+    public function assignPermission($id){ 
+        $employee = User::where('id', $id)->first();
+        return view('backend.employee.assign_permission', compact('employee'));
+    }
+
     // public function destroy($id)
     // {
     //     RoleType::where('id', $id)->delete();

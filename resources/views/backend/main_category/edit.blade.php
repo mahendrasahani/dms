@@ -9,7 +9,7 @@
                             <h4 class="mb-0">Edit Main Category</h4>
                         </div>
                         <div class="card-body">
-                            <form action="{{route('backend.main_category.update', [$main_categories->id])}}">
+                            <form action="{{route('backend.main_category.update', [$main_categories->id])}}" method="POST">
                                 @csrf
                                 <div class="row">
                                     <div class="col-md-4 mb-3">

@@ -1,9 +1,9 @@
 <?php
 use App\Http\Controllers\backend\DashboardController;
 use App\Http\Controllers\backend\DepartmentController;
+use App\Http\Controllers\backend\DocumentController;
 use App\Http\Controllers\backend\MainCategoryController;
-use App\Http\Controllers\backend\SubCategoryController;
-use App\Http\Controllers\backend\AllDocumentController;
+use App\Http\Controllers\backend\SubCategoryController; 
 use App\Http\Controllers\backend\LoginAuditController;
 use App\Http\Controllers\backend\UserProfileController;
 use App\Http\Controllers\backend\HotelController;
@@ -24,7 +24,7 @@ Route::middleware(['auth', 'verified'])->group(function(){
     $main_category_routes = DB::table('menus')->where('id', 4)->first();
     Route::post('/'.$main_category_routes->url, [MainCategoryController::class, 'store'])->name($main_category_routes->route_name);
     $main_category_routes = DB::table('menus')->where('id', 5)->first();
-    Route::get('/'.$main_category_routes->url, [MainCategoryController::class, 'update'])->name($main_category_routes->route_name);
+    Route::post('/'.$main_category_routes->url, [MainCategoryController::class, 'update'])->name($main_category_routes->route_name);
     $main_category_routes = DB::table('menus')->where('id', 6)->first();
     Route::get('/'.$main_category_routes->url, [MainCategoryController::class, 'destroy'])->name($main_category_routes->route_name);
     $main_category_routes = DB::table('menus')->where('id', 7)->first();
@@ -38,7 +38,7 @@ Route::middleware(['auth', 'verified'])->group(function(){
     $sub_category = DB::table('menus')->where('id', 10)->first(); 
     Route::post('/'.$sub_category->url, [SubCategoryController::class, 'store'])->name($sub_category->route_name);
     $sub_category = DB::table('menus')->where('id', 11)->first(); 
-    Route::get('/'.$sub_category->url, [SubCategoryController::class, 'update'])->name($sub_category->route_name);
+    Route::post('/'.$sub_category->url, [SubCategoryController::class, 'update'])->name($sub_category->route_name);
     $sub_category = DB::table('menus')->where('id', 12)->first(); 
     Route::get('/'.$sub_category->url, [SubCategoryController::class, 'destroy'])->name($sub_category->route_name);
     $sub_category = DB::table('menus')->where('id', 13)->first(); 
@@ -46,25 +46,28 @@ Route::middleware(['auth', 'verified'])->group(function(){
     
     // All document
     $document = DB::table('menus')->where('id', 14)->first(); 
-    Route::get('/'.$document->url, [AllDocumentController::class, 'index'])->name($document->route_name);
+    Route::get('/'.$document->url, [DocumentController::class, 'index'])->name($document->route_name);
     $document = DB::table('menus')->where('id', 15)->first(); 
-    Route::get('/'.$document->url, [AllDocumentController::class, 'create'])->name($document->route_name);
+    Route::get('/'.$document->url, [DocumentController::class, 'create'])->name($document->route_name);
     // $document = DB::table('menus')->where('id', 16)->first(); 
-    // Route::get('/'.$document->url, [AllDocumentController::class, 'store'])->name($document->route_name);
+    // Route::get('/'.$document->url, [DocumentController::class, 'store'])->name($document->route_name);
     // $document = DB::table('menus')->where('id', 17)->first(); 
-    // Route::get('/'.$document->url, [AllDocumentController::class, 'edit'])->name($document->route_name);
+    // Route::get('/'.$document->url, [DocumentController::class, 'edit'])->name($document->route_name);
+    Route::get('/admin/doc/edit', [DocumentController::class, 'edit'])->name('backend.document.edit');
+
     // $document = DB::table('menus')->where('id', 18)->first(); 
-    // Route::get('/'.$document->url, [AllDocumentController::class, 'update'])->name($document->route_name);
+    // Route::get('/'.$document->url, [DocumentController::class, 'update'])->name($document->route_name);
     // $document = DB::table('menus')->where('id', 19)->first(); 
-    // Route::get('/'.$document->url, [AllDocumentController::class, 'updateStatus'])->name($document->route_name);
+    // Route::get('/'.$document->url, [DocumentController::class, 'updateStatus'])->name($document->route_name);
     // $document = DB::table('menus')->where('id', 20)->first(); 
-    // Route::get('/'.$document->url, [AllDocumentController::class, 'destroy'])->name($document->route_name);
+    // Route::get('/'.$document->url, [DocumentController::class, 'destroy'])->name($document->route_name);
     // $document = DB::table('menus')->where('id', 21)->first(); 
-    // Route::get('/'.$document->url, [AllDocumentController::class, 'viewDoc'])->name($document->route_name);
-    // $document = DB::table('menus')->where('id', 22)->first(); 
-    // Route::get('/'.$document->url, [AllDocumentController::class, 'commentOnDoc'])->name($document->route_name);
+    Route::get('/admin/doc/view', [DocumentController::class, 'view'])->name('backend.document.view');
+    Route::get('/admin/doc/comment', [DocumentController::class, 'comment'])->name('backend.document.comment');
+    //  $document = DB::table('menus')->where('id', 22)->first(); 
+    // Route::post('/'.$document->url, [DocumentController::class, 'commentOnDoc'])->name($document->route_name);
     // $document = DB::table('menus')->where('id', 23)->first(); 
-    // Route::get('/'.$document->url, [AllDocumentController::class, 'dwonloadDoc'])->name($document->route_name);
+    // Route::get('/'.$document->url, [DocumentController::class, 'dwonloadDoc'])->name($document->route_name);
 
     // Hotel route
     $hotel = DB::table('menus')->where('id', 24)->first();
@@ -78,7 +81,7 @@ Route::middleware(['auth', 'verified'])->group(function(){
     // $hotel = DB::table('menus')->where('id', 28)->first();
     // Route::post('/'.$hotel->url, [HotelController::class, 'update'])->name($hotel->route_name);
     // $hotel = DB::table('menus')->where('id', 29)->first();
-    // Route::post('/'.$hotel->url, [HotelController::class, 'delete'])->name($hotel->route_name);
+    // Route::post('/'.$hotel->url, [HotelController::class, 'destroy'])->name($hotel->route_name);
     $hotel = DB::table('menus')->where('id', 30)->first();
     Route::get('/'.$hotel->url, [HotelController::class, 'updateStatus'])->name($hotel->route_name);
 
@@ -89,14 +92,16 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/'.$employee->url, [EmployeeController::class, 'create'])->name($employee->route_name);
     $employee = DB::table('menus')->where('id', 33)->first();
     Route::post('/'.$employee->url, [EmployeeController::class, 'store'])->name($employee->route_name);
-    // $employee = DB::table('menus')->where('id', 34)->first();
-    // Route::post('/'.$employee->url, [EmployeeController::class, 'edit'])->name($employee->route_name);
-    // $employee = DB::table('menus')->where('id', 35)->first();
-    // Route::post('/'.$employee->url, [EmployeeController::class, 'update'])->name($employee->route_name);
+    $employee = DB::table('menus')->where('id', 34)->first();
+    Route::get('/'.$employee->url, [EmployeeController::class, 'edit'])->name($employee->route_name);
+    $employee = DB::table('menus')->where('id', 35)->first();
+    Route::post('/'.$employee->url, [EmployeeController::class, 'update'])->name($employee->route_name);
     // $employee = DB::table('menus')->where('id', 36)->first();
     // Route::post('/'.$employee->url, [EmployeeController::class, 'delete'])->name($employee->route_name);
     $employee = DB::table('menus')->where('id', 37)->first();
     Route::get('/'.$employee->url, [EmployeeController::class, 'updateStatus'])->name($employee->route_name);
+
+    Route::get('/admin/assign-permission/{id}', [EmployeeController::class, 'assignPermission'])->name('backend.employee.assign_permission');
     
     // create department Profile
     $department = DB::table('menus')->where('id', 38)->first();
@@ -127,6 +132,9 @@ Route::middleware(['auth', 'verified'])->group(function(){
     // check box
     Route::get('/admin/check-list/create', [CheckListController::class, 'index'])->name('backend.check_list.index'); 
 });
+
+
+
 
 Route::middleware(['auth', 'super-admin', 'web'])->group(function(){
 });

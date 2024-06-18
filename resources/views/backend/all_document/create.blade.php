@@ -47,9 +47,14 @@
                                             <option >Department</option>
                                         </select>
                                     </div>
-                                    <div class="col-md-6 mt-2">
-                                        <input type="text" class="form-control" id="desig" placeholder="Assign/share with users" />
-                                    </div>
+                                    <div class="col-md-6 mt-3">
+                                        <select name="assign_user" id="" class="select2 js-programmatic form-control" style="width: 100%; height: 36px">
+                                         <option value="0" selected>Select Users</option>
+                                         <option value="1">Anil</option>
+                                         <option value="2">Shekhar</option>
+                                         <option value="3">Harsh</option>
+                                        </select> 
+                                       </div>
                                     <div class="col-md-6 mb-3">
                                         <div class="row">
                                             <div class="col-md-6">
@@ -96,8 +101,9 @@
                                       <div class="col-md-6 mt-3">
                                        <select name="status" id="status" class="select2 js-programmatic form-control" style="width: 100%; height: 36px">
                                         <option value="0" selected>Select Status</option>
-                                        <option value="1">Processing</option>
-                                        <option value="2">Done</option>
+                                        <option value="1">New</option>
+                                        <option value="2">Process</option>
+                                        <option value="3">Complete</option>
                                        </select> 
                                       </div>
                                       <div class="mt-3 check-box">

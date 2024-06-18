@@ -56865,8 +56865,113 @@ html[dir=rtl] [type=radio].material-inputs+label:before {
 
 .d-flex.align-items-center.mb-3.label-1{
   margin-left: 13px;
+  /* padding: 2px 2px 12px 0px; */
+
 }
 
 .section-container {
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #000;
+}
+
+.card-header.header-btn {
+  display: flex;
+  justify-content: flex-end;
+  text-decoration: none;
+}
+
+.col-sm-2.check-btn {
+  display: flex;
+}
+
+button.btn.btn-dark {
+  background: none;
+  color: #5375c3;
+  border: none;
+  font-size: 16px;
+}
+
+.col-md-4.btn-col {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.form-group.row.config-system {
+  border-bottom: 1px solid #ddd;
+}
+
+.form-group.row.mt-2.access-logs {
+  border-bottom: 1px solid #ddd;
+}
+
+p.divider {
+  font-size: 22px;
+}
+
+.form-group.row.mt-2.access_aud_trail {
+  border-bottom: 1px solid #ddd;
+}
+
+.form-group.row.mt-2.config_tenants {
+  border-bottom: 1px solid #ddd;
+}
+
+.form-group.row.mt-2.config_roles {
+  border-bottom: 1px solid #ddd;
+}
+
+.form-group.row.mt-2.config_groups {
+  border-bottom: 1px solid #ddd;
+}
+
+.form-group.row.mt-2.config_users {
+  border-bottom: 1px solid #ddd;
+}
+
+.form-group.row.mt-2.access_calls {
+  border-bottom: 1px solid #ddd;
+}
+
+.form-group.row.mt-2.access_confi_calls {
+  border-bottom: 1px solid #ddd;
+}
+
+.form-group.row.mt-2.access_own_notes {
+  border-bottom: 1px solid #DDC;
+}
+
+p.divider-1.mt-3 {
+  font-size: 22px;
+  margin-top: 1.8rem !important;
+}
+
+p.divider-2.mt-3 {
+  font-size: 22px;
+  margin-top: 2.8rem !important;
+}
+
+.form-group.row.mt-2.access_public_categories {
+  border-bottom: 1px solid #ddd;
+}
+
+.d-flex.align-items-center.mb-3.label-2{
+  margin-left: 13px;
+}
+
+.section-container .label-1:nth-child(odd) {
+  background-color: #f6f8fb;
+  padding: 20px;
+}
+
+.section-container .label-1:nth-child(even) {
+  background-color: #ffffff; 
+  padding: 20px;
+}
+.section-container .label-2:nth-child(odd) {
+  background-color: #f6f8fb;
+  padding: 20px;
+}
+
+.section-container .label-2:nth-child(even) {
+  background-color: #ffffff; 
+  padding: 20px;
 }

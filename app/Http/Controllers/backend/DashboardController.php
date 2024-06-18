@@ -9,18 +9,20 @@ use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
-    public function dashboard(){ 
-        
+    public function dashboard(){  
         $permission_check = UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 1)->exists();
         if($permission_check){
             if(Auth::user()->role_type_id == 1){
                 return view('backend.dashboard.super_admin_dashboard');
             }else if(Auth::user()->role_type_id == 2){
-                return view('backend.dashboard.admin_dashboard');
+                return view('backend.dashboard.super_admin_dashboard');
+                // return view('backend.dashboard.admin_dashboard');
             }else if(Auth::user()->role_type_id == 3){
-                return view('backend.dashboard.department_dashboard'); 
+                return view('backend.dashboard.super_admin_dashboard');
+                // return view('backend.dashboard.department_dashboard'); 
             }else if(Auth::user()->role_type_id == 4){
-                return view('backend.dashboard.employee_dashboard');
+                return view('backend.dashboard.super_admin_dashboard');
+                // return view('backend.dashboard.employee_dashboard');1
             }
         }else{
             return response()->view('errors.405', [], 405);

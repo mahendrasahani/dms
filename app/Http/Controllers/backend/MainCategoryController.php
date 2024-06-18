@@ -11,9 +11,6 @@ use Illuminate\Support\Facades\DB;
 class MainCategoryController extends Controller
 {
     public function index(){
-        
-    // $main_category_routes = DB::table('menus')->where('id', 3)->pluck('route_name');
-    // return $main_category_routes;
         $main_categories = MainCategory::get();
         return view('backend.main_category.index', compact('main_categories'));
     }

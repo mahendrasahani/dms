@@ -18,6 +18,11 @@ class Menu extends Model
         'parent_menu_id',
         'status',
         'display_name', 
-        'icon'
+        'icon',
+        'method',
+        'controller_name',
+        'function',
+        'group_id',
+        'group_name',
     ];
 }
