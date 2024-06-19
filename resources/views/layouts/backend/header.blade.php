@@ -252,6 +252,12 @@
                             </a>
                         </li>
                         <li class="sidebar-item">
+                            <a class="sidebar-link  waves-effect waves-dark" href="{{route('backend.head.index')}}" aria-expanded="false">
+                                <i data-feather="user-check"></i>
+                                <span class="hide-menu">Head Department</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
                             <a class="sidebar-link waves-effect waves-dark" href="{{route('backend.employee.index')}}" aria-expanded="false"><i data-feather="users"></i>
                                 <span class="hide-menu">All Employees</span>
                             </a>

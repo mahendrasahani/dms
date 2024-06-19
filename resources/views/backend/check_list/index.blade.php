@@ -442,6 +442,7 @@
                     <input type="checkbox" class="form-check-input me-2 cctv-checkbox">
                     <h3 class="mb-0">CCTV</h3>
                 </div>
+
                 <div class="section-container">
                     <div class="d-flex align-items-center mt-3 label-2">
                         <input type="checkbox" class="form-check-input me-2 cctv_field-checkbox">
@@ -706,100 +707,1286 @@
                         </div>
                     </div>
                 </div>
+                <div class="d-flex align-items-center mt-3">
+                    <input type="checkbox" class="form-check-input me-2 sound-checkbox">
+                    <h3 class="mb-0">Sound System</h3>
+                </div>
+
+                <div class="section-container">
+                    <div class="d-flex align-items-center mb-3 label-2">
+                        <input type="checkbox" class="form-check-input me-2 sound_field-checkbox">
+                        <label class="col-sm-2 col-form-label">Speaker Installation</label>
+                        <div class="row">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_model" id="make_model"
+                                        placeholder="Make Model" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_and_manufacture"
+                                        id="make_and_manufacture" placeholder="Make and manufactur" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="unit_location" id="unit_location"
+                                        placeholder="Unit Location" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="number" class="form-control" name="qty" id="qty"
+                                        placeholder="Qty" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <select name="status" id=""class="select2 js-programmatic form-control"
+                                        style="width: 100%; height: 36px" disabled>
+                                        <option value="0" selected>Select Status</option>
+                                        <option value="1">New</option>
+                                        <option value="2">Processing</option>
+                                        <option value="3">Complete</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="text" class="form-control" name="remark" id="remark"
+                                        placeholder="Remarks" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="d-flex align-items-center mb-3 label-2">
+                        <input type="checkbox" class="form-check-input me-2 sound_field-checkbox">
+                        <label class="col-sm-2 col-form-label">Amplifier Installation</label>
+                        <div class="row">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_model" id="make_model"
+                                        placeholder="Make Model" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_and_manufacture"
+                                        id="make_and_manufacture" placeholder="Make and manufactur" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="unit_location" id="unit_location"
+                                        placeholder="Unit Location" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="number" class="form-control" name="qty" id="qty"
+                                        placeholder="Qty" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <select name="status" id=""class="select2 js-programmatic form-control"
+                                        style="width: 100%; height: 36px" disabled>
+                                        <option value="0" selected>Select Status</option>
+                                        <option value="1">New</option>
+                                        <option value="2">Processing</option>
+                                        <option value="3">Complete</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="text" class="form-control" name="remark" id="remark"
+                                        placeholder="Remarks" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center mb-3 label-2">
+                        <input type="checkbox" class="form-check-input me-2 sound_field-checkbox">
+                        <label class="col-sm-2 col-form-label">Volume Installation</label>
+                        <div class="row">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_model" id="make_model"
+                                        placeholder="Make Model" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_and_manufacture"
+                                        id="make_and_manufacture" placeholder="Make and manufactur" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="unit_location" id="unit_location"
+                                        placeholder="Unit Location" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="number" class="form-control" name="qty" id="qty"
+                                        placeholder="Qty" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <select name="status" id=""class="select2 js-programmatic form-control"
+                                        style="width: 100%; height: 36px" disabled>
+                                        <option value="0" selected>Select Status</option>
+                                        <option value="1">New</option>
+                                        <option value="2">Processing</option>
+                                        <option value="3">Complete</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="text" class="form-control" name="remark" id="remark"
+                                        placeholder="Remarks" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center mb-3 label-2">
+                        <input type="checkbox" class="form-check-input me-2 sound_field-checkbox">
+                        <label class="col-sm-2 col-form-label">Pen Drive</label>
+                        <div class="row">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_model" id="make_model"
+                                        placeholder="Make Model" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_and_manufacture"
+                                        id="make_and_manufacture" placeholder="Make and manufactur" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="unit_location" id="unit_location"
+                                        placeholder="Unit Location" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="number" class="form-control" name="qty" id="qty"
+                                        placeholder="Qty" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <select name="status" id=""class="select2 js-programmatic form-control"
+                                        style="width: 100%; height: 36px" disabled>
+                                        <option value="0" selected>Select Status</option>
+                                        <option value="1">New</option>
+                                        <option value="2">Processing</option>
+                                        <option value="3">Complete</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="text" class="form-control" name="remark" id="remark"
+                                        placeholder="Remarks" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center mb-3 label-2">
+                        <input type="checkbox" class="form-check-input me-2 sound_field-checkbox">
+                        <label class="col-sm-2 col-form-label">Racks</label>
+                        <div class="row">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_model" id="make_model"
+                                        placeholder="Make Model" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_and_manufacture"
+                                        id="make_and_manufacture" placeholder="Make and manufactur" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="unit_location" id="unit_location"
+                                        placeholder="Unit Location" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="number" class="form-control" name="qty" id="qty"
+                                        placeholder="Qty" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <select name="status" id=""class="select2 js-programmatic form-control"
+                                        style="width: 100%; height: 36px" disabled>
+                                        <option value="0" selected>Select Status</option>
+                                        <option value="1">New</option>
+                                        <option value="2">Processing</option>
+                                        <option value="3">Complete</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="text" class="form-control" name="remark" id="remark"
+                                        placeholder="Remarks" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center mt-3">
+                    <input type="checkbox" class="form-check-input me-2 it-checkbox">
+                    <h3 class="mb-0">IT HARDWARE</h3>
+                </div>
+
+                <div class="section-container">
+                    <div class="d-flex align-items-center mb-3 label-2">
+                        <input type="checkbox" class="form-check-input me-2 it_field-checkbox">
+                        <label class="col-sm-2 col-form-label">Laptop</label>
+                        <div class="row">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_model" id="make_model"
+                                        placeholder="Make Model" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_and_manufacture"
+                                        id="make_and_manufacture" placeholder="Make and manufactur" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="unit_location" id="unit_location"
+                                        placeholder="Unit Location" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="number" class="form-control" name="qty" id="qty"
+                                        placeholder="Qty" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <select name="status" id=""class="select2 js-programmatic form-control"
+                                        style="width: 100%; height: 36px" disabled>
+                                        <option value="0" selected>Select Status</option>
+                                        <option value="1">New</option>
+                                        <option value="2">Processing</option>
+                                        <option value="3">Complete</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="text" class="form-control" name="remark" id="remark"
+                                        placeholder="Remarks" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="d-flex align-items-center mb-3 label-2">
+                        <input type="checkbox" class="form-check-input me-2 it_field-checkbox">
+                        <label class="col-sm-2 col-form-label">Desktop</label>
+                        <div class="row">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_model" id="make_model"
+                                        placeholder="Make Model" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_and_manufacture"
+                                        id="make_and_manufacture" placeholder="Make and manufactur" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="unit_location" id="unit_location"
+                                        placeholder="Unit Location" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="number" class="form-control" name="qty" id="qty"
+                                        placeholder="Qty" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <select name="status" id=""class="select2 js-programmatic form-control"
+                                        style="width: 100%; height: 36px" disabled>
+                                        <option value="0" selected>Select Status</option>
+                                        <option value="1">New</option>
+                                        <option value="2">Processing</option>
+                                        <option value="3">Complete</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="text" class="form-control" name="remark" id="remark"
+                                        placeholder="Remarks" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center mb-3 label-2">
+                        <input type="checkbox" class="form-check-input me-2 it_field-checkbox">
+                        <label class="col-sm-2 col-form-label">Colour Printer</label>
+                        <div class="row">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_model" id="make_model"
+                                        placeholder="Make Model" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_and_manufacture"
+                                        id="make_and_manufacture" placeholder="Make and manufactur" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="unit_location" id="unit_location"
+                                        placeholder="Unit Location" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="number" class="form-control" name="qty" id="qty"
+                                        placeholder="Qty" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <select name="status" id=""class="select2 js-programmatic form-control"
+                                        style="width: 100%; height: 36px" disabled>
+                                        <option value="0" selected>Select Status</option>
+                                        <option value="1">New</option>
+                                        <option value="2">Processing</option>
+                                        <option value="3">Complete</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="text" class="form-control" name="remark" id="remark"
+                                        placeholder="Remarks" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center mb-3 label-2">
+                        <input type="checkbox" class="form-check-input me-2 it_field-checkbox">
+                        <label class="col-sm-2 col-form-label">Laser Printers All In One</label>
+                        <div class="row">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_model" id="make_model"
+                                        placeholder="Make Model" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_and_manufacture"
+                                        id="make_and_manufacture" placeholder="Make and manufactur" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="unit_location" id="unit_location"
+                                        placeholder="Unit Location" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="number" class="form-control" name="qty" id="qty"
+                                        placeholder="Qty" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <select name="status" id=""class="select2 js-programmatic form-control"
+                                        style="width: 100%; height: 36px" disabled>
+                                        <option value="0" selected>Select Status</option>
+                                        <option value="1">New</option>
+                                        <option value="2">Processing</option>
+                                        <option value="3">Complete</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="text" class="form-control" name="remark" id="remark"
+                                        placeholder="Remarks" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center mb-3 label-2">
+                        <input type="checkbox" class="form-check-input me-2 it_field-checkbox">
+                        <label class="col-sm-2 col-form-label">Online UPS For CCTV,IPBX</label>
+                        <div class="row">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_model" id="make_model"
+                                        placeholder="Make Model" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_and_manufacture"
+                                        id="make_and_manufacture" placeholder="Make and manufactur" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="unit_location" id="unit_location"
+                                        placeholder="Unit Location" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="number" class="form-control" name="qty" id="qty"
+                                        placeholder="Qty" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <select name="status" id=""class="select2 js-programmatic form-control"
+                                        style="width: 100%; height: 36px" disabled>
+                                        <option value="0" selected>Select Status</option>
+                                        <option value="1">New</option>
+                                        <option value="2">Processing</option>
+                                        <option value="3">Complete</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="text" class="form-control" name="remark" id="remark"
+                                        placeholder="Remarks" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center mb-3 label-2">
+                        <input type="checkbox" class="form-check-input me-2 it_field-checkbox">
+                        <label class="col-sm-2 col-form-label">Pos Printers</label>
+                        <div class="row">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_model" id="make_model"
+                                        placeholder="Make Model" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_and_manufacture"
+                                        id="make_and_manufacture" placeholder="Make and manufactur" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="unit_location" id="unit_location"
+                                        placeholder="Unit Location" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="number" class="form-control" name="qty" id="qty"
+                                        placeholder="Qty" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <select name="status" id=""class="select2 js-programmatic form-control"
+                                        style="width: 100%; height: 36px" disabled>
+                                        <option value="0" selected>Select Status</option>
+                                        <option value="1">New</option>
+                                        <option value="2">Processing</option>
+                                        <option value="3">Complete</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="text" class="form-control" name="remark" id="remark"
+                                        placeholder="Remarks" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center mt-3">
+                    <input type="checkbox" class="form-check-input me-2 network-checkbox">
+                    <h3 class="mb-0">Networking</h3>
+                </div>
+
+                <div class="section-container">
+                    <div class="d-flex align-items-center mb-3 label-2">
+                        <input type="checkbox" class="form-check-input me-2 network_field-checkbox">
+                        <label class="col-sm-2 col-form-label">Network Switches 24ports</label>
+                        <div class="row">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_model" id="make_model"
+                                        placeholder="Make Model" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_and_manufacture"
+                                        id="make_and_manufacture" placeholder="Make and manufactur" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="unit_location" id="unit_location"
+                                        placeholder="Unit Location" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="number" class="form-control" name="qty" id="qty"
+                                        placeholder="Qty" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <select name="status" id=""class="select2 js-programmatic form-control"
+                                        style="width: 100%; height: 36px" disabled>
+                                        <option value="0" selected>Select Status</option>
+                                        <option value="1">New</option>
+                                        <option value="2">Processing</option>
+                                        <option value="3">Complete</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="text" class="form-control" name="remark" id="remark"
+                                        placeholder="Remarks" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="d-flex align-items-center mb-3 label-2">
+                        <input type="checkbox" class="form-check-input me-2 network_field-checkbox">
+                        <label class="col-sm-2 col-form-label">Network Rack</label>
+                        <div class="row">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_model" id="make_model"
+                                        placeholder="Make Model" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_and_manufacture"
+                                        id="make_and_manufacture" placeholder="Make and manufactur" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="unit_location" id="unit_location"
+                                        placeholder="Unit Location" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="number" class="form-control" name="qty" id="qty"
+                                        placeholder="Qty" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <select name="status" id=""class="select2 js-programmatic form-control"
+                                        style="width: 100%; height: 36px" disabled>
+                                        <option value="0" selected>Select Status</option>
+                                        <option value="1">New</option>
+                                        <option value="2">Processing</option>
+                                        <option value="3">Complete</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="text" class="form-control" name="remark" id="remark"
+                                        placeholder="Remarks" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center mb-3 label-2">
+                        <input type="checkbox" class="form-check-input me-2 network_field-checkbox">
+                        <label class="col-sm-2 col-form-label">Patch Panel </label>
+                        <div class="row">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_model" id="make_model"
+                                        placeholder="Make Model" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_and_manufacture"
+                                        id="make_and_manufacture" placeholder="Make and manufactur" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="unit_location" id="unit_location"
+                                        placeholder="Unit Location" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="number" class="form-control" name="qty" id="qty"
+                                        placeholder="Qty" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <select name="status" id=""class="select2 js-programmatic form-control"
+                                        style="width: 100%; height: 36px" disabled>
+                                        <option value="0" selected>Select Status</option>
+                                        <option value="1">New</option>
+                                        <option value="2">Processing</option>
+                                        <option value="3">Complete</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="text" class="form-control" name="remark" id="remark"
+                                        placeholder="Remarks" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center mb-3 label-2">
+                        <input type="checkbox" class="form-check-input me-2 network_field-checkbox">
+                        <label class="col-sm-2 col-form-label">Patch Chords</label>
+                        <div class="row">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_model" id="make_model"
+                                        placeholder="Make Model" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_and_manufacture"
+                                        id="make_and_manufacture" placeholder="Make and manufactur" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="unit_location" id="unit_location"
+                                        placeholder="Unit Location" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="number" class="form-control" name="qty" id="qty"
+                                        placeholder="Qty" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <select name="status" id=""class="select2 js-programmatic form-control"
+                                        style="width: 100%; height: 36px" disabled>
+                                        <option value="0" selected>Select Status</option>
+                                        <option value="1">New</option>
+                                        <option value="2">Processing</option>
+                                        <option value="3">Complete</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="text" class="form-control" name="remark" id="remark"
+                                        placeholder="Remarks" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center mb-3 label-2">
+                        <input type="checkbox" class="form-check-input me-2 network_field-checkbox">
+                        <label class="col-sm-2 col-form-label">Io Point Termination On Each Floor & Office</label>
+                        <div class="row">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_model" id="make_model"
+                                        placeholder="Make Model" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_and_manufacture"
+                                        id="make_and_manufacture" placeholder="Make and manufactur" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="unit_location" id="unit_location"
+                                        placeholder="Unit Location" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="number" class="form-control" name="qty" id="qty"
+                                        placeholder="Qty" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <select name="status" id=""class="select2 js-programmatic form-control"
+                                        style="width: 100%; height: 36px" disabled>
+                                        <option value="0" selected>Select Status</option>
+                                        <option value="1">New</option>
+                                        <option value="2">Processing</option>
+                                        <option value="3">Complete</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="text" class="form-control" name="remark" id="remark"
+                                        placeholder="Remarks" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center mt-3">
+                    <input type="checkbox" class="form-check-input me-2 software-checkbox">
+                    <h3 class="mb-0">Software</h3>
+                </div>
+
+                <div class="section-container">
+                    <div class="d-flex align-items-center mb-3 label-2">
+                        <input type="checkbox" class="form-check-input me-2 software_field-checkbox">
+                        <label class="col-sm-2 col-form-label">Hotel Management Cloud Base Software Cygnett Cloud</label>
+                        <div class="row">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_model" id="make_model"
+                                        placeholder="Make Model" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_and_manufacture"
+                                        id="make_and_manufacture" placeholder="Make and manufactur" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="unit_location" id="unit_location"
+                                        placeholder="Unit Location" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="number" class="form-control" name="qty" id="qty"
+                                        placeholder="Qty" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <select name="status" id=""class="select2 js-programmatic form-control"
+                                        style="width: 100%; height: 36px" disabled>
+                                        <option value="0" selected>Select Status</option>
+                                        <option value="1">New</option>
+                                        <option value="2">Processing</option>
+                                        <option value="3">Complete</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="text" class="form-control" name="remark" id="remark"
+                                        placeholder="Remarks" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="d-flex align-items-center mb-3 label-2">
+                        <input type="checkbox" class="form-check-input me-2 software_field-checkbox">
+                        <label class="col-sm-2 col-form-label">Cygnett Cloud PMS Installtion</label>
+                        <div class="row">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_model" id="make_model"
+                                        placeholder="Make Model" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_and_manufacture"
+                                        id="make_and_manufacture" placeholder="Make and manufactur" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="unit_location" id="unit_location"
+                                        placeholder="Unit Location" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="number" class="form-control" name="qty" id="qty"
+                                        placeholder="Qty" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <select name="status" id=""class="select2 js-programmatic form-control"
+                                        style="width: 100%; height: 36px" disabled>
+                                        <option value="0" selected>Select Status</option>
+                                        <option value="1">New</option>
+                                        <option value="2">Processing</option>
+                                        <option value="3">Complete</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="text" class="form-control" name="remark" id="remark"
+                                        placeholder="Remarks" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center mb-3 label-2">
+                        <input type="checkbox" class="form-check-input me-2 software_field-checkbox">
+                        <label class="col-sm-2 col-form-label">Anti Virus Software As Per user Quick Heal</label>
+                        <div class="row">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_model" id="make_model"
+                                        placeholder="Make Model" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_and_manufacture"
+                                        id="make_and_manufacture" placeholder="Make and manufactur" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="unit_location" id="unit_location"
+                                        placeholder="Unit Location" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="number" class="form-control" name="qty" id="qty"
+                                        placeholder="Qty" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <select name="status" id=""class="select2 js-programmatic form-control"
+                                        style="width: 100%; height: 36px" disabled>
+                                        <option value="0" selected>Select Status</option>
+                                        <option value="1">New</option>
+                                        <option value="2">Processing</option>
+                                        <option value="3">Complete</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="text" class="form-control" name="remark" id="remark"
+                                        placeholder="Remarks" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center mb-3 label-2">
+                        <input type="checkbox" class="form-check-input me-2 software_field-checkbox">
+                        <label class="col-sm-2 col-form-label">Windows & Ms Office</label>
+                        <div class="row">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_model" id="make_model"
+                                        placeholder="Make Model" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_and_manufacture"
+                                        id="make_and_manufacture" placeholder="Make and manufactur" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="unit_location" id="unit_location"
+                                        placeholder="Unit Location" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="number" class="form-control" name="qty" id="qty"
+                                        placeholder="Qty" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <select name="status" id=""class="select2 js-programmatic form-control"
+                                        style="width: 100%; height: 36px" disabled>
+                                        <option value="0" selected>Select Status</option>
+                                        <option value="1">New</option>
+                                        <option value="2">Processing</option>
+                                        <option value="3">Complete</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="text" class="form-control" name="remark" id="remark"
+                                        placeholder="Remarks" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center mt-3">
+                    <input type="checkbox" class="form-check-input me-2 lised-checkbox">
+                    <h3 class="mb-0">Lised Line</h3>
+                </div>
+
+                <div class="section-container">
+                    <div class="d-flex align-items-center mb-3 label-2">
+                        <input type="checkbox" class="form-check-input me-2 lised_field-checkbox">
+                        <label class="col-sm-2 col-form-label">Lised Line</label>
+                        <div class="row">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_model" id="make_model"
+                                        placeholder="Make Model" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_and_manufacture"
+                                        id="make_and_manufacture" placeholder="Make and manufactur" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="unit_location" id="unit_location"
+                                        placeholder="Unit Location" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="number" class="form-control" name="qty" id="qty"
+                                        placeholder="Qty" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <select name="status" id=""class="select2 js-programmatic form-control"
+                                        style="width: 100%; height: 36px" disabled>
+                                        <option value="0" selected>Select Status</option>
+                                        <option value="1">New</option>
+                                        <option value="2">Processing</option>
+                                        <option value="3">Complete</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="text" class="form-control" name="remark" id="remark"
+                                        placeholder="Remarks" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="d-flex align-items-center mb-3 label-2">
+                        <input type="checkbox" class="form-check-input me-2 lised_field-checkbox">
+                        <label class="col-sm-2 col-form-label">Wi-fi Hotspot Service Provider</label>
+                        <div class="row">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_model" id="make_model"
+                                        placeholder="Make Model" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_and_manufacture"
+                                        id="make_and_manufacture" placeholder="Make and manufactur" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="unit_location" id="unit_location"
+                                        placeholder="Unit Location" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="number" class="form-control" name="qty" id="qty"
+                                        placeholder="Qty" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <select name="status" id=""class="select2 js-programmatic form-control"
+                                        style="width: 100%; height: 36px" disabled>
+                                        <option value="0" selected>Select Status</option>
+                                        <option value="1">New</option>
+                                        <option value="2">Processing</option>
+                                        <option value="3">Complete</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="text" class="form-control" name="remark" id="remark"
+                                        placeholder="Remarks" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center mb-3 label-2">
+                        <input type="checkbox" class="form-check-input me-2 lised_field-checkbox">
+                        <label class="col-sm-2 col-form-label">Wi Fi Service Provider</label>
+                        <div class="row">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_model" id="make_model"
+                                        placeholder="Make Model" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_and_manufacture"
+                                        id="make_and_manufacture" placeholder="Make and manufactur" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="unit_location" id="unit_location"
+                                        placeholder="Unit Location" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="number" class="form-control" name="qty" id="qty"
+                                        placeholder="Qty" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <select name="status" id=""class="select2 js-programmatic form-control"
+                                        style="width: 100%; height: 36px" disabled>
+                                        <option value="0" selected>Select Status</option>
+                                        <option value="1">New</option>
+                                        <option value="2">Processing</option>
+                                        <option value="3">Complete</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="text" class="form-control" name="remark" id="remark"
+                                        placeholder="Remarks" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center mt-3">
+                    <input type="checkbox" class="form-check-input me-2 brodband-checkbox">
+                    <h3 class="mb-0">Broadband</h3>
+                </div>
+
+                <div class="section-container">
+                    <div class="d-flex align-items-center mb-3 label-2">
+                        <input type="checkbox" class="form-check-input me-2 brodband_field-checkbox">
+                        <label class="col-sm-2 col-form-label">Isp For Broadband</label>
+                        <div class="row">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_model" id="make_model"
+                                        placeholder="Make Model" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_and_manufacture"
+                                        id="make_and_manufacture" placeholder="Make and manufactur" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="unit_location" id="unit_location"
+                                        placeholder="Unit Location" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="number" class="form-control" name="qty" id="qty"
+                                        placeholder="Qty" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <select name="status" id=""class="select2 js-programmatic form-control"
+                                        style="width: 100%; height: 36px" disabled>
+                                        <option value="0" selected>Select Status</option>
+                                        <option value="1">New</option>
+                                        <option value="2">Processing</option>
+                                        <option value="3">Complete</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="text" class="form-control" name="remark" id="remark"
+                                        placeholder="Remarks" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center mt-3">
+                    <input type="checkbox" class="form-check-input me-2 attendance-checkbox">
+                    <h3 class="mb-0">Attendance Systen</h3>
+                </div>
+
+                <div class="section-container">
+                    <div class="d-flex align-items-center mb-3 label-2">
+                        <input type="checkbox" class="form-check-input me-2 attendance_field-checkbox">
+                        <label class="col-sm-2 col-form-label">Wiring For Attendance System</label>
+                        <div class="row">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_model" id="make_model"
+                                        placeholder="Make Model" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_and_manufacture"
+                                        id="make_and_manufacture" placeholder="Make and manufactur" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="unit_location" id="unit_location"
+                                        placeholder="Unit Location" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="number" class="form-control" name="qty" id="qty"
+                                        placeholder="Qty" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <select name="status" id=""class="select2 js-programmatic form-control"
+                                        style="width: 100%; height: 36px" disabled>
+                                        <option value="0" selected>Select Status</option>
+                                        <option value="1">New</option>
+                                        <option value="2">Processing</option>
+                                        <option value="3">Complete</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="text" class="form-control" name="remark" id="remark"
+                                        placeholder="Remarks" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center mb-3 label-2">
+                        <input type="checkbox" class="form-check-input me-2 attendance_field-checkbox">
+                        <label class="col-sm-2 col-form-label">Attendance System</label>
+                        <div class="row">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_model" id="make_model"
+                                        placeholder="Make Model" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_and_manufacture"
+                                        id="make_and_manufacture" placeholder="Make and manufactur" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="unit_location" id="unit_location"
+                                        placeholder="Unit Location" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="number" class="form-control" name="qty" id="qty"
+                                        placeholder="Qty" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <select name="status" id=""class="select2 js-programmatic form-control"
+                                        style="width: 100%; height: 36px" disabled>
+                                        <option value="0" selected>Select Status</option>
+                                        <option value="1">New</option>
+                                        <option value="2">Processing</option>
+                                        <option value="3">Complete</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="text" class="form-control" name="remark" id="remark"
+                                        placeholder="Remarks" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center mt-3">
+                    <input type="checkbox" class="form-check-input me-2 cable-checkbox">
+                    <h3 class="mb-0">Cable TV</h3>
+                </div>
+                <div class="section-container">
+                    <div class="d-flex align-items-center mb-3 label-2">
+                        <input type="checkbox" class="form-check-input me-2 cable_field-checkbox">
+                        <label class="col-sm-2 col-form-label">Setuptop box</label>
+                        <div class="row">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_model" id="make_model"
+                                        placeholder="Make Model" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_and_manufacture"
+                                        id="make_and_manufacture" placeholder="Make and manufactur" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="unit_location" id="unit_location"
+                                        placeholder="Unit Location" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="number" class="form-control" name="qty" id="qty"
+                                        placeholder="Qty" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <select name="status" id=""class="select2 js-programmatic form-control"
+                                        style="width: 100%; height: 36px" disabled>
+                                        <option value="0" selected>Select Status</option>
+                                        <option value="1">New</option>
+                                        <option value="2">Processing</option>
+                                        <option value="3">Complete</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="text" class="form-control" name="remark" id="remark"
+                                        placeholder="Remarks" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center mb-3 label-2">
+                        <input type="checkbox" class="form-check-input me-2 cable_field-checkbox">
+                        <label class="col-sm-2 col-form-label">connection in all rooms</label>
+                        <div class="row">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_model" id="make_model"
+                                        placeholder="Make Model" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_and_manufacture"
+                                        id="make_and_manufacture" placeholder="Make and manufactur" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="unit_location" id="unit_location"
+                                        placeholder="Unit Location" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="number" class="form-control" name="qty" id="qty"
+                                        placeholder="Qty" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <select name="status" id=""class="select2 js-programmatic form-control"
+                                        style="width: 100%; height: 36px" disabled>
+                                        <option value="0" selected>Select Status</option>
+                                        <option value="1">New</option>
+                                        <option value="2">Processing</option>
+                                        <option value="3">Complete</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="text" class="form-control" name="remark" id="remark"
+                                        placeholder="Remarks" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>  
+                </div> 
+
+                <div class="d-flex align-items-center mt-3">
+                    <input type="checkbox" class="form-check-input me-2 paSystem-checkbox">
+                    <h3 class="mb-0">PA System</h3>
+                </div>
+                <div class="section-container">
+                    <div class="d-flex align-items-center mb-3 label-2">
+                        <input type="checkbox" class="form-check-input me-2 paSystem_field-checkbox">
+                        <label class="col-sm-2 col-form-label">Mic Amplifire</label>
+                        <div class="row">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_model" id="make_model"
+                                        placeholder="Make Model" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_and_manufacture"
+                                        id="make_and_manufacture" placeholder="Make and manufactur" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="unit_location" id="unit_location"
+                                        placeholder="Unit Location" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="number" class="form-control" name="qty" id="qty"
+                                        placeholder="Qty" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <select name="status" id=""class="select2 js-programmatic form-control"
+                                        style="width: 100%; height: 36px" disabled>
+                                        <option value="0" selected>Select Status</option>
+                                        <option value="1">New</option>
+                                        <option value="2">Processing</option>
+                                        <option value="3">Complete</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="text" class="form-control" name="remark" id="remark"
+                                        placeholder="Remarks" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center mb-3 label-2">
+                        <input type="checkbox" class="form-check-input me-2 paSystem_field-checkbox">
+                        <label class="col-sm-2 col-form-label">Wiring For Hooter</label>
+                        <div class="row">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_model" id="make_model"
+                                        placeholder="Make Model" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_and_manufacture"
+                                        id="make_and_manufacture" placeholder="Make and manufactur" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="unit_location" id="unit_location"
+                                        placeholder="Unit Location" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="number" class="form-control" name="qty" id="qty"
+                                        placeholder="Qty" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <select name="status" id=""class="select2 js-programmatic form-control"
+                                        style="width: 100%; height: 36px" disabled>
+                                        <option value="0" selected>Select Status</option>
+                                        <option value="1">New</option>
+                                        <option value="2">Processing</option>
+                                        <option value="3">Complete</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="text" class="form-control" name="remark" id="remark"
+                                        placeholder="Remarks" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>  
+                </div>
+ 
+                <div class="d-flex align-items-center mt-3">
+                    <input type="checkbox" class="form-check-input me-2 mail-checkbox">
+                    <h3 class="mb-0">E-Mail For All Department</h3>
+                </div>
+                <div class="section-container">
+                    <div class="d-flex align-items-center mb-3 label-2">
+                        <input type="checkbox" class="form-check-input me-2 mail_field-checkbox">
+                        <label class="col-sm-2 col-form-label">G-suite Cygnett Email I'd as per user</label>
+                        <div class="row">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_model" id="make_model"
+                                        placeholder="Make Model" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_and_manufacture"
+                                        id="make_and_manufacture" placeholder="Make and manufactur" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="unit_location" id="unit_location"
+                                        placeholder="Unit Location" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="number" class="form-control" name="qty" id="qty"
+                                        placeholder="Qty" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <select name="status" id=""class="select2 js-programmatic form-control"
+                                        style="width: 100%; height: 36px" disabled>
+                                        <option value="0" selected>Select Status</option>
+                                        <option value="1">New</option>
+                                        <option value="2">Processing</option>
+                                        <option value="3">Complete</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="text" class="form-control" name="remark" id="remark"
+                                        placeholder="Remarks" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+ 
+                <div class="d-flex align-items-center mt-3">
+                    <input type="checkbox" class="form-check-input me-2 security-checkbox">
+                    <h3 class="mb-0">Computer Security </h3>
+                </div>
+                <div class="section-container">
+                    <div class="d-flex align-items-center mb-3 label-2">
+                        <input type="checkbox" class="form-check-input me-2 security_field-checkbox">
+                        <label class="col-sm-2 col-form-label">Firwall</label>
+                        <div class="row">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_model" id="make_model"
+                                        placeholder="Make Model" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="make_and_manufacture"
+                                        id="make_and_manufacture" placeholder="Make and manufactur" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="unit_location" id="unit_location"
+                                        placeholder="Unit Location" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="number" class="form-control" name="qty" id="qty"
+                                        placeholder="Qty" disabled>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <select name="status" id=""class="select2 js-programmatic form-control"
+                                        style="width: 100%; height: 36px" disabled>
+                                        <option value="0" selected>Select Status</option>
+                                        <option value="1">New</option>
+                                        <option value="2">Processing</option>
+                                        <option value="3">Complete</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <input type="text" class="form-control" name="remark" id="remark"
+                                        placeholder="Remarks" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </form>
         </div>
     </div>
 
 @section('javascript-section')
-    <script>
-        // document.addEventListener('DOMContentLoaded', function() {
-        //     const headingCheckbox = document.querySelector('.heading-checkbox');
-        //     const allCheckboxes = document.querySelectorAll('.form-check-input:not(.heading-checkbox)');
-
-        //     headingCheckbox.addEventListener('change', function() {
-        //         allCheckboxes.forEach(checkbox => {
-        //             checkbox.checked = headingCheckbox.checked;
-        //         });
-        //     });
-
-        //     allCheckboxes.forEach(checkbox => {
-        //         checkbox.addEventListener('change', function() {
-        //             headingCheckbox.checked = Array.from(allCheckboxes).every(cb => cb.checked);
-        //         });
-        //     });
-        // });
-
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const mainCheckbox = document.querySelector('.heading-checkbox');
-            const fieldCheckboxes = document.querySelectorAll('.field-checkbox');
-            mainCheckbox.addEventListener('change', function() {
-                fieldCheckboxes.forEach(checkbox => {
-                    checkbox.checked = mainCheckbox.checked;
-                    toggleFields(checkbox, mainCheckbox.checked);
-                });
-            });
-
-            fieldCheckboxes.forEach(checkbox => {
-                checkbox.addEventListener('click', function() {
-                    toggleFields(checkbox, checkbox.checked);
-                    console.log(`Field checkbox ${index + 1} state changed:`, checkbox.checked);
-                });
-            });
-
-            function toggleFields(checkbox, isChecked) {
-                const row = checkbox.closest('.label-1');
-                const inputs = row.querySelectorAll('input:not(.field-checkbox), select');
-                inputs.forEach(input => {
-                    input.disabled = !isChecked;
-                });
-            }
-        });
-    </script>
-    <script>
-        //     document.addEventListener('DOMContentLoaded', function() {
-        //     const headingCheckbox = document.querySelector('.cctv-checkbox');
-        //     const allCheckboxes = document.querySelectorAll('.form-check-input:not(.cctv-checkbox)');
-
-        //     headingCheckbox.addEventListener('change', function() {
-        //         allCheckboxes.forEach(checkbox => {
-        //             checkbox.checked = headingCheckbox.checked;
-        //         });
-        //     });
-
-        //     allCheckboxes.forEach(checkbox => {
-        //         checkbox.addEventListener('change', function() {
-        //             headingCheckbox.checked = Array.from(allCheckboxes).every(cb => cb.checked);
-        //         });
-        //     });
-        // });
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const mainCheckbox = document.querySelector('.cctv-checkbox');
-            const fieldCheckboxes = document.querySelectorAll('.cctv_field-checkbox');
-            mainCheckbox.addEventListener('change', function() {
-                fieldCheckboxes.forEach(checkbox => {
-                    checkbox.checked = mainCheckbox.checked;
-                    toggleFields(checkbox, mainCheckbox.checked);
-                });
-            });
-
-            fieldCheckboxes.forEach(checkbox => {
-                checkbox.addEventListener('click', function() {
-                    toggleFields(checkbox, checkbox.checked);
-                    console.log(`Field checkbox ${index + 1} state changed:`, checkbox.checked);
-                });
-            });
-
-            function toggleFields(checkbox, isChecked) {
-                const row = checkbox.closest('.label-2');
-                const inputs = row.querySelectorAll('input:not(.cctv_field-checkbox), select');
-                inputs.forEach(input => {
-                    input.disabled = !isChecked;
-                });
-            }
-        });
-    </script>
     <script>
         $(document).ready(function() {
             $('.select2 js-programmatic').select2();

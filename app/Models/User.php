@@ -6,6 +6,7 @@ namespace App\Models;
 use App\Models\backend\Hotel;
 use App\Models\backend\role_types;
 use App\Models\backend\RoleType;
+use App\Models\backend\Department;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -63,4 +64,9 @@ class User extends Authenticatable
     public function roleType(){
         return $this->belongsTo(RoleType::class, 'role_type_id');
     }
+
+    // public function getHeadDepartmentId(){
+
+    //     return $this->belongsTo(Department::class, 'role_type_id');
+    // }
 }
