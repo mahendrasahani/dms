@@ -257,6 +257,12 @@
                                 <span class="hide-menu">All Employees</span>
                             </a>
                         </li>
+
+                        <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark" href="<?php echo e(route('backend.employee.index')); ?>" aria-expanded="false"><i data-feather="users"></i>
+                                <span class="hide-menu">Head Department</span>
+                            </a>
+                        </li>
                           
                         <li class="sidebar-item">
                             <a class="sidebar-link waves-effect waves-dark" href="<?php echo e(route('backend.database_entry.index')); ?>" aria-expanded="false"><i data-feather="users"></i>

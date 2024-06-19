@@ -443,7 +443,7 @@
                     <h3 class="mb-0">CCTV</h3>
                 </div>
                 <div class="section-container">
-                    <div class="d-flex align-items-center mb-3 label-2">
+                    <div class="d-flex align-items-center mt-3 label-2">
                         <input type="checkbox" class="form-check-input me-2 cctv_field-checkbox">
                         <label class="col-sm-2 col-form-label">Camera Installation</label>
                         <div class="row">

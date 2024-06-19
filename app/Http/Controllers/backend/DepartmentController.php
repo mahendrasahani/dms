@@ -54,4 +54,5 @@ class DepartmentController extends Controller
         RoleType::where('id', $id)->delete();
         return redirect()->route('backend.departments.index')->with('update', "Role has been Deleted successfully");
     }
+    
 }

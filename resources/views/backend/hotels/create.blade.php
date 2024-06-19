@@ -15,7 +15,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <form class="mt-4" method="POST" action="{{ route('backend.hotels.store') }}">
+                            <form class="mt-4" method="POST" action="{{ route('backend.hotel.store') }}">
                                 @csrf
                                 <div class="row">
                                     <div class="mb-3 col-md-6">
