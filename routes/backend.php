@@ -10,6 +10,7 @@ use App\Http\Controllers\backend\HotelController;
 use App\Http\Controllers\backend\EmployeeController;
 use App\Http\Controllers\backend\DataBaseEntryController;
 use App\Http\Controllers\backend\CheckListController;
+use App\Http\Controllers\backend\HeadDepartmentController;
 
 Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('admin/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
@@ -131,6 +132,9 @@ Route::middleware(['auth', 'verified'])->group(function(){
 
     // check box
     Route::get('/admin/check-list/create', [CheckListController::class, 'index'])->name('backend.check_list.index'); 
+    
+    Route::get('/admin/department-head', [HeadDepartmentController::class, 'index'])->name('backend.head.index'); 
+    Route::get('/admin/department-head/create', [HeadDepartmentController::class, 'create'])->name('backend.head.create'); 
 });
 
 
