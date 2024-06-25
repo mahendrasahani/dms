@@ -38,6 +38,17 @@
                                         <input type="text" class="form-control" id="phone" placeholder="Owner phone"
                                             name="phone" required />
                                     </div>
+                                    <div class="mb-3 col-md-6">
+                                    <select name="head_department" required class="select2 js-programmatic form-control"  style="width: 100%; height: 36px" required>
+                                    <option selected value="">Select Head Department</option> 
+                                    @if(count($head_departments) > 0)
+                                        @foreach($head_departments as $head_department)
+                                        <option value="{{$head_department->id ?? ''}}">{{$head_department->name ?? ''}} - {{$head_department->getDepartment->name}}</option>
+                                        @endforeach
+                                    @endif
+                                
+                                 </select>
+                                    </div>
                                      
                                     <div class="mb-3 col-md-6">
                                         <input type="text" class="form-control" placeholder="Password"

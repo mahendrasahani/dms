@@ -6,7 +6,7 @@
                 <div class="col-lg-8 col-md-6 col-12 align-self-center">
                     <nav aria-label="breadcrumb">
                     </nav>
-                    <h1 class="mb-0 fw-bold">Add Department Head</h1>
+                    <h1 class="mb-0 fw-bold">Add Head Department</h1>
                 </div>
             </div>
         </div>
@@ -15,7 +15,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <form class="mt-4" method="POST" action="{{route('backend.employee.store')}}">
+                            <form class="mt-4" method="POST" action="{{route('backend.head_department.store')}}">
                                 @csrf
                                 <div class="row">
                                     <div class="mb-3 col-md-6">
@@ -29,9 +29,9 @@
                                     </div>
                                     <div class="mb-3 col-md-6">
                                     <select name="department" required class="select2 js-programmatic form-control"  style="width: 100%; height: 36px">
-                                    <option selected value="">Select Role Type</option>
-                                    @foreach ($roles as $role)
-                                    <option value="{{$role->id}}">{{$role->roleType->name}}</option>
+                                    <option selected value="">Select Department</option>
+                                    @foreach ($departments as $department)
+                                    <option value="{{$department->id}}">{{$department->name ?? ''}}</option>
                                     @endforeach 
                                  </select>
                                     </div>

@@ -47,12 +47,15 @@
                     <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)"><i class="ri-close-line ri-menu-2-line fs-6"></i></a>
                     <a class="navbar-brand" href="<?php echo e(route('dashboard')); ?>">
                         <b class="logo-icon">
-                            <img src="<?php echo e(url('public/assets/backend/assets/images/logo-icon.png')); ?>" alt="homepage" class="dark-logo" />
-                            <img src="<?php echo e(url('public/assets/backend/assets/images/logo-light-icon.png')); ?>" alt="homepage" class="light-logo" />
+                            
                         </b>
                         <span class="logo-text">
-                            <img src="<?php echo e(url('public/assets/backend/assets/images/logo-text.png')); ?>" alt="homepage" class="dark-logo" />
-                            <img src="<?php echo e(url('public/assets/backend/assets/images/logo-light-text.png')); ?>" class="light-logo" alt="homepage" />
+                            <img 
+                            src="<?php echo e(url('public/assets/backend/assets/images/brand_logo.png')); ?>" 
+                            alt="homepage" class="dark-logo" />
+                            <img 
+                            src="<?php echo e(url('public/assets/backend/assets/images/brand_logo.png')); ?>"
+                             class="light-logo" alt="homepage" />
                         </span>
                     </a>
                     <a class="topbartoggler d-block d-md-none waves-effect waves-light" href="javascript:void(0)"
@@ -223,66 +226,123 @@
                         </li>
                         <?php endif; ?>
 
-
+                        <?php
+                        $main_category_check = App\Models\backend\UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 2)->exists();
+                        ?>
+                        <?php if($main_category_check): ?>
                         <li class="sidebar-item">
                             <a href="<?php echo e(route('backend.main_category.index')); ?>" class="sidebar-link  waves-effect waves-dark"><i class="ri-layout-top-2-line"></i>
                                 <span class="hide-menu">All Main Category</span>
                             </a>
                         </li>
+                        <?php endif; ?>
+
+                        <?php
+                        $sub_category_check = App\Models\backend\UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 8)->exists();
+                        ?>
+                        <?php if($sub_category_check): ?>
                         <li class="sidebar-item">
                             <a href="<?php echo e(route('backend.sub_category.index')); ?>" class="sidebar-link  waves-effect waves-dark"><i class="ri-layout-right-2-line"></i>
                                 <span class="hide-menu">All Sub Category</span>
                             </a>
                         </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<?php echo e(route('backend.document.index')); ?>" aria-expanded="false">
-                                <i class=" fas fa-file-alt"></i>
-                                <span class="hide-menu">All Document</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link  waves-effect waves-dark"href="<?php echo e(route('backend.hotel.index')); ?>" aria-expanded="false">
-                                <i data-feather="home"></i>
-                                <span class="hide-menu">Hotels</span>
-                            </a>
-                        </li>
+                        <?php endif; ?>
+
+                        <?php
+                        $all_department_check = App\Models\backend\UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 38)->exists();
+                        ?>
+                          <?php if($all_department_check): ?>
                         <li class="sidebar-item">
                             <a class="sidebar-link waves-effect waves-dark" href="<?php echo e(route('backend.department.index')); ?>" aria-expanded="false">
                                 <i data-feather="target"></i>
                                 <span class="hide-menu">All Departments</span>
                             </a>
                         </li>
+                        <?php endif; ?>
+
+
+                        <?php
+                        $head_department_check = App\Models\backend\UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 45)->exists();
+                        ?>
+                          <?php if($head_department_check): ?>
                         <li class="sidebar-item">
-                            <a class="sidebar-link  waves-effect waves-dark" href="<?php echo e(route('backend.head.index')); ?>" aria-expanded="false">
+                            <a class="sidebar-link  waves-effect waves-dark" href="<?php echo e(route('backend.head_department.index')); ?>" aria-expanded="false">
                                 <i data-feather="user-check"></i>
                                 <span class="hide-menu">Head Department</span>
                             </a>
                         </li>
+                        <?php endif; ?>
+
+                        <?php
+                        $all_document_check = App\Models\backend\UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 14)->exists();
+                        ?>
+                          <?php if($all_document_check): ?>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<?php echo e(route('backend.document.index')); ?>" aria-expanded="false">
+                                <i class=" fas fa-file-alt"></i>
+                                <span class="hide-menu">All Document</span>
+                            </a>
+                        </li>
+                        <?php endif; ?>
+
+
+                        <?php
+                        $all_hotel_check = App\Models\backend\UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 24)->exists();
+                        ?>
+                          <?php if($all_hotel_check): ?>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link  waves-effect waves-dark"href="<?php echo e(route('backend.hotel.index')); ?>" aria-expanded="false">
+                                <i data-feather="home"></i>
+                                <span class="hide-menu">Hotels</span>
+                            </a>
+                        </li>
+                        <?php endif; ?>
+                        
+                        <?php
+                        $all_employee_check = App\Models\backend\UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 31)->exists();
+                        ?>
+                          <?php if($all_employee_check): ?>
                         <li class="sidebar-item">
                             <a class="sidebar-link waves-effect waves-dark" href="<?php echo e(route('backend.employee.index')); ?>" aria-expanded="false"><i data-feather="users"></i>
                                 <span class="hide-menu">All Employees</span>
                             </a>
                         </li>
-                          
-                        <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark" href="<?php echo e(route('backend.database_entry.index')); ?>" aria-expanded="false"><i data-feather="users"></i>
-                                <span class="hide-menu">Add Permission</span>
-                            </a>
-                        </li>
+                        <?php endif; ?>
+                            <!-- <li class="sidebar-item">
+                                <a class="sidebar-link waves-effect waves-dark" href="<?php echo e(route('backend.database_entry.index')); ?>" aria-expanded="false"><i data-feather="users"></i>
+                                    <span class="hide-menu">Add Permission</span>
+                                </a>
+                            </li> -->
+
+                            <?php
+                        $master_check_list_check = App\Models\backend\UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 52)->exists();
+                        ?>
+                          <?php if($master_check_list_check): ?>
                         <li class="sidebar-item">
                             <a class="sidebar-link waves-effect waves-dark" href="<?php echo e(route('backend.check_list.index')); ?>" aria-expanded="false"><i data-feather="users"></i>
-                                <span class="hide-menu">Master List</span>
+                                <span class="hide-menu">Master Check List</span>
                             </a>
                         </li> 
+                        <?php endif; ?>
+
+                        <?php
+                        $assigned_check_list_check = App\Models\backend\UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 55)->exists();
+                        ?>
+                          <?php if($assigned_check_list_check): ?>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark" href="<?php echo e(route('backend.assigned_check_list.index')); ?>" aria-expanded="false"><i data-feather="users"></i>
+                                <span class="hide-menu">Assigned Check List</span>
+                            </a>
+                        </li>
+                        <?php endif; ?>
+
                         <li class="sidebar-item">
                             <a class="sidebar-link  waves-effect waves-dark" href="<?php echo e(route('backend.login_audit.index')); ?>" aria-expanded="false">
                                 <i data-feather="user-check"></i>
                                 <span class="hide-menu">Login Audits</span>
                             </a>
                         </li>
-                         
-                        
-                      
+
                     </ul>
                 </nav>
             </div>
