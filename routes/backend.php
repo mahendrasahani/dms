@@ -176,9 +176,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 Route::middleware(['auth', 'super-admin', 'web'])->group(function () {});
 
-Route::middleware(['auth', 'admin', 'web'])->group(function () {});
+    Route::middleware(['auth', 'admin', 'web'])->group(function(){
+    });
 
 // Route::middleware(['auth', 'department', 'web'])->group(function(){
 // });
 
-Route::middleware(['auth', 'employee', 'web'])->group(function () {});
+    Route::middleware(['auth', 'employee', 'web'])->group(function(){
+    });
