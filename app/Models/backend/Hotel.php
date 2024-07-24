@@ -19,4 +19,9 @@ class Hotel extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+    
+    public function getHotel()
+    {
+        return $this->belongsTo(User::class, 'id');
+    }
 }

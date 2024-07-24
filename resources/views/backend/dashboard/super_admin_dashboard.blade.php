@@ -146,7 +146,7 @@
                 </div>
                 <!-- column -->
                 <div class="col-md-8">
-                  <h4 class="text-muted mb-0 fw-normal">Employee</h4>
+                    <h4 class="text-muted mb-0 fw-normal">Employee</h4>
                     <table id="" class="table table-striped table-bordered text-nowrap">
                         <thead>
                             <tr>

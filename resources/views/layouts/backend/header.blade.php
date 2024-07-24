@@ -18,6 +18,7 @@
     <link rel="stylesheet" type="text/css" href="{{ url('public/assets/backend/assets/libs/dropzone/dist/min/dropzone.min.css')}}" />
     <link rel="stylesheet" type="text/css" href="{{ url('public/assets/backend/assets/libs/select2/dist/css/select2.min.css')}}" />
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
 
 </head>
 
@@ -272,7 +273,7 @@
                         <li class="sidebar-item">
                             <a class="sidebar-link  waves-effect waves-dark" href="{{route('backend.head_department.index')}}" aria-expanded="false">
                                 <i data-feather="user-check"></i>
-                                <span class="hide-menu">Head Department</span>
+                                <span class="hide-menu">Functional Department</span>
                             </a>
                         </li>
                         @endif
@@ -340,10 +341,16 @@
                         </li>
                         @endif
 
-                        <li class="sidebar-item">
+                        {{-- <li class="sidebar-item">
                             <a class="sidebar-link  waves-effect waves-dark" href="{{route('backend.login_audit.index')}}" aria-expanded="false">
                                 <i data-feather="user-check"></i>
                                 <span class="hide-menu">Login Audits</span>
+                            </a>
+                        </li> --}}
+                        <li class="sidebar-item">
+                            <a class="sidebar-link  waves-effect waves-dark" href="{{route('backend.all_document.folders')}}" aria-expanded="false">
+                                <i data-feather="user-check"></i>
+                                <span class="hide-menu">folders</span>
                             </a>
                         </li>
 

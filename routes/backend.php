@@ -12,6 +12,7 @@ use App\Http\Controllers\backend\EmployeeController;
 use App\Http\Controllers\backend\DataBaseEntryController;
 use App\Http\Controllers\backend\CheckListController;
 use App\Http\Controllers\backend\HeadDepartmentController;
+use App\Http\Controllers\backend\FoldersController;
 
 Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('admin/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
@@ -124,6 +125,10 @@ Route::middleware(['auth', 'verified'])->group(function(){
     // login Audit route
     Route::get('/admin/login-audit', [LoginAuditController::class, 'index'])->name('backend.login_audit.index');
 
+    Route::get('/admin/folders', [FoldersController::class, 'viewDoc'])->name('backend.all_document.folders');
+    Route::get('/admin/folders/view', [FoldersController::class, 'viewDocFolder'])->name('backend.all_document.folderView');
+    Route::get('/admin/folders/doc-view', [FoldersController::class, 'docView'])->name('backend.all_document.docView');
+
     // user Profile
     Route::get('/admin/profile', [UserProfileController::class, 'index'])->name('backend.user_profile.index');
 
@@ -133,9 +138,11 @@ Route::middleware(['auth', 'verified'])->group(function(){
 
     // check box
     Route::get('/admin/check-list/', [CheckListController::class, 'index'])->name('backend.check_list.index'); 
-    Route::get('/admin/check-list/edit/{id}', [CheckListController::class, 'edit'])->name('backend.check_list.edit'); 
+    Route::get('/admin/check-list/edit/{id}', [CheckListController::class, 'edit'])->name('backend.check_list.edit');
     Route::post('/admin/check-list/update-checklist/{dept_id}', [CheckListController::class, 'updateCheckList'])->name('backend.update_checklist'); 
-    
+ 
+    Route::get('/admin/check-list/get-hotel', [CheckListController::class, 'getHotel'])->name('backend.check_list.getHotels');
+ 
     Route::get('/admin/assigned-check-list/', [AssignedCheckListController::class, 'index'])->name('backend.assigned_check_list.index'); 
     Route::get('/admin/assigned-check-list/view/{id}', [AssignedCheckListController::class, 'view'])->name('backend.assigned_check_list.view'); 
     Route::post('/admin/assigned-check-list/update', [AssignedCheckListController::class, 'update'])->name('backend.assigned_check_list.update'); 

@@ -7,6 +7,7 @@ use App\Models\backend\AssignedCheckList;
 use App\Models\backend\CheckListInformation;
 use App\Models\backend\Department;
 use App\Models\backend\MasterCheckList;
+use App\Models\backend\Hotel;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 
@@ -36,7 +37,8 @@ class CheckListController extends Controller
         ];
 
         $users = User::where('department_id', $dept_id)->get();
-        return view('backend.master_check_list.edit', compact('categories', 'dept_id', 'users')); 
+        $hotels = Hotel::get();
+        return view('backend.master_check_list.edit', compact('categories', 'dept_id', 'users', 'hotels')); 
     }
 
 
@@ -125,6 +127,18 @@ class CheckListController extends Controller
             ]);
         } 
      return redirect()->route('backend.check_list.index')->with('updated', 'Check List has been updated successfully !');
+    }
+    public function getHotel(Request $request)
+    {
+        $id = $request->id;
+        // return $id;
+    $hotel_list = Hotel::where('id', $id)->first(); 
+        return response([
+            'status' => '200',
+            'data' => $hotel_list
+        ]);
+        
+
     }
     
 }
