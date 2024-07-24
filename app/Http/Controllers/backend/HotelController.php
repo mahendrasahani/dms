@@ -17,9 +17,9 @@ class HotelController extends Controller
         $hotels = Hotel::with('getUser')->get();
         return view('backend.hotels.index', compact( 'hotels'));
     }
-    public function create()
-    {
-        return view('backend.hotels.create');
+    public function create(){
+        $head_departments = User::with('getDepartment')->where('role_type_id', 2)->where('status', 1)->get();
+        return view('backend.hotels.create', compact('head_departments'));
     }
     public function store(Request $request){
         $request->validate([
@@ -33,14 +33,17 @@ class HotelController extends Controller
         $name = $request->name;
         $email = $request->email;
         $phone = $request->phone;
+        $department_id = $request->head_department;
         $password = $request->password;
+
 
         $user = User::create([
             'name' => $name,
             'email' => $email,
             'phone' => $phone,
             'password' => Hash::make($password),
-            'role_type_id' => 2,
+            'department_id' => $department_id,
+            'role_type_id' => 3,
             'status' => 1
         ]);
         $newHotel = Hotel::create([
@@ -49,7 +52,9 @@ class HotelController extends Controller
             'user_id' => $user->id,
             'status' => 1
         ]);
-        return redirect()->route('backend.hotels.index')->with('success', "Hotel has been added successfully");
+
+        // permissions:- dashboard, department, documents, employees
+        return redirect()->route('backend.hotel.index')->with('success', "Hotel has been added successfully");
     }
     public function updateStatus(Request $request){
         $id = $request->id;

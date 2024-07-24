@@ -56869,9 +56869,9 @@ html[dir=rtl] [type=radio].material-inputs+label:before {
 
 }
 
-.section-container {
+/* .section-container {
     border-bottom: 1px solid #000;
-}
+} */
 
 .card-header.header-btn {
   display: flex;

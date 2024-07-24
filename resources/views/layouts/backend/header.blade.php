@@ -18,6 +18,7 @@
     <link rel="stylesheet" type="text/css" href="{{ url('public/assets/backend/assets/libs/dropzone/dist/min/dropzone.min.css')}}" />
     <link rel="stylesheet" type="text/css" href="{{ url('public/assets/backend/assets/libs/select2/dist/css/select2.min.css')}}" />
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
 
 </head>
 
@@ -47,12 +48,20 @@
                     <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)"><i class="ri-close-line ri-menu-2-line fs-6"></i></a>
                     <a class="navbar-brand" href="{{route('dashboard')}}">
                         <b class="logo-icon">
-                            <img src="{{ url('public/assets/backend/assets/images/logo-icon.png') }}" alt="homepage" class="dark-logo" />
-                            <img src="{{ url('public/assets/backend/assets/images/logo-light-icon.png') }}" alt="homepage" class="light-logo" />
+                            {{-- <img 
+                            src="{{ url('public/assets/backend/assets/images/brand_logo.png') }}" 
+                            alt="homepage" class="dark-logo" />
+                            <img 
+                            src="{{ url('public/assets/backend/assets/images/brand_logo.png') }}" 
+                            alt="homepage" class="light-logo" /> --}}
                         </b>
                         <span class="logo-text">
-                            <img src="{{ url('public/assets/backend/assets/images/logo-text.png') }}" alt="homepage" class="dark-logo" />
-                            <img src="{{ url('public/assets/backend/assets/images/logo-light-text.png') }}" class="light-logo" alt="homepage" />
+                            <img 
+                            src="{{ url('public/assets/backend/assets/images/brand_logo.png') }}" 
+                            alt="homepage" class="dark-logo" />
+                            <img 
+                            src="{{ url('public/assets/backend/assets/images/brand_logo.png') }}"
+                             class="light-logo" alt="homepage" />
                         </span>
                     </a>
                     <a class="topbartoggler d-block d-md-none waves-effect waves-light" href="javascript:void(0)"
@@ -222,66 +231,129 @@
                         </li>
                         @endif
 
-
+                        @php
+                        $main_category_check = App\Models\backend\UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 2)->exists();
+                        @endphp
+                        @if($main_category_check)
                         <li class="sidebar-item">
                             <a href="{{route('backend.main_category.index')}}" class="sidebar-link  waves-effect waves-dark"><i class="ri-layout-top-2-line"></i>
                                 <span class="hide-menu">All Main Category</span>
                             </a>
                         </li>
+                        @endif
+
+                        @php
+                        $sub_category_check = App\Models\backend\UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 8)->exists();
+                        @endphp
+                        @if($sub_category_check)
                         <li class="sidebar-item">
                             <a href="{{route('backend.sub_category.index')}}" class="sidebar-link  waves-effect waves-dark"><i class="ri-layout-right-2-line"></i>
                                 <span class="hide-menu">All Sub Category</span>
                             </a>
                         </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{route('backend.document.index')}}" aria-expanded="false">
-                                <i class=" fas fa-file-alt"></i>
-                                <span class="hide-menu">All Document</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link  waves-effect waves-dark"href="{{route('backend.hotel.index')}}" aria-expanded="false">
-                                <i data-feather="home"></i>
-                                <span class="hide-menu">Hotels</span>
-                            </a>
-                        </li>
+                        @endif
+
+                        @php
+                        $all_department_check = App\Models\backend\UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 38)->exists();
+                        @endphp
+                          @if($all_department_check)
                         <li class="sidebar-item">
                             <a class="sidebar-link waves-effect waves-dark" href="{{route('backend.department.index')}}" aria-expanded="false">
                                 <i data-feather="target"></i>
                                 <span class="hide-menu">All Departments</span>
                             </a>
                         </li>
+                        @endif
+
+
+                        @php
+                        $head_department_check = App\Models\backend\UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 45)->exists();
+                        @endphp
+                          @if($head_department_check)
                         <li class="sidebar-item">
-                            <a class="sidebar-link  waves-effect waves-dark" href="{{route('backend.head.index')}}" aria-expanded="false">
+                            <a class="sidebar-link  waves-effect waves-dark" href="{{route('backend.head_department.index')}}" aria-expanded="false">
                                 <i data-feather="user-check"></i>
-                                <span class="hide-menu">Head Department</span>
+                                <span class="hide-menu">Functional Department</span>
                             </a>
                         </li>
+                        @endif
+
+                        @php
+                        $all_document_check = App\Models\backend\UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 14)->exists();
+                        @endphp
+                          @if($all_document_check)
+                        <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{route('backend.document.index')}}" aria-expanded="false">
+                                <i class=" fas fa-file-alt"></i>
+                                <span class="hide-menu">All Document</span>
+                            </a>
+                        </li>
+                        @endif
+
+
+                        @php
+                        $all_hotel_check = App\Models\backend\UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 24)->exists();
+                        @endphp
+                          @if($all_hotel_check)
+                        <li class="sidebar-item">
+                            <a class="sidebar-link  waves-effect waves-dark"href="{{route('backend.hotel.index')}}" aria-expanded="false">
+                                <i data-feather="home"></i>
+                                <span class="hide-menu">Hotels</span>
+                            </a>
+                        </li>
+                        @endif
+                        
+                        @php
+                        $all_employee_check = App\Models\backend\UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 31)->exists();
+                        @endphp
+                          @if($all_employee_check)
                         <li class="sidebar-item">
                             <a class="sidebar-link waves-effect waves-dark" href="{{route('backend.employee.index')}}" aria-expanded="false"><i data-feather="users"></i>
                                 <span class="hide-menu">All Employees</span>
                             </a>
                         </li>
-                          
-                        <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark" href="{{route('backend.database_entry.index')}}" aria-expanded="false"><i data-feather="users"></i>
-                                <span class="hide-menu">Add Permission</span>
-                            </a>
-                        </li>
+                        @endif
+                            <!-- <li class="sidebar-item">
+                                <a class="sidebar-link waves-effect waves-dark" href="{{route('backend.database_entry.index')}}" aria-expanded="false"><i data-feather="users"></i>
+                                    <span class="hide-menu">Add Permission</span>
+                                </a>
+                            </li> -->
+
+                            @php
+                        $master_check_list_check = App\Models\backend\UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 52)->exists();
+                        @endphp
+                          @if($master_check_list_check)
                         <li class="sidebar-item">
                             <a class="sidebar-link waves-effect waves-dark" href="{{route('backend.check_list.index')}}" aria-expanded="false"><i data-feather="users"></i>
-                                <span class="hide-menu">Master List</span>
+                                <span class="hide-menu">Master Check List</span>
                             </a>
                         </li> 
+                        @endif
+
+                        @php
+                        $assigned_check_list_check = App\Models\backend\UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 55)->exists();
+                        @endphp
+                          @if($assigned_check_list_check)
                         <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark" href="{{route('backend.assigned_check_list.index')}}" aria-expanded="false"><i data-feather="users"></i>
+                                <span class="hide-menu">Assigned Check List</span>
+                            </a>
+                        </li>
+                        @endif
+
+                        {{-- <li class="sidebar-item">
                             <a class="sidebar-link  waves-effect waves-dark" href="{{route('backend.login_audit.index')}}" aria-expanded="false">
                                 <i data-feather="user-check"></i>
                                 <span class="hide-menu">Login Audits</span>
                             </a>
+                        </li> --}}
+                        <li class="sidebar-item">
+                            <a class="sidebar-link  waves-effect waves-dark" href="{{route('backend.all_document.folders')}}" aria-expanded="false">
+                                <i data-feather="user-check"></i>
+                                <span class="hide-menu">folders</span>
+                            </a>
                         </li>
-                         
-                        
-                      
+
                     </ul>
                 </nav>
             </div>

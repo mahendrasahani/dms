@@ -2,6 +2,7 @@
 
 namespace App\Models\backend;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,8 +15,17 @@ class Department extends Model
         'user_id',
         'status'
     ];
-    public function getDepartId()
-    {
+    public function getDepartId(){
         return $this->hanMany(User::class, 'role_type_id');
     }
+
+    public function getUser(){
+        return $this->hasMany(User::class, 'department_id');
+    }
+
+    public function getMasterCheckLists() {
+        return $this->hasMany(MasterCheckList::class);
+    }
+
+
 }

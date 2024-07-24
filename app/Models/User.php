@@ -31,7 +31,8 @@ class User extends Authenticatable
         'profile_image',
         'created_by',
         'role_type_id',
-        'status'
+        'status',
+        'department_id'
     ];
 
     /**
@@ -56,17 +57,13 @@ class User extends Authenticatable
     {
         return $this->hasMany(Hotel::class, 'user_id');
     }
-
-    // public function getRoleName() 
-    // {
-    //     return $this->belongsTo(role_types::class,'id');
-    // }
+ 
     public function roleType(){
         return $this->belongsTo(RoleType::class, 'role_type_id');
     }
 
-    // public function getHeadDepartmentId(){
-
-    //     return $this->belongsTo(Department::class, 'role_type_id');
-    // }
+    public function getDepartment(){
+        return $this->belongsTo(Department::class, 'department_id');
+    }
+ 
 }

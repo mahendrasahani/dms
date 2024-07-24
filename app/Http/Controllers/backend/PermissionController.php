@@ -22,10 +22,9 @@ class PermissionController extends Controller
         return redirect()->back();
     }
  
-    public function assignPermissionStore(Request $request){ 
+    public function assignPermissionStore(Request $request){
         $role = Role::findOrFail($request->role_id);
-        $role->syncPermissions($request->permissions);
-        
+        $role->syncPermissions($request->permissions); 
         return redirect()->back();
     }
     public function assignPermissionView(){

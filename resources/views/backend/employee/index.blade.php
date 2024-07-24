@@ -32,10 +32,9 @@
                                     <tr>
                                         <th>SN</th>
                                         <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Department </th>
-                                        <th>Date & time</th>
-                                        <th>status</th>
+                                        <th>Email</th> 
+                                        <th>Department</th>
+                                        <!-- <th>status</th> -->
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -47,10 +46,9 @@
                                     <tr>
                                         <td> {{$count++}}</td>
                                         <td>{{$user->name}}</td>
-                                        <td>{{$user->email}}</td>
-                                        <td>{{$user->phone}}</td>
-                                        <td>{{$user->roleType->name}}</td>
-                                        <td>
+                                        <td>{{$user->email}}</td> 
+                                        <td>{{$user->getDepartment->name ?? ''}}</td>
+                                        <!-- <td>
                                             <div class="form-check form-switch">
                                                 <input class="form-check-input"
                                                     {{ $user->status === 1 ? 'checked' : '' }}
@@ -58,7 +56,7 @@
                                                     data-id="{{$user->id}}"
                                                     data-status="{{$user->status}}" />
                                             </div>
-                                        </td>
+                                        </td> -->
                                         <td>
                                             <div class="button-container">
                                                 <a href="{{route('backend.employee.assign_permission', [$user->id])}}">Assign Permission</</a>

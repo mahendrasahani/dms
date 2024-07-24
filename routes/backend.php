@@ -1,4 +1,5 @@
 <?php
+use App\Http\Controllers\backend\AssignedCheckListController;
 use App\Http\Controllers\backend\DashboardController;
 use App\Http\Controllers\backend\DepartmentController;
 use App\Http\Controllers\backend\DocumentController;
@@ -11,6 +12,7 @@ use App\Http\Controllers\backend\EmployeeController;
 use App\Http\Controllers\backend\DataBaseEntryController;
 use App\Http\Controllers\backend\CheckListController;
 use App\Http\Controllers\backend\HeadDepartmentController;
+use App\Http\Controllers\backend\FoldersController;
 
 Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('admin/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
@@ -103,7 +105,7 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/'.$employee->url, [EmployeeController::class, 'updateStatus'])->name($employee->route_name);
 
     Route::get('/admin/assign-permission/{id}', [EmployeeController::class, 'assignPermission'])->name('backend.employee.assign_permission');
-    
+    Route::post('/admin/sync-user-permission', [EmployeeController::class, 'syncUserPermission'])->name('admin.employee.sync_user_permission');
     // create department Profile
     $department = DB::table('menus')->where('id', 38)->first();
     Route::get('/'.$department->url, [DepartmentController::class, 'index'])->name($department->route_name);
@@ -123,6 +125,10 @@ Route::middleware(['auth', 'verified'])->group(function(){
     // login Audit route
     Route::get('/admin/login-audit', [LoginAuditController::class, 'index'])->name('backend.login_audit.index');
 
+    Route::get('/admin/folders', [FoldersController::class, 'viewDoc'])->name('backend.all_document.folders');
+    Route::get('/admin/folders/view', [FoldersController::class, 'viewDocFolder'])->name('backend.all_document.folderView');
+    Route::get('/admin/folders/doc-view', [FoldersController::class, 'docView'])->name('backend.all_document.docView');
+
     // user Profile
     Route::get('/admin/profile', [UserProfileController::class, 'index'])->name('backend.user_profile.index');
 
@@ -131,23 +137,29 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::post('/admin/entry/create', [DataBaseEntryController::class, 'create'])->name('backend.database_entry.create');
 
     // check box
-    Route::get('/admin/check-list/create', [CheckListController::class, 'index'])->name('backend.check_list.index'); 
-    
-    Route::get('/admin/department-head', [HeadDepartmentController::class, 'index'])->name('backend.head.index'); 
-    Route::get('/admin/department-head/create', [HeadDepartmentController::class, 'create'])->name('backend.head.create'); 
-});
+    Route::get('/admin/check-list/', [CheckListController::class, 'index'])->name('backend.check_list.index'); 
+    Route::get('/admin/check-list/edit/{id}', [CheckListController::class, 'edit'])->name('backend.check_list.edit');
+    Route::post('/admin/check-list/update-checklist/{dept_id}', [CheckListController::class, 'updateCheckList'])->name('backend.update_checklist'); 
+ 
+    Route::get('/admin/check-list/get-hotel', [CheckListController::class, 'getHotel'])->name('backend.check_list.getHotels');
+ 
+    Route::get('/admin/assigned-check-list/', [AssignedCheckListController::class, 'index'])->name('backend.assigned_check_list.index'); 
+    Route::get('/admin/assigned-check-list/view/{id}', [AssignedCheckListController::class, 'view'])->name('backend.assigned_check_list.view'); 
+    Route::post('/admin/assigned-check-list/update', [AssignedCheckListController::class, 'update'])->name('backend.assigned_check_list.update'); 
+   
+    Route::get('/admin/head-department', [HeadDepartmentController::class, 'index'])->name('backend.head_department.index'); 
+    Route::get('/admin/head-department/create', [HeadDepartmentController::class, 'create'])->name('backend.head_department.create'); 
+    Route::post('/admin/head-department/store', [HeadDepartmentController::class, 'store'])->name('backend.head_department.store'); 
+    });
 
+    Route::middleware(['auth', 'super-admin', 'web'])->group(function(){
+    });
 
+    Route::middleware(['auth', 'admin', 'web'])->group(function(){ 
+    });
 
+    // Route::middleware(['auth', 'department', 'web'])->group(function(){ 
+    // });
 
-Route::middleware(['auth', 'super-admin', 'web'])->group(function(){
-});
-
-Route::middleware(['auth', 'admin', 'web'])->group(function(){ 
-});
-
-// Route::middleware(['auth', 'department', 'web'])->group(function(){ 
-// });
-
-Route::middleware(['auth', 'employee', 'web'])->group(function(){ 
-});
+    Route::middleware(['auth', 'employee', 'web'])->group(function(){ 
+    });

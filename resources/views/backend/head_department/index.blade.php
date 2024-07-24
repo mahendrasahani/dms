@@ -7,7 +7,7 @@
                 <h1 class="mb-0 fw-bold">All Departments</h1>
             </div>
             <div class="col-lg-4 col-md-6 d-none d-md-flex align-items-center justify-content-end">
-                <a href="{{route('backend.head.create')}}">
+                <a href="{{route('backend.head_department.create')}}">
                 <button class="btn btn-info d-flex align-items-center ms-2" title="View Code" data-bs-toggle="modal" data-bs-target="#view-code5-1-modal">
                     <i class="ri-add-line me-1"></i>
                     Add Department
@@ -26,25 +26,32 @@
                                 <thead>
                                     <tr>
                                         <th>SN</th>
-                                        <th>Department Name</th>
-                                        <th>Status</th>
-                                        <th style="align-item: end;">Action</th>
+                                        <th>Profile</th>
+                                        <th>Name</th>
+                                        <th>Phone</th>
+                                        <th>Email</th>
+                                        <th>Department</th>
+                                      
+                                        <!-- <th style="align-item: end;">Action</th> -->
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @php $count = '1'; @endphp
+                                    @php $count = 1; @endphp
                                     
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
+                                    @if(count($head_users) > 0)
+                                        @foreach($head_users as $head_user)
+                                        <tr>
+                                            <td>{{$count++}}</td>
                                         <td>
-                                            <div class="form-check form-switch">
-                                                <input class="form-check-input"  
-                                                data-id="" value="" 
-                                                data-status="" type="checkbox" id="changeStatus" />
-                                            </div> 
+                                        <img src="{{$head_user->profile_image ?? url('public/assets/backend/assets/images/users/default_user.png')}}" style="height: 40px; border-radius: 21px; overflow: hidden;"> 
                                         </td>
-                                        <td>
+                                        <td>{{$head_user->name ?? ''}}</td>
+                                        <td>{{$head_user->phone ?? ''}}</td>
+                                        <td>{{$head_user->email ?? ''}}</td>
+                                        <td>{{$head_user->getDepartment->name ?? ''}}</td>
+                                    
+                                         
+                                        <!-- <td>
                                             <div class="button-container">
                                                 <a href="">
                                                     <button class="editBtn">
@@ -78,8 +85,13 @@
                                                     </button>
                                                 </a>
                                             </div>
-                                        </td>
+                                        </td> -->
                                     </tr>
+
+                                        @endforeach
+
+                                    @endif
+                                    
                                 </tbody>
                             </table>
                         </div>
