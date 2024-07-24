@@ -313,11 +313,11 @@
                             </a>
                         </li>
                         @endif
-                            <!-- <li class="sidebar-item">
+                            <li class="sidebar-item">
                                 <a class="sidebar-link waves-effect waves-dark" href="{{route('backend.database_entry.index')}}" aria-expanded="false"><i data-feather="users"></i>
                                     <span class="hide-menu">Add Permission</span>
                                 </a>
-                            </li> -->
+                            </li>  
 
                             @php
                         $master_check_list_check = App\Models\backend\UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 52)->exists();
