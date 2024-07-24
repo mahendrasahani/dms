@@ -3,8 +3,8 @@
 use App\Http\Controllers\backend\PermissionController;
 use App\Http\Controllers\backend\RollController;
 use App\Http\Controllers\ProfileController;
- 
- 
+
+
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
@@ -24,7 +24,7 @@ Route::get('/', function () {
 });
 
 // Route::get('/dashboard', function () {
-//     $user = User::first();  
+//     $user = User::first();
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -49,11 +49,6 @@ Route::middleware('auth')->group(function (){
 // Route::get('create-permission', [PermissionController::class, 'create'])->name('permission.create');
 // Route::post('store-permission', [PermissionController::class, 'store'])->name('permission.store');
 });
-
-
-
-
-
 
 require __DIR__.'/frontend.php';
 require __DIR__.'/backend.php';

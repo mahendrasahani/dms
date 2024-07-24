@@ -199,7 +199,7 @@
                 </center>
             </form>
         </div>
-    </div> 
+    </div>
     @section('javascript-section')
         <script>
             $(document).ready(function() {
@@ -222,7 +222,7 @@
                             if (response.status == 200) {
                                 $("#hotel_detail").val(response.data.location);
                             }
-                        } 
+                        }
                     });
                 });
         </script>

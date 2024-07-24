@@ -13,8 +13,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 
 class EmployeeController extends Controller{
-    public function index(){  
-        $roles = User::with(['roleType:id,name', 'getDepartment:id,name'])->where('created_by', Auth::user()->id)->get(); 
+    public function index(){
+        $roles = User::with(['roleType:id,name', 'getDepartment:id,name'])->get();
         return view('backend.employee.index', compact('roles'));
     }
     public function create(){
@@ -44,7 +44,7 @@ class EmployeeController extends Controller{
         ]);
         return redirect()->route('backend.employee.index')->with('success', "User has been added successfully");
     }
-    
+
     public function updateStatus(Request $request){
         $id = $request->id;
         $status = $request->status;
@@ -59,13 +59,13 @@ class EmployeeController extends Controller{
 
     public function edit($id){
        $user = User::where('id', $id)->first();
-       $roles = User::with('roleType:id,name')->where('created_by', Auth::user()->id)->get(); 
+       $roles = User::with('roleType:id,name')->where('created_by', Auth::user()->id)->get();
        return view('backend.employee.edit', compact('user', 'roles'));
     }
 
-    public function assignPermission($id){ 
-        $employee = User::where('id', $id)->first();  
-        $menus = Menu::all()->groupBy(['order_id', 'group_name']); 
+    public function assignPermission($id){
+        $employee = User::where('id', $id)->first();
+        $menus = Menu::all()->groupBy(['order_id', 'group_name']);
         $permission_list = UserPermission::where('user_id', $id)->pluck('menu_id')->toArray();
         return view('backend.employee.assign_permission', compact('employee', 'menus', 'permission_list'));
     }
@@ -73,7 +73,7 @@ class EmployeeController extends Controller{
     public function syncUserPermission(Request $request){
         $user_id = $request->user_id;
         $new_permissions = $request->permission_ids;
-        UserPermission::where('user_id', $user_id)->delete(); 
+        UserPermission::where('user_id', $user_id)->delete();
         foreach($new_permissions as $permission){
             UserPermission::create([
                 'menu_id' => $permission,

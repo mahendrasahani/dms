@@ -27,5 +27,10 @@ class Department extends Model
         return $this->hasMany(MasterCheckList::class);
     }
 
+    public function folders()
+    {
+        return $this->hasMany(Folder::class);
+    }
+
 
 }

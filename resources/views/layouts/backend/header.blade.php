@@ -9,7 +9,7 @@
     <link href="{{ url('public/assets/backend/assets/extra-libs/calendar/calendar.css') }}" rel="stylesheet" />
     <link href="{{ url('public/assets/backend/assets/libs/fullcalendar/dist/fullcalendar.min.css') }}"rel="stylesheet" />
     <link rel="canonical" href="https://www.wrappixel.com/templates/flexy-bootstrap-admin-template/" />
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url('public/assets/backend/assets/images/favicon.png')}}" />
     <link rel="stylesheet" href="{{ url('public/assets/backend/assets/extra-libs/taskboard/css/lobilist.css') }}" />
     <link rel="stylesheet" href="{{ url('public/assets/backend/assets/extra-libs/taskboard/css/jquery-ui.min.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ url('public/assets/backend/assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}" />
@@ -48,18 +48,18 @@
                     <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)"><i class="ri-close-line ri-menu-2-line fs-6"></i></a>
                     <a class="navbar-brand" href="{{route('dashboard')}}">
                         <b class="logo-icon">
-                            {{-- <img 
-                            src="{{ url('public/assets/backend/assets/images/brand_logo.png') }}" 
+                            {{-- <img
+                            src="{{ url('public/assets/backend/assets/images/brand_logo.png') }}"
                             alt="homepage" class="dark-logo" />
-                            <img 
-                            src="{{ url('public/assets/backend/assets/images/brand_logo.png') }}" 
+                            <img
+                            src="{{ url('public/assets/backend/assets/images/brand_logo.png') }}"
                             alt="homepage" class="light-logo" /> --}}
                         </b>
                         <span class="logo-text">
-                            <img 
-                            src="{{ url('public/assets/backend/assets/images/brand_logo.png') }}" 
+                            <img
+                            src="{{ url('public/assets/backend/assets/images/brand_logo.png') }}"
                             alt="homepage" class="dark-logo" />
-                            <img 
+                            <img
                             src="{{ url('public/assets/backend/assets/images/brand_logo.png') }}"
                              class="light-logo" alt="homepage" />
                         </span>
@@ -88,7 +88,7 @@
                         </li>
                     </ul>
                     <ul class="navbar-nav">
-                         
+
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
@@ -168,7 +168,7 @@
                                                 @php
                                                 $user_role = App\Models\User::with('roleType:id,name')->where('id', Auth::user()->id)->first();
                                                 @endphp
-                                                    {{$user_role->roleType->name}} 
+                                                    {{$user_role->roleType->name}}
                                                 <p class="text-muted mb-0 mt-1">
                                                     <i data-feather="mail" class="feather-sm me-1"></i>
                                                     {{Auth::user()->email}}
@@ -193,8 +193,7 @@
                                                         Settings</span>
                                                 </div>
                                             </a>
-                                            
-                                        </div> 
+                                        </div>
                                             @if(Auth::check())
                                                 <form method="POST" action="{{ route('logout') }}">
                                                       @csrf
@@ -204,7 +203,7 @@
                                                 </form>
                                              @else
                                             <a class="nav-link" href="#" id="login_modal"><i class="fa-regular fa-circle-user"></i>LOGIN</a>
-                                          @endif 
+                                          @endif
                                           {{-- </li> --}}
                                     </li>
                                 </ul>
@@ -216,7 +215,7 @@
         </header>
         <aside class="left-sidebar">
             <div class="scroll-sidebar">
-                <nav class="sidebar-nav">
+                <nav class="sidebar-nav my-4">
                     <ul id="sidebarnav">
                         {{-- For Super Admin  --}}
                         @php
@@ -302,7 +301,7 @@
                             </a>
                         </li>
                         @endif
-                        
+
                         @php
                         $all_employee_check = App\Models\backend\UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 31)->exists();
                         @endphp
@@ -313,11 +312,11 @@
                             </a>
                         </li>
                         @endif
-                            <!-- <li class="sidebar-item">
+                            <li class="sidebar-item">
                                 <a class="sidebar-link waves-effect waves-dark" href="{{route('backend.database_entry.index')}}" aria-expanded="false"><i data-feather="users"></i>
                                     <span class="hide-menu">Add Permission</span>
                                 </a>
-                            </li> -->
+                            </li>
 
                             @php
                         $master_check_list_check = App\Models\backend\UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 52)->exists();
@@ -327,7 +326,7 @@
                             <a class="sidebar-link waves-effect waves-dark" href="{{route('backend.check_list.index')}}" aria-expanded="false"><i data-feather="users"></i>
                                 <span class="hide-menu">Master Check List</span>
                             </a>
-                        </li> 
+                        </li>
                         @endif
 
                         @php
@@ -350,10 +349,9 @@
                         <li class="sidebar-item">
                             <a class="sidebar-link  waves-effect waves-dark" href="{{route('backend.all_document.folders')}}" aria-expanded="false">
                                 <i data-feather="user-check"></i>
-                                <span class="hide-menu">folders</span>
+                                <span class="hide-menu">Folders</span>
                             </a>
                         </li>
-
                     </ul>
                 </nav>
             </div>
