@@ -9,7 +9,7 @@
     <link href="<?php echo e(url('public/assets/backend/assets/extra-libs/calendar/calendar.css')); ?>" rel="stylesheet" />
     <link href="<?php echo e(url('public/assets/backend/assets/libs/fullcalendar/dist/fullcalendar.min.css')); ?>"rel="stylesheet" />
     <link rel="canonical" href="https://www.wrappixel.com/templates/flexy-bootstrap-admin-template/" />
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="<?php echo e(url('public/assets/backend/assets/images/favicon.png')); ?>" />
     <link rel="stylesheet" href="<?php echo e(url('public/assets/backend/assets/extra-libs/taskboard/css/lobilist.css')); ?>" />
     <link rel="stylesheet" href="<?php echo e(url('public/assets/backend/assets/extra-libs/taskboard/css/jquery-ui.min.css')); ?>" />
     <link rel="stylesheet" type="text/css" href="<?php echo e(url('public/assets/backend/assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css')); ?>" />
@@ -51,10 +51,10 @@
                             
                         </b>
                         <span class="logo-text">
-                            <img 
-                            src="<?php echo e(url('public/assets/backend/assets/images/brand_logo.png')); ?>" 
+                            <img
+                            src="<?php echo e(url('public/assets/backend/assets/images/brand_logo.png')); ?>"
                             alt="homepage" class="dark-logo" />
-                            <img 
+                            <img
                             src="<?php echo e(url('public/assets/backend/assets/images/brand_logo.png')); ?>"
                              class="light-logo" alt="homepage" />
                         </span>
@@ -83,7 +83,7 @@
                         </li>
                     </ul>
                     <ul class="navbar-nav">
-                         
+
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
@@ -163,7 +163,8 @@
                                                 <?php
                                                 $user_role = App\Models\User::with('roleType:id,name')->where('id', Auth::user()->id)->first();
                                                 ?>
-                                                    <?php echo e($user_role->roleType->name); ?> 
+                                                    <?php echo e($user_role->roleType->name); ?>
+
                                                 <p class="text-muted mb-0 mt-1">
                                                     <i data-feather="mail" class="feather-sm me-1"></i>
                                                     <?php echo e(Auth::user()->email); ?>
@@ -189,8 +190,7 @@
                                                         Settings</span>
                                                 </div>
                                             </a>
-                                            
-                                        </div> 
+                                        </div>
                                             <?php if(Auth::check()): ?>
                                                 <form method="POST" action="<?php echo e(route('logout')); ?>">
                                                       <?php echo csrf_field(); ?>
@@ -200,7 +200,7 @@
                                                 </form>
                                              <?php else: ?>
                                             <a class="nav-link" href="#" id="login_modal"><i class="fa-regular fa-circle-user"></i>LOGIN</a>
-                                          <?php endif; ?> 
+                                          <?php endif; ?>
                                           
                                     </li>
                                 </ul>
@@ -212,7 +212,7 @@
         </header>
         <aside class="left-sidebar">
             <div class="scroll-sidebar">
-                <nav class="sidebar-nav">
+                <nav class="sidebar-nav my-4">
                     <ul id="sidebarnav">
                         
                         <?php
@@ -298,7 +298,7 @@
                             </a>
                         </li>
                         <?php endif; ?>
-                        
+
                         <?php
                         $all_employee_check = App\Models\backend\UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 31)->exists();
                         ?>
@@ -313,7 +313,7 @@
                                 <a class="sidebar-link waves-effect waves-dark" href="<?php echo e(route('backend.database_entry.index')); ?>" aria-expanded="false"><i data-feather="users"></i>
                                     <span class="hide-menu">Add Permission</span>
                                 </a>
-                            </li>  
+                            </li>
 
                             <?php
                         $master_check_list_check = App\Models\backend\UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 52)->exists();
@@ -323,7 +323,7 @@
                             <a class="sidebar-link waves-effect waves-dark" href="<?php echo e(route('backend.check_list.index')); ?>" aria-expanded="false"><i data-feather="users"></i>
                                 <span class="hide-menu">Master Check List</span>
                             </a>
-                        </li> 
+                        </li>
                         <?php endif; ?>
 
                         <?php
@@ -341,10 +341,9 @@
                         <li class="sidebar-item">
                             <a class="sidebar-link  waves-effect waves-dark" href="<?php echo e(route('backend.all_document.folders')); ?>" aria-expanded="false">
                                 <i data-feather="user-check"></i>
-                                <span class="hide-menu">folders</span>
+                                <span class="hide-menu">Folders</span>
                             </a>
                         </li>
-
                     </ul>
                 </nav>
             </div>
