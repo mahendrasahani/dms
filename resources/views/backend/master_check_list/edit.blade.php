@@ -13,7 +13,7 @@
             <form action="{{ route('backend.update_checklist', [$dept_id]) }}" method="POST">
                 @csrf
                 <div class="container">
-                    <div class="row">
+                    <div class="row g-3">
                         <div class="col-md-6">
                             <label> Select Hotel</label>
                             <select name="hotel_name" id="hotel_name" class="select2 js-programmatic form-control"

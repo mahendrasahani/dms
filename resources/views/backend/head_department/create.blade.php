@@ -29,23 +29,23 @@
                                     </div>
                                     <div class="mb-3 col-md-6">
                                     <select name="department" required class="select2 js-programmatic form-control"  style="width: 100%; height: 36px">
-                                    <option selected value="">Select Department</option>
+                                    <option></option>
                                     @foreach ($departments as $department)
                                     <option value="{{$department->id}}">{{$department->name ?? ''}}</option>
-                                    @endforeach 
+                                    @endforeach
                                  </select>
                                     </div>
                                     <div class="mb-3 col-md-6">
                                         <input type="text" class="form-control" placeholder="Password" name="password" required />
                                     </div>
                                     @error('password')
-                                    <p style="color:red">{{$message}}</p>   
+                                    <p style="color:red">{{$message}}</p>
                                     @enderror
                                     <div class="mb-3 col-md-6">
                                         <input type="text" class="form-control" placeholder="Confirm Password" name="password_confirmation" required />
                                     </div>
                                     @error('confirm_password')
-                                    <p style="color:red">{{$message}}</p>   
+                                    <p style="color:red">{{$message}}</p>
                                     @enderror
                                     <div class="mb-3">
                                         <button class="btn btn-primary rounded-pill px-4 mt-3" type="submit">
@@ -62,6 +62,11 @@
         </div>
     </div>
 @section('javascript-section')
+<script>
+    $(".js-programmatic").select2({
+        placeholder: "Select Department",
+    });
+</script>
     @if (Session::has('success'))
         <script>
             Swal.fire({

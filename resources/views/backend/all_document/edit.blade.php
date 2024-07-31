@@ -35,11 +35,11 @@
                                     <option value="2">Main Category</option>
                                  </select>
                                 </div>
-                                
+
                                 <div class="mb-3m col-md-6">
                                     <textarea class="form-control" rows="3" placeholder="Description"></textarea>
                                 </div>
-                                
+
                                 <div class="mb-3m col-md-6" style="margin-bottom: 20px;">
                                     <select name="role-type" id="" class="select2 js-programmatic form-control"  style="width: 100%; height: 36px">
                                         <option selected>Select Role</option>
@@ -67,7 +67,7 @@
                                                 <div class="col-md-8">
                                                     <input type="time" class="form-control" placeholder="Start Time">
                                                 </div>
-                                            </div>  
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -99,7 +99,7 @@
                                     <option value="0" selected>Select Status</option>
                                     <option value="1">Processing</option>
                                     <option value="2">Done</option>
-                                   </select> 
+                                   </select>
                                   </div>
                                   <div class="mt-3 check-box">
                                     <input class="form-check-input" type="checkbox" id="check1" name="option1" value="something" >

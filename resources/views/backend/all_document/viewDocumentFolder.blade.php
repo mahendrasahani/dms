@@ -19,10 +19,9 @@
         <div class="container-fluid">
             <div class="row">
                 @foreach ($departments as $department)
-                    <div class="col-lg-3">
-                        <div class="card-group">
+                    <div class="col-lg-3 g-2 ">
+                        <div class="card-group my-1">
                             <div class="card">
-
                                 <div class="card-body">
                                     <span
                                         class=" btn btn-xl btn-light-info text-info btn-circle d-flex align-items-center justify-content-center ">
@@ -31,7 +30,7 @@
                                         </a>
                                     </span>
                                     <h3 class="mt-3 pt-1 mb-0">
-                                        {{count($department->folders) > 0 ? count($department->folders) : null}}
+                                        {{count($department->folders) }}
                                     </h3>
                                     <h6 class="text-muted mb-0 fw-bold">{{ $department->name }}</h6>
                                 </div>

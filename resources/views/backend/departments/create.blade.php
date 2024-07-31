@@ -20,10 +20,10 @@
                                 <div class="mb-3 col-md-6">
                                     <input type="text" class="form-control" placeholder="Department Name" name="department_name" required value=""/>
                                 </div>
-                                
+
                                 <div class="mb-3 col-md-6">
                                 <select name="department" required class="select2 js-programmatic form-control"  style="width: 100%; height: 36px">
-                                <option selected value="">Status</option>
+                                <option ></option>
                                 <option value="3">Active</option>
                                 <option value="4">Inactive</option>
                              </select>
@@ -43,6 +43,11 @@
     </div>
 </div>
 @section('javascript-section')
+<script>
+    $(".js-programmatic").select2({
+        placeholder: "Status",
+    });
+</script>
     @if (Session::has('success'))
         <script>
             Swal.fire({

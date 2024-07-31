@@ -3,20 +3,23 @@
     <div class="page-wrapper">
         <div class="page-titles">
             <div class="row">
-                <div class="col-lg-8 col-md-6 col-12 align-self-center">
-                    <h1 class="mb-0 fw-bold">Folders</h1>
-                    <h3 class="my-2 fw-bold"> {{$folder->name}}</h3>
+                <div class="col-lg-8 col-md-6 col-12 align-self-center d-flex flex-row align-items-center">
+                    <span class="fw-bold me-3 h1">Folders :</span>
+                    <span class="fw-bold h3 mb-0">{{ $folder->name }}</span>
                 </div>
                 <div class="col-lg-4 col-md-6 d-none d-md-flex align-items-center justify-content-end">
-
+                    <a href="{{url('admin/folders')}}" class="btn btn-info d-flex align-items-center ms-2">
+                    <i class="ri-arrow-left-line me-1"></i>
+                    Back
+                </a>
                 </div>
             </div>
         </div>
         <div class="container-fluid">
             <div class="row">
                 @foreach ($folder->folders as $value)
-                    <div class="col-lg-3">
-                        <div class="card-group">
+                    <div class="col-lg-3 g-2">
+                        <div class="card-group my-1">
                             <div class="card">
                                 <div class="card-body">
                                     <span
