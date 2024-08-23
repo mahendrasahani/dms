@@ -15,13 +15,13 @@ class Hotel extends Model
         'status'
 
     ];
-    public function getUser()
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
+    // public function getUser(){
+    //     return $this->belongsTo(User::class, 'user_id');
+    // }
     
-    public function getHotel()
-    {
+    public function getUserForHotel(){
         return $this->belongsTo(User::class, 'id');
     }
+
+    
 }

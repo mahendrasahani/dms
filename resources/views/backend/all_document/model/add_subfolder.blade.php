@@ -30,7 +30,7 @@
                                             </div>
                                             <div class="">
                                                 <label>Select Folder Name</label>
-                                                <select name="department_id" class="select2 js-programmatic form-control" style="width: 100%; height: 36px" required>
+                                                <select name="department_type_id" class="select2 js-programmatic form-control" style="width: 100%; height: 36px" required>
                                                     <option value="null" selected>--Select--</option>
                                                     @if (count($departments) > 0)
                                                         @foreach ($departments as $department)

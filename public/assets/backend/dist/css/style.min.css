@@ -43749,7 +43749,7 @@ svg.tea #steamR {
 
 .scroll-sidebar {
   position: relative;
-  height: calc(100% - 200px)
+  height: 100%;
 }
 
 .ps-scrollbar-y-rail {
@@ -43803,6 +43803,7 @@ svg.tea #steamR {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap
+  
 }
 
 .sidebar-nav ul .sidebar-item .sidebar-link.active,
@@ -43843,6 +43844,15 @@ svg.tea #steamR {
 .sidebar-nav ul .sidebar-item .first-level .sidebar-item .sidebar-link i {
   margin-left: 0;
   font-size: 16px
+}
+
+.dropDown_menu_color{
+    background-color: #f4f4f4 !important;
+
+}
+.dropDown_menu_color2{
+    background-color: #e4e4e4 !important;
+
 }
 
 .sidebar-nav ul .nav-small-cap {
@@ -44224,7 +44234,7 @@ svg.tea #steamR {
 
   #main-wrapper[data-layout=horizontal] .sidebar-nav #sidebarnav>.mega-dropdown .first-level>li {
     width: 25%;
-    float: left
+    float: left;
   }
 
   #main-wrapper[data-layout=horizontal] .sidebar-nav #sidebarnav>.sidebar-item:hover {

@@ -82,17 +82,6 @@ class SubCategoryController extends Controller
         return redirect()->route('backend.sub_category.index')->with('update', "Sub Category  has been update successfully");
     } 
 
-    public function updateStatus(Request $request)
-    {
-        $id = $request->id;
-        $status = $request->status;
-        SubCategory::where('id', $id)->update([
-            'status' => $status
-        ]);
-        return response()->json([
-            'status' => 200,
-            'message' => "success"
-        ]);
-    }
+ 
  
 }

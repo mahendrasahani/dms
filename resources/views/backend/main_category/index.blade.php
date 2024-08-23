@@ -29,8 +29,7 @@
                                         <tr>
                                             <th>SN</th>
                                             <th>Name</th>
-                                            <th>Description</th>
-                                            <th>Status</th>
+                                            <th>Description</th> 
                                             <th style="text-align: end;">Action</th>
                                         </tr>
                                     </thead>
@@ -40,16 +39,7 @@
                                             <tr>
                                                 <td>{{ $count++ }}</td>
                                                 <td>{{ $main_cat->name }}</td>
-                                                <td>{{ $main_cat->description }}</td>
-                                                <td>
-                                                    <div class="form-check form-switch">
-                                                        <input class="form-check-input" data-id="{{ $main_cat->id }}"
-                                                            {{ $main_cat->status === 1 ? 'checked' : '' }}
-                                                            value="{{ $main_cat->status }}"
-                                                            data-status="{{ $main_cat->status }}" type="checkbox"
-                                                            id="changeStatus" />
-                                                    </div>
-                                                </td>
+                                                <td>{{ $main_cat->description }}</td> 
                                                 <td>
                                                     <div class="button-container">
                                                         <a
@@ -199,31 +189,7 @@
     @endif
 
 
-    <script>
-        $(document).on("change", "#changeStatus", function() {
-            var $toggleButton = $(this);
-
-            var status = $toggleButton.prop('checked') ? '1' : '0';
-            let id = $(this).data('id');
-            $.ajax({
-                url: "{{ route('backend.main_category.update_status') }}",
-                data: {
-                    'status': status,
-                    'id': id
-                },
-                type: "GET",
-                success: function(response) {
-                    if (response.status == 200) {
-                        Swal.fire({
-                            title: "Success!",
-                            text: "Status successfully updated.",
-                            icon: "success"
-                        });
-                    }
-                }
-            });
-        });
-    </script>
+    
     <script>
         $(document).on("click", "#deleteId", function() {
             var $toggleButton = $(this);

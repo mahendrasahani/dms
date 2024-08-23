@@ -14,13 +14,12 @@ class DocumentController extends Controller
     }
 
     public function create(){
-        $id = auth()->user()->id;
-
+        $id = auth()->user()->id; 
         $data['users'] = User::where('id' , '!=' ,  $id)->get();
         $data['main_categories'] = MainCategory::get();
         $data['sub_categories'] = SubCategory::get();
-
-        return view('backend.all_document.create',compact('data'));
+        
+        return view('backend.all_document.create', compact('data'));
     }
 
     public function edit(){

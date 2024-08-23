@@ -1,3 +1,4 @@
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="<?php echo e(url('public/assets/backend/assets/libs/jquery/dist/jquery.min.js')); ?>"></script>
 <script src="<?php echo e(url('public/assets/backend/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js')); ?>"></script>

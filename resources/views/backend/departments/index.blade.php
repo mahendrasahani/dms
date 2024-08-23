@@ -1,7 +1,6 @@
 @extends('layouts/backend/main')
 @section('main-section')
-test
-
+ 
 <div class="page-wrapper">
     <div class="page-titles">
         <div class="row">
@@ -27,8 +26,7 @@ test
                                 <thead>
                                     <tr>
                                         <th>SN</th>
-                                        <th>Department Name</th>
-                                        <th>Status</th>
+                                        <th>Department Name</th> 
                                         <th style="align-item: end;">Action</th>
                                     </tr>
                                 </thead>
@@ -39,14 +37,7 @@ test
                                         @foreach ($roles as $role)
                                             
                                         <td>{{$count++}}</td>
-                                        <td>{{$role->name}}</td>
-                                        <td>
-                                            <div class="form-check form-switch">
-                                                <input class="form-check-input" {{$role->status === 1 ? 'checked':''}} 
-                                                data-id="{{$role->id}}" value="{{$role->status}}" 
-                                                data-status="{{$role->status}}" type="checkbox" id="changeStatus" />
-                                            </div> 
-                                        </td>
+                                        <td>{{$role->name}}</td> 
                                         <td>
                                             <div class="button-container">
                                                 <a href="{{route('backend.department.edit', [$role->id])}}">
@@ -175,28 +166,6 @@ test
         </script>
     @endif
 
-
-    <script>
-      $(document).on("change", "#changeStatus", function(){
-        var $toggleButton = $(this);
-        var status = $toggleButton.prop('checked') ? '1':'0';
-        let id = $(this).data('id'); 
-        console.log(id);
-        $.ajax({
-                url: "{{route('backend.department.update_status')}}",
-                data: {'status':status, 'id':id},
-                type: "GET",
-                success: function(response){
-                    if(response.status == 200){
-                        Swal.fire({
-                            title: "Success!",
-                            text: "Status successfully updated.",
-                            icon: "success"
-                        });  
-                    }
-                }
-            });
-           });
-        </script>
+ 
 @endsection
 @endsection

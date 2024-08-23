@@ -28,8 +28,7 @@
                                             <th>SN</th>
                                             <th>Name</th>
                                             <th>Description</th>
-                                            <th>Main Category Name</th>
-                                            <th>Status</th>
+                                            <th>Main Category Name</th> 
                                             <th style="text-align: end;">Action</th>
                                         </tr>
                                     </thead>
@@ -41,15 +40,7 @@
                                                 <td>{{ $sub_cat->name }}</td>
                                                 <td>{{ $sub_cat->description }}</td>
                                                 <td>{{ $sub_cat->getMainCategory->name ?? '' }}</td>
-                                                <td>
-                                                    <div class="form-check form-switch">
-                                                        <input class="form-check-input"
-                                                            {{ $sub_cat->status === 1 ? 'checked' : '' }}
-                                                            value="{{ $sub_cat->status }}" type="checkbox" id="changeStatus"
-                                                            data-id="{{ $sub_cat->id }}"
-                                                            data-status="{{ $sub_cat->status }}" />
-                                                    </div>
-                                                </td>
+                                                 
                                                 <td>
                                                     <div class="button-container">
                                                         <a href="{{ route('backend.sub_category.edit', [$sub_cat->id]) }}">
@@ -210,30 +201,7 @@
             tags: true
         });
     </script>
-    <script>
-        $(document).on("change", "#changeStatus", function() {
-            var $toggleButton = $(this);
-            var status = $toggleButton.prop('checked') ? '1' : '0';
-            let id = $(this).data('id');
-            $.ajax({
-                url: "{{ route('backend.sub_category.update_status') }}",
-                data: {
-                    'status': status,
-                    'id': id
-                },
-                type: "GET",
-                success: function(response) {
-                    if (response.status == 200) {
-                        Swal.fire({
-                            title: "Success!",
-                            text: "Status successfully updated.",
-                            icon: "success"
-                        });
-                    }
-                }
-            });
-        });
-    </script>
+    
     <script>
         $(document).on("click", "#deleteId", function() {
             var $toggleButton = $(this);

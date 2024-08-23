@@ -82,11 +82,9 @@ class MainCategoryController extends Controller
         }
     }
     
-    public function store(Request $request)
-    {
+    public function store(Request $request){
         $category_name = $request->category_name;
         $description = $request->discription;
-
         $existingCategory = MainCategory::where('name', $category_name)->first();
         if ($existingCategory) {
             return redirect()->route('backend.main_category.index')->with('warning', "Main Category Already Exists");
@@ -101,15 +99,15 @@ class MainCategoryController extends Controller
     }
 
 
-    public function updateStatus(Request $request){
-        $id = $request->id;
-        $status = $request->status;
-        MainCategory::where('id', $id)->update([
-            'status' => $status
-        ]);
-        return response()->json([
-            'status' => 200,
-            'message' => "success"
-        ]);
-    }
+    // public function updateStatus(Request $request){
+    //     $id = $request->id;
+    //     $status = $request->status;
+    //     MainCategory::where('id', $id)->update([
+    //         'status' => $status
+    //     ]);
+    //     return response()->json([
+    //         'status' => 200,
+    //         'message' => "success"
+    //     ]);
+    // }
 }

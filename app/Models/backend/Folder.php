@@ -10,8 +10,7 @@ class Folder extends Model
     use HasFactory;
     protected $fillable = ['department_id', 'folder_name', 'status'];
 
-    public function sub_folders()
-    {
+    public function sub_folders(){
         return $this->hasMany(Folder::class);
     }
 }

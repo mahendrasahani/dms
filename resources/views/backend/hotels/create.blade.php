@@ -19,24 +19,22 @@
                                 @csrf
                                 <div class="row">
                                     <div class="mb-3 col-md-6">
-                                        <input type="text" class="form-control" placeholder="Hotel Name"
-                                            name="hotal_name" required />
-                                    </div>
-                                    <div class="mb-3 col-md-6">
-                                        <input type="text" class="form-control" placeholder="Hotel Localtion/Address"
-                                            name="hotel_location" required />
-                                    </div>
-                                    <div class="mb-3 col-md-6">
-                                        <input type="text" class="form-control" id="name" placeholder="Owner Name"
+                                        <input type="text" class="form-control" placeholder="Name"
                                             name="name" required />
                                     </div>
+                                      
                                     <div class="mb-3 col-md-6">
-                                        <input type="text" class="form-control" id="email" placeholder="Owner Email"
+                                        <input type="text" class="form-control" id="phone" placeholder="Phone"
+                                            name="phone" required />
+                                    </div>
+
+                                    <div class="mb-3 col-md-6">
+                                        <input type="text" class="form-control" id="email" placeholder="Email"
                                             name="email" required />
                                     </div>
                                     <div class="mb-3 col-md-6">
-                                        <input type="text" class="form-control" id="phone" placeholder="Owner phone"
-                                            name="phone" required />
+                                        <input type="text" class="form-control" id="hotel_location" placeholder="Hotel Location"
+                                            name="hotel_location" required/>
                                     </div>
                                     <div class="mb-3 col-md-6">
                                         <select name="head_department" required
@@ -47,7 +45,7 @@
                                                 @foreach ($head_departments as $head_department)
                                                     <option value="{{ $head_department->id ?? '' }}">
                                                         {{ $head_department->name ?? '' }} -
-                                                        {{ $head_department->getDepartment->name }}</option>
+                                                        {{ $head_department->getDepartmentType->name }}</option>
                                                 @endforeach
                                             @endif
                                         </select>

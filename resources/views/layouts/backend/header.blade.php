@@ -20,6 +20,8 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
 
+
+
 </head>
 
 <body>
@@ -166,7 +168,7 @@
                                             <div class="ms-4">
                                                 <h4 class="mb-0">{{Auth::user()->name}}</h4>
                                                 @php
-                                                $user_role = App\Models\User::with('roleType:id,name')->where('id', Auth::user()->id)->first();
+$user_role = App\Models\User::with('roleType:id,name')->where('id', Auth::user()->id)->first();
                                                 @endphp
                                                     {{$user_role->roleType->name}}
                                                 <p class="text-muted mb-0 mt-1">
@@ -219,7 +221,7 @@
                     <ul id="sidebarnav">
                         {{-- For Super Admin  --}}
                         @php
-                        $dashboard_check = App\Models\backend\UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 1)->exists();
+                            $dashboard_check = App\Models\backend\UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 1)->exists();
                         @endphp
                         @if($dashboard_check)
                         <li class="sidebar-item">
@@ -231,7 +233,7 @@
                         @endif
 
                         @php
-                        $main_category_check = App\Models\backend\UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 2)->exists();
+                            $main_category_check = App\Models\backend\UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 2)->exists();
                         @endphp
                         @if($main_category_check)
                         <li class="sidebar-item">
@@ -242,7 +244,7 @@
                         @endif
 
                         @php
-                        $sub_category_check = App\Models\backend\UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 8)->exists();
+                            $sub_category_check = App\Models\backend\UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 8)->exists();
                         @endphp
                         @if($sub_category_check)
                         <li class="sidebar-item">
@@ -253,7 +255,7 @@
                         @endif
 
                         @php
-                        $all_department_check = App\Models\backend\UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 38)->exists();
+                            $all_department_check = App\Models\backend\UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 38)->exists();
                         @endphp
                           @if($all_department_check)
                         <li class="sidebar-item">
@@ -263,22 +265,63 @@
                             </a>
                         </li>
                         @endif
-
-
-                        @php
-                        $head_department_check = App\Models\backend\UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 45)->exists();
-                        @endphp
-                          @if($head_department_check)
+ 
+                    <li class="sidebar-item">
+                    <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
+                        <i data-feather="inbox"></i><span class="hide-menu">User System</span></a>
+                    <ul aria-expanded="false" class="collapse first-level">
+                    @php
+                    $head_department_check = App\Models\backend\UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 45)->exists();
+                    @endphp
+                      @if($head_department_check)
+                    <li class="sidebar-item">
+                        <a class="sidebar-link  waves-effect waves-dark" href="{{route('backend.head_department.index')}}" aria-expanded="false">
+                            <i data-feather="user-check"></i>
+                            <span class="hide-menu">Functional Department</span>
+                        </a>
+                    </li>
+                    @endif
+                    
+                    @php
+                        $all_hotel_check = App\Models\backend\UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 24)->exists();
+                    @endphp
+                    @if($all_hotel_check)
                         <li class="sidebar-item">
-                            <a class="sidebar-link  waves-effect waves-dark" href="{{route('backend.head_department.index')}}" aria-expanded="false">
-                                <i data-feather="user-check"></i>
-                                <span class="hide-menu">Functional Department</span>
+                            <a class="sidebar-link  waves-effect waves-dark"href="{{route('backend.hotel.index')}}" aria-expanded="false">
+                                <i data-feather="home"></i>
+                                <span class="hide-menu">Hotels</span>
                             </a>
                         </li>
-                        @endif
+                    @endif
+                        <li class="sidebar-item">
+                            <a class="sidebar-link  waves-effect waves-dark" href="{{route('backend.hotel_department.index')}}" aria-expanded="false">
+                                <i data-feather="user-check"></i>
+                                <span class="hide-menu">Hotel Department</span>
+                            </a>
+                        </li> 
+                        <li class="sidebar-item">
+                            <a class="sidebar-link  waves-effect waves-dark" href="{{route('backend.manager.index')}}" aria-expanded="false">
+                                <i data-feather="user-check"></i>
+                                <span class="hide-menu">Manager</span>
+                            </a>
+                        </li> 
+                        <li class="sidebar-item">
+                            <a class="sidebar-link  waves-effect waves-dark" href="{{route('backend.team_leader.index')}}" aria-expanded="false">
+                                <i data-feather="user-check"></i>
+                                <span class="hide-menu">Team Leader</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link  waves-effect waves-dark" href="{{route('backend.team_member.index')}}" aria-expanded="false">
+                                <i data-feather="user-check"></i>
+                                <span class="hide-menu">Team Member</span>
+                            </a>
+                        </li>
+                </ul>
+            </li>  
 
                         @php
-                        $all_document_check = App\Models\backend\UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 14)->exists();
+                            $all_document_check = App\Models\backend\UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 14)->exists();
                         @endphp
                           @if($all_document_check)
                         <li class="sidebar-item">
@@ -288,22 +331,9 @@
                             </a>
                         </li>
                         @endif
-
-
+ 
                         @php
-                        $all_hotel_check = App\Models\backend\UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 24)->exists();
-                        @endphp
-                          @if($all_hotel_check)
-                        <li class="sidebar-item">
-                            <a class="sidebar-link  waves-effect waves-dark"href="{{route('backend.hotel.index')}}" aria-expanded="false">
-                                <i data-feather="home"></i>
-                                <span class="hide-menu">Hotels</span>
-                            </a>
-                        </li>
-                        @endif
-
-                        @php
-                        $all_employee_check = App\Models\backend\UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 31)->exists();
+                            $all_employee_check = App\Models\backend\UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 31)->exists();
                         @endphp
                           @if($all_employee_check)
                         <li class="sidebar-item">
@@ -318,8 +348,8 @@
                                 </a>
                             </li>
 
-                            @php
-                        $master_check_list_check = App\Models\backend\UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 52)->exists();
+                        @php
+                            $master_check_list_check = App\Models\backend\UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 52)->exists();
                         @endphp
                           @if($master_check_list_check)
                         <li class="sidebar-item">
@@ -330,7 +360,7 @@
                         @endif
 
                         @php
-                        $assigned_check_list_check = App\Models\backend\UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 55)->exists();
+                            $assigned_check_list_check = App\Models\backend\UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 55)->exists();
                         @endphp
                           @if($assigned_check_list_check)
                         <li class="sidebar-item">
@@ -346,13 +376,44 @@
                                 <span class="hide-menu">Login Audits</span>
                             </a>
                         </li> --}}
-                        <li class="sidebar-item">
+                        <!-- <li class="sidebar-item">
                             <a class="sidebar-link  waves-effect waves-dark" href="{{route('backend.all_document.folders')}}" aria-expanded="false">
                                 <i data-feather="user-check"></i>
                                 <span class="hide-menu">Folders</span>
-                            </a>
+                            </a> 
+                        </li> -->
+ 
+                        <li class="sidebar-item">
+                            <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
+                                <i data-feather="inbox">
+                                </i><span class="hide-menu">Folders</span></a>
+                            <ul aria-expanded="false" class="collapse first-level dropDown_menu_color"> 
+                                @foreach($departments as $department) 
+                                    <li class="sidebar-item">
+                                        <a class="sidebar-link {{count($department->folders) > 0 ? 'has-arrow':''}} waves-effect waves-dark" href="javascript:void(0)"
+                                            aria-expanded="false">
+                                            <i class="fa-regular fa-folder"></i> 
+                                            <span class="hide-menu">{{$department->name}}   </span>
+                                        </a>
+                                            @if(count($department->folders) > 0)
+                                            <ul aria-expanded="false" class="collapse first-level dropDown_menu_color2">
+                                                @foreach($department->folders as $folder)
+                                                <li class="sidebar-item">
+                                            <a class="sidebar-link  waves-effect waves-dark" href="#" aria-expanded="false">
+                                                <i class="fa-regular fa-folder"></i>
+                                                <span class="hide-menu">{{$folder->folder_name}}</span>
+                                            </a>
+                                        </li>
+                                        @endforeach
+                                            </ul>
+                                            @endif 
+                                    </li>  
+                                    @endforeach  
+                            </ul>
                         </li>
                     </ul>
+
                 </nav>
             </div>
         </aside>
+       

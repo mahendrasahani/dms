@@ -48,7 +48,7 @@
                                         <td>{{$head_user->name ?? ''}}</td>
                                         <td>{{$head_user->phone ?? ''}}</td>
                                         <td>{{$head_user->email ?? ''}}</td>
-                                        <td>{{$head_user->getDepartment->name ?? ''}}</td>
+                                        <td>{{$head_user->getDepartmentType->name ?? ''}}</td>
                                     
                                          
                                         <!-- <td>
@@ -184,27 +184,6 @@
     @endif
 
 
-    <script>
-      $(document).on("change", "#changeStatus", function(){
-        var $toggleButton = $(this);
-        var status = $toggleButton.prop('checked') ? '1':'0';
-        let id = $(this).data('id'); 
-        console.log(id);
-        $.ajax({
-                // url: "{{route('backend.department.update_status')}}",
-                data: {'status':status, 'id':id},
-                type: "GET",
-                success: function(response){
-                    if(response.status == 200){
-                        Swal.fire({
-                            title: "Success!",
-                            text: "Status successfully updated.",
-                            icon: "success"
-                        });  
-                    }
-                }
-            });
-           });
-        </script>
+ 
 @endsection
 @endsection

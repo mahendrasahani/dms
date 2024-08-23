@@ -11,7 +11,7 @@
     </div>
 
     <div class="container-fluid">
-        <form action="{{route('admin.employee.sync_user_permission')}}" method="POST">
+        <form action="{{route('backend.sync_custom_permission')}}" method="POST">
             @csrf
             <input type="hidden" name="user_id" value="{{$employee->id ?? ''}}">
             <div class="form-group row">
@@ -31,7 +31,7 @@
                             <label for="email" class="form-label">Email :</label>
                         </div>
                         <div class="col-sm-9">
-               <p>{{$employee->email ?? ''}}</p>
+                        <p>{{$employee->email ?? ''}}</p>
                         </div>
                     </div>
                 </div>
@@ -47,20 +47,14 @@
                 </div>
             </div>
         
-
-
         <div class="card mt-3">
             <div class="card-header header-btn">
                 <button type="button" class="btn btn-link" id="checkAll">CHECK ALL</button>
                 <button type="button" class="btn btn-link" id="checkNone">CHECK NONE</button>
             </div>
-            <div class="card-body">
-                
-
-
+            <div class="card-body"> 
                 @foreach ($menus as $order_id => $categories)
-                @foreach ($categories as $group_name => $menuList)
-
+                @foreach ($categories as $group_name => $menuList) 
                 <div class="form-group row config-system">
                         <div class="col-md-2">
                             <label for="permission_ids" class="form-label">{{$group_name ?? ''}}</label>
@@ -74,8 +68,7 @@
                                 </div> 
                                 @endforeach
                             </div>
-                        </div>  
- 
+                        </div>   
                         <div class="col-md-3 btn-col">
                             <div class="row">
                                 <div class="col-sm-2 check-btn">
@@ -85,27 +78,28 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-
-
-
+                    </div> 
                     @endforeach
                     @endforeach
-                    <input type="submit" value="Submit">
-
- 
+                    <input type="submit" value="Submit"> 
                 </form>
             </div>
         </div>
     </div>
 </div>
-    
-        
-
-
 
 @section('javascript-section')
+@if(Session::has('updated')) 
+        <script>
+            Swal.fire({
+                title: "Success!",
+                text: "{{ Session::get('updated') }}",
+                icon: "success",
+                timer: 5000,
+            });
+        </script>
+@endif
+
 <script>
     function checkAll(name) {
         const checkboxes = document.querySelectorAll(`input[name=${name}]`);

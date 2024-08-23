@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\backend\AssignedCheckList;
 use App\Models\backend\CheckListInformation;
 use App\Models\backend\Department;
+use App\Models\backend\DepartmentType;
 use App\Models\backend\MasterCheckList;
 use App\Models\backend\Hotel;
 use Illuminate\Foundation\Auth\User;
@@ -14,7 +15,7 @@ use Illuminate\Http\Request;
 class CheckListController extends Controller
 {
     public function index(){
-        $departments = Department::whereHas('getMasterCheckLists')
+        $departments = DepartmentType::whereHas('getMasterCheckLists')
         ->where('status', 1)
         ->get();
         return view('backend.master_check_list.index', compact('departments'));
@@ -35,7 +36,6 @@ class CheckListController extends Controller
             'e_mail_for_all_department' => MasterCheckList::where('department_id', $dept_id)->where('category_id', 12)->get(),
             'computer_security' => MasterCheckList::where('department_id', $dept_id)->where('category_id', 13)->get()
         ];
-
         $users = User::where('department_id', $dept_id)->get();
         $hotels = Hotel::get();
         return view('backend.master_check_list.edit', compact('categories', 'dept_id', 'users', 'hotels')); 

@@ -102,7 +102,6 @@
                                 <input type="hidden" name="department_id_{{$item->id}}" value="{{$item->department_id ?? ''}}" {{$item->is_checked == 0 ? 'disabled':''}}>
                                 <input type="hidden" name="group_id_{{$item->id}}" value="{{$item->group_id ?? ''}}" {{$item->is_checked == 0 ? 'disabled':''}}>
                                 <input type="hidden" name="order_{{$item->id}}" value="{{$item->order ?? ''}}" {{$item->is_checked == 0 ? 'disabled':''}}> 
-                               
                             </div>
                         </div>
                     </div>

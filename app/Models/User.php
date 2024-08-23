@@ -3,10 +3,12 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\backend\DepartmentType;
 use App\Models\backend\Hotel;
 use App\Models\backend\role_types;
 use App\Models\backend\RoleType;
 use App\Models\backend\Department;
+use App\Models\backend\UserHierarchy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -53,17 +55,27 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    public function getHotels()
-    {
-        return $this->hasMany(Hotel::class, 'user_id');
-    }
+
+    
+
+    // public function getHotels(){
+    //     return $this->hasOne(Hotel::class, 'user_id');
+    // }
 
     public function roleType(){
         return $this->belongsTo(RoleType::class, 'role_type_id');
     }
 
-    public function getDepartment(){
-        return $this->belongsTo(Department::class, 'department_id');
+    public function getDepartmentType(){
+        return $this->belongsTo(DepartmentType::class, 'department_type_id');
+    }
+
+    public function getUserHierarchie(){
+        return $this->hasOne(UserHierarchy::class, 'user_id');
+    }
+
+    public function getHotelFromHotel(){
+        return $this->hasOne(Hotel::class, 'user_id');
     }
 
 }

@@ -18,49 +18,30 @@
                             <form class="mt-4">
                                 <div class="row">
                                     <div class="mb-3 col-md-6">
-                                        <input type="text" class="form-control" placeholder="Name" />
+                                    <lable>Document Title</lable>
+                                        <input type="text" class="form-control" name="document_title" id="document_title" placeholder="Document Title" />
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <select name="role-type" id=""
-                                                class="select2 js-programmatic-main-category form-control"
-                                                style="width: 100%; height: 36px">
-                                                <option></option>
+                                            <lable>Main Category</lable>
+                                            <select name="role-type" id="main_category" name="main_category" class="select2 js-programmatic-main-category form-control" style="width: 100%; height: 36px">
                                                 @foreach ($data['main_categories'] as $value)
                                                     <option value="{{ $value->id }}">{{ $value->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="mb-3m col-md-6">
-                                        <select name="categories" id=""
-                                            class="select2 js-programmatic-sub-category form-control"
-                                            style="width: 100%; height: 36px">
-                                            <option></option>
+                                    <div class="mb-3m col-md-6"> 
+                                    <lable>Sub Category</lable>
+                                        <select name="categories" id="sub_category" name="sub_category" class="select2 js-programmatic-sub-category form-control" style="width: 100%; height: 36px">
                                             @foreach ($data['sub_categories'] as $value)
                                                 <option value="{{ $value->id }}">{{ $value->name }}</option>
                                             @endforeach
                                         </select>
-                                    </div>
-
-                                    <div class="mb-3m col-md-6">
-                                        <textarea class="form-control" rows="3" placeholder="Description"></textarea>
-                                    </div>
-
-                                    <div class="mb-3m col-md-6" style="margin-bottom: 20px;">
-                                        <select name="role-type" id="" class="select2 js-programmatic form-control"
-                                            style="width: 100%; height: 36px">
-                                            <option selected>Select Role</option>
-                                            <option>Employe</option>
-                                            <option>Staff</option>
-                                            <option>Department</option>
-                                        </select>
-                                    </div>
+                                    </div>  
+                                     
                                     <div class="col-md-6 mt-3">
-                                        <select name="assign_user" id=""
-                                            class="select2 js-programmatic-user form-control"
-                                            style="width: 100%; height: 36px">
-                                            <option></option>
+                                        <select name="assign_user" id="" class="select2 js-programmatic-user form-control" style="width: 100%; height: 36px">
                                             @foreach ($data['users'] as $user)
                                                 <option value="{{ $user->id }}">{{ $user->name }}</option>
                                             @endforeach

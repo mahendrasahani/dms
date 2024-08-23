@@ -28,10 +28,9 @@
                                 <thead>
                                     <tr>
                                         <th>SN</th>
-                                        <th>Name</th>
-                                        <th>Hotel Loaction</th>
-                                        <th>Owner Name</th>
-                                        <th>Status</th>
+                                        <th>Name</th>  
+                                        <th>Location</th>  
+                                        <th>Head Department</th>  
                                         <th style="align-item: end;">Action</th>
                                     </tr>
                                 </thead>
@@ -40,17 +39,9 @@
                                     @foreach ($hotels as $hotel)
                                     <tr>
                                         <td>{{$count++}}</td>
-                                        <td>{{$hotel->name}}</td>
-                                        <td>{{$hotel->location}}</td>
-                                        <td>{{$hotel->getUser->name ?? ''}}</td>
-                                        <td>
-                                            <div class="form-check form-switch">
-                                                <input class="form-check-input" data-id="{{$hotel->id}}"
-                                                    {{ $hotel->status === 1 ? 'checked' : '' }}
-                                                    value="{{ $hotel->status }}" data-status="{{ $hotel->status }}"
-                                                    type="checkbox" id="changeStatus" />
-                                            </div>
-                                        </td>
+                                        <td>{{$hotel->name}}</td> 
+                                        <td>{{$hotel->getHotelFromHotel->location}}</td> 
+                                         <td>{{$hotel->getUserHierarchie->getHeadDepartment->getDepartmentType->name}}</td> 
                                         <td>
                                             <div class="button-container">
                                                 <a href="#">
@@ -108,37 +99,11 @@
                 icon: "success",
                 timer: 5000,
                
-            });
-            
+            }); 
         </script>
         @endif
-        <script>
-            $(document).on("change", "#changeStatus", function(){
-        var $toggleButton = $(this);
-        
-        var status = $toggleButton.prop('checked') ? '1':'0';
-        let id = $(this).data('id'); 
-        $.ajax({
-
-            url: "{{route('backend.hotel.update_status')}}",
-            data: {'status':status, 'id':id},
-            type: "GET",
-            success: function(response){
-                if(response.status == 200){
-                    Swal.fire({
-                        title: "Success!",
-                        text: "Status successfully updated.",
-                        icon: "success"
-                    });  
-                }
-            }
-        });
-      });
-        </script>
-        
-        {{--  willClose: () => {
-                    window.location.href = "{{ route('backend.hotals.index') }}";
-                } --}}
+       
+ 
     
 @endsection
 
