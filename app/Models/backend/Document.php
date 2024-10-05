@@ -4,10 +4,11 @@ namespace App\Models\backend;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Document extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
     protected $fillable = [
        'name',
        'main_category_id',
@@ -23,7 +24,33 @@ class Document extends Model
        'doc_file',
        'admin_id',
        'disk',
-       'status'
-
+       'status',
+       'document_title',
+       'main_folder_id',
+       'sub_folder_id',
+       'department_type_id', 
+       'doc_path',
+       'assigned_users', 
+       'owner_id'
     ];
+    protected $casts = [
+        'assigned_users' => 'array'
+    ];
+
+    public function getMainFolder(){
+        return $this->belongsTo(MainFolder::class, 'main_folder_id');
+    }
+
+    public function getSubFolder(){
+        return $this->belongsTo(SubFolder::class, 'sub_folder_id');
+    }
+
+    public function getDepartmentType(){
+        return $this->belongsTo(DepartmentType::class, 'department_type_id');
+    }
+
+    public function getTask(){
+        return $this->hasMany(Task::class, 'document_id');
+    }
+    
 }

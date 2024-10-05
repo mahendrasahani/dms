@@ -1,4 +1,4 @@
-
+<footer class="footer"><?php echo e(Carbon\Carbon::now()->format('Y')); ?>© All Rights Reserved by Cygnett</footer>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="<?php echo e(url('public/assets/backend/assets/libs/jquery/dist/jquery.min.js')); ?>"></script>
 <script src="<?php echo e(url('public/assets/backend/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js')); ?>"></script>
@@ -16,7 +16,7 @@
 <script src="<?php echo e(url('public/assets/backend/assets/extra-libs/taskboard/js/jquery-ui.min.js')); ?>"></script>
 <script src="<?php echo e(url('public/assets/backend/dist/js/pages/chat/chat.js')); ?>"></script>
 <script src="<?php echo e(url('public/assets/backend/assets/extra-libs/taskboard/js/jquery.ui.touch-punch-improved.js')); ?>"></script>
-<script src="<?php echo e(url('public/assets/backend/assets/extra-libs/taskboard/js/lobilist.js')); ?>"></script>
+<script src="<?php echo e(url('public/assets/backend/asse0s/extra-libs/taskboard/js/lobilist.js')); ?>"></script>
 <script src="<?php echo e(url('public/assets/backend/assets/extra-libs/taskboard/js/lobibox.min.js')); ?>"></script>
 <script src="<?php echo e(url('public/assets/backend/assets/extra-libs/taskboard/js/task-init.js')); ?>"></script>
 <script src="<?php echo e(url('public/assets/backend/assets/libs/popper.js/popper.min.js')); ?>"></script>
@@ -35,12 +35,16 @@
 <script src="<?php echo e(url('public/assets/backend/assets/libs/select2/dist/js/select2.min.js')); ?>"></script>
 <script src="<?php echo e(url('public/assets/backend/dist/js/pages/forms/select2/select2.init.js')); ?>"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+ <!-- Chart JS -->
+ <!-- <script src="<?php echo e(url('public/assets/backend/dist/js/pages/chartjs/chartjs.init.js')); ?>"></script>
+ <script src="<?php echo e(url('public/assets/backend/assets/libs/chart.js/dist/Chart.min.js')); ?>"></script> -->
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.js" integrity="sha512-eP8DK17a+MOcKHXC5Yrqzd8WI5WKh6F1TIk5QZ/8Lbv+8ssblcz7oGC8ZmQ/ZSAPa7ZmsCU4e/hcovqR8jfJqA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 
-
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 <?php echo $__env->yieldContent('javascript-section'); ?>
 
 <!-- <script>

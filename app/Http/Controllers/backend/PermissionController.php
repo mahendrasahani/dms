@@ -27,6 +27,7 @@ class PermissionController extends Controller
         $role->syncPermissions($request->permissions); 
         return redirect()->back();
     }
+    
     public function assignPermissionView(){
         $permissions = Permission::all();
         $roles = Role::all();

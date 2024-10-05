@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\backend\ApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,3 +18,10 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::middleware('auth:sanctum')->group(function(){ 
+});
+
+Route::get('/get_sub_folder_list', [ApiController::class, 'getSubFolderList'])->name('api.get_sub_folder_list');
+Route::get('/fetch-chart-data', [ApiController::class, 'fetchChartData'])->name('fetch_chart_data');
+ 

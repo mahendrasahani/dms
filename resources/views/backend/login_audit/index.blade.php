@@ -1,31 +1,23 @@
-
-
 @extends('layouts/backend/main')
 @section('main-section')
 
 <div class="page-wrapper">
     <div class="page-titles">
         <div class="row">
-            <div class="col-lg-8 col-md-6 col-12 align-self-center">
-                <h4 class="text-muted mb-0 fw-normal">Welcome {{Auth::user()->name}}</h4>
-                <h1 class="mb-0 fw-bold">Login Audit</h1>
+            <div class="col-lg-8 col-md-6 col-12 align-self-center"> 
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0 d-flex align-items-center">
+                  <li class="breadcrumb-item">
+                    <a href="{{route('dashboard')}}" class="link"><i class="ri-home-3-line fs-5"></i></a>
+                  </li>  
+                  <li class="breadcrumb-item active" aria-current="page">
+                    Login Report
+                  </li>
+                </ol>
+              </nav>
+                <h1 class="mb-0 fw-bold">Login Report</h1>
             </div>
-            <div class="
-                col-lg-4 col-md-6
-                d-none d-md-flex
-                align-items-center
-                justify-content-end
-              ">
-                <select class="form-select theme-select border-0" aria-label="Default select example">
-                    <option value="1">Today 23 March</option>
-                    <option value="2">Today 24 March</option>
-                    <option value="3">Today 25 March</option>
-                </select>
-                <a href="javascript:void(0)" class="btn btn-info d-flex align-items-center ms-2">
-                    <i class="ri-add-line me-1"></i>
-                    Add New
-                </a>
-            </div>
+             
         </div>
     </div>
     <div class="container-fluid">
@@ -38,66 +30,25 @@
                                 <thead>
                                     <tr>
                                         <th>Name</th>
-                                        <th>User Name</th>
-                                        <th>Email</th>
+                                        <th>Email</th> 
                                         <th>IP Address</th>
-                                        <th>Date & time</th>
-                                        <th>Latitude</th>
-                                        <th>Longitude</th>
-                                        <th>status</th>
+                                        <th>Date</th> 
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach($login_audits as $audit)
                                     <tr>
-                                        <td>Tiger Nixon</td>
-                                        <td>System Architect</td>
-                                        <td>Edinburgh</td>
-                                        <td>61</td>
-                                        <td> $320,800</td>
-                                        <td>$320,800</td>
-                                        <td>-60.69754</td>
-                                        <th>1</th>
+                                        <td>{{$audit->getUser->name}}</td>
+                                        <td>{{$audit->getUser->email}}</td>
+                                        <td>{{$audit->ip}}</td>
+                                        <td>{{Carbon\Carbon::parse($audit->created_at)->format('d M, Y')}}</td>
+                                       
                                     </tr>
-                                    <tr>
-                                        <td>Garrett Winters</td>
-                                        <td>Accountant</td>
-                                        <td>Tokyo</td>
-                                        <td>63</td>
-                                        <td>2011/07/25</td>
-                                        <td>$170,750</td>
-                                        <td>-60.69754</td>
-                                        <th>1</th>
-                                    </tr>
-                                    <tr>
-                                        <td>Ashton Cox</td>
-                                        <td>Junior Technical Author</td>
-                                        <td>San Francisco</td>
-                                        <td>66</td>
-                                        <td>2009/01/12</td>
-                                        <td>$86,000</td>
-                                        <td>-60.69754</td>
-                                        <th>1</th>
-                                    </tr>
-                                    <tr>
-                                        <td>Cedric Kelly</td>
-                                        <td>Senior Javascript Developer</td>
-                                        <td>Edinburgh</td>
-                                        <td>22</td>
-                                        <td>2012/03/29</td>
-                                        <td>$433,060</td>
-                                        <td>-60.69754</td>
-                                        <th>1</th>
-                                    </tr>
-                                    <tr>
-                                        <td>Airi Satou</td>
-                                        <td>Accountant</td>
-                                        <td>Tokyo</td>
-                                        <td>33</td>
-                                        <td>2008/11/28</td>
-                                        <td>$162,700</td>
-                                        <td>-60.69754</td>
-                                        <th>1</th>
-                                    </tr>
+                                    @endforeach
+                                     
+                                     
+                                     
+                                     
                                 </tbody>
                             </table>
                         </div>

@@ -4,13 +4,19 @@ namespace App\Models\backend;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Backend\Document;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class MainFolder extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         "name",
         "department_type_id"
     ];
+
+    public function getDocumnet(){
+        return $this->hasMany(Document::class, 'main_folder_id');
+    }
 }

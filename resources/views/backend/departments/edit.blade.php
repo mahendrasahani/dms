@@ -4,10 +4,29 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
+                <div class="page-titles">
+            <div class="row">
+                <div class="col-lg-8 col-md-6 col-12 align-self-center">
+
+                <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0 d-flex align-items-center">
+                  <li class="breadcrumb-item">
+                    <a href="{{route('dashboard')}}" class="link"><i class="ri-home-3-line fs-5"></i></a>
+                  </li>
+                  <li class="breadcrumb-item" aria-current="page">
+                    <a href="{{route('backend.document.index')}}" class="link">All Document</a>
+                  </li>
+                  <li class="breadcrumb-item active" aria-current="page">
+                    Edit
+                  </li>
+                </ol>
+              </nav>
+                    <h1 class="mb-0 fw-bold">Edit Department</h1>
+                </div>
+            </div>
+        </div>
                     <div class="card">
-                        <div class="border-bottom title-part-padding">
-                            <h4 class="mb-0">Edit Main Category</h4>
-                        </div>
+                        
                         <div class="card-body">
                             <form action="{{route('backend.department.update',[$role_name->id])}}">
                                 @csrf
@@ -15,7 +34,10 @@
                                     <div class="col-md-4 mb-3">
                                         <label for="validationDefault02">Role Name</label>
                                         <input type="text" class="form-control" id="validationDefault02" name="role_name"
-                                            placeholder="Last name" value="{{$role_name->name}}" require />
+                                            placeholder="Last name" value="{{$role_name->name}}" required/>
+                                        @error('role_name')
+                                        <p style="color:red;">{{$message}}</p>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="row">
