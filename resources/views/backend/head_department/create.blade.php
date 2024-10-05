@@ -4,7 +4,12 @@
         <div class="page-titles">
             <div class="row">
                 <div class="col-lg-8 col-md-6 col-12 align-self-center">
-                    <nav aria-label="breadcrumb">
+                <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-0 d-flex align-items-center">
+                            <li class="breadcrumb-item"><a href="{{route('dashboard')}}" class="link"><i class="ri-home-3-line fs-5"></i></a></li> 
+                            <li class="breadcrumb-item active" aria-current="page"><a href="{{route('backend.head_department.index')}}" class="link">Head Department</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Create</li>
+                        </ol>
                     </nav>
                     <h1 class="mb-0 fw-bold">Add Head Department</h1>
                 </div>
@@ -30,7 +35,7 @@
                                     <div class="mb-3 col-md-6">
                                     <select name="department" required class="select2 js-programmatic form-control"  style="width: 100%; height: 36px">
                                     <option></option>
-                                    @foreach ($departments as $department)
+                                    @foreach ($head_departments as $department)
                                     <option value="{{$department->id}}">{{$department->name ?? ''}}</option>
                                     @endforeach
                                  </select>

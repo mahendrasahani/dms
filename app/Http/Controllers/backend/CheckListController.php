@@ -18,6 +18,7 @@ class CheckListController extends Controller
         $departments = DepartmentType::whereHas('getMasterCheckLists')
         ->where('status', 1)
         ->get();
+        
         return view('backend.master_check_list.index', compact('departments'));
     } 
     public function edit($dept_id){
@@ -36,7 +37,7 @@ class CheckListController extends Controller
             'e_mail_for_all_department' => MasterCheckList::where('department_id', $dept_id)->where('category_id', 12)->get(),
             'computer_security' => MasterCheckList::where('department_id', $dept_id)->where('category_id', 13)->get()
         ];
-        $users = User::where('department_id', $dept_id)->get();
+        $users = User::where('department_type_id', $dept_id)->get();
         $hotels = Hotel::get();
         return view('backend.master_check_list.edit', compact('categories', 'dept_id', 'users', 'hotels')); 
     }

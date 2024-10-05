@@ -4,6 +4,8 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\backend\DepartmentType;
+use App\Models\backend\DocumentComment;
+use App\Models\backend\DocumentPermission;
 use App\Models\backend\Hotel;
 use App\Models\backend\role_types;
 use App\Models\backend\RoleType;
@@ -14,10 +16,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
     use HasRoles;
 
     /**
@@ -34,8 +37,11 @@ class User extends Authenticatable
         'created_by',
         'role_type_id',
         'status',
-        'department_id'
+        'department_id',
+        'department_type_id'
     ];
+
+    
 
     /**
      * The attributes that should be hidden for serialization.
@@ -77,5 +83,16 @@ class User extends Authenticatable
     public function getHotelFromHotel(){
         return $this->hasOne(Hotel::class, 'user_id');
     }
+
+    public function getDocumentComment(){
+        return $this->hasOne(DocumentComment::class, 'user_id');
+    }
+
+    public function getDocumentPermission(){
+        return $this->hasOne(DocumentPermission::class, 'user_id');
+    }
+
+    
+    
 
 }

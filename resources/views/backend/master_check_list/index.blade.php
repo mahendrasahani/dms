@@ -78,28 +78,7 @@
             
         </script>
         @endif
-        <script>
-            $(document).on("change", "#changeStatus", function(){
-        var $toggleButton = $(this);
         
-        var status = $toggleButton.prop('checked') ? '1':'0';
-        let id = $(this).data('id'); 
-        $.ajax({
-            url: "{{route('backend.employee.update_status')}}",
-            data: {'status':status, 'id':id},
-            type: "GET",
-            success: function(response){
-                if(response.status == 200){
-                    Swal.fire({
-                        title: "Success!",
-                        text: "Status successfully updated.",
-                        icon: "success"
-                    });  
-                }
-            }
-        });
-      });
-        </script>
    
     
 @endsection

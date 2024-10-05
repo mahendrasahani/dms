@@ -5,28 +5,7 @@
     <div class="text-center mb-4">
         <h1 class="display-4">Event Schedule</h1>
     </div>
-    <div id="eventDetails" class="p-4 bg-light rounded shadow-sm mb-4">
-        <div class="event mb-4">
-            <h5>Event 1</h5>
-            <p><strong>Name:</strong> Sample Event 1</p>
-            <p><strong>Main Category:</strong> Category 1</p>
-            <p><strong>Sub Category:</strong> Subcategory A</p>
-            <p><strong>Start Date:</strong> 2024-06-17</p>
-            <p><strong>End Date:</strong> 2024-06-18</p>
-            <p><strong>Start Time:</strong> 10:00 AM</p>
-            <p><strong>End Time:</strong> 4:00 PM</p>
-        </div>
-        <hr>
-        <div class="event mb-4">
-            <h5>Event 2</h5>
-            <p><strong>Name:</strong> Sample Event 2</p>
-            <p><strong>Main Category:</strong> Category 2</p>
-            <p><strong>Sub Category:</strong> Subcategory B</p>
-            <p><strong>Start Date:</strong> 2024-06-19</p>
-            <p><strong>End Date:</strong> 2024-06-20</p>
-            <p><strong>Start Time:</strong> 9:00 AM</p>
-            <p><strong>End Time:</strong> 5:00 PM</p>
-        </div>
+    <div id="eventDetails" class="p-4 bg-light rounded shadow-sm mb-4"> 
         <!-- Add more events as needed -->
     </div>
     <div class="text-center mt-4">

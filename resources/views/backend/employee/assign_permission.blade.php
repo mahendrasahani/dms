@@ -5,6 +5,12 @@
     <div class="page-titles">
         <div class="row">
             <div class="col-lg-8 col-md-6 col-12 align-self-center"> 
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0 d-flex align-items-center">
+                    <li class="breadcrumb-item"><a href="{{route('dashboard')}}" class="link"><i class="ri-home-3-line fs-5"></i></a></li> 
+                    <li class="breadcrumb-item active" aria-current="page"><a href="Assign Task" class="link">Assign Permissions</a></li>
+                 </ol>
+            </nav>
                 <h1 class="mb-0 fw-bold">Assign Permissions</h1>
             </div>
         </div>
