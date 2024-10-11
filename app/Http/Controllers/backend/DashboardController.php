@@ -52,4 +52,5 @@ class DashboardController extends Controller{
     public function redirectDashboard(){
         return redirect('admin/dashboard'); 
     }
+ 
 }
