@@ -38,7 +38,7 @@
                             </span>
                             <div class="card_data d-flex flex-column justify-content-center">
                             <h6 class="text-muted mb-0">Total Documents Uploaded</h6>
-                            <h1 class="mb-0 fw-bold">{{$todal_doc_count}}</h1>
+                            <h1 class="mb-0 fw-bold">{{$todal_doc_count ?? ''}}</h1>
                             </div> 
                         </div>
                     </div> 
@@ -51,7 +51,7 @@
                             </span>
                             <div class="card_data d-flex flex-column justify-content-center">
                                 <h6 class="text-muted mb-0">Total Users Added</h6>
-                                <h1 class="mb-0 fw-bold">{{$total_users_count}}</h1>
+                                <h1 class="mb-0 fw-bold">{{$total_users_count ?? ''}}</h1>
                             </div> 
                         </div> 
                     </div>
@@ -64,7 +64,7 @@
                         </span>
                         <div class="card_data d-flex flex-column justify-content-center">
                         <h6 class="text-muted mb-0">Total Departments Added</h6>
-                        <h1 class="mb-0 fw-bold">{{$total_dept_count}}</h1>
+                        <h1 class="mb-0 fw-bold">{{$total_dept_count ?? ''}}</h1>
                         </div> 
                     </div> 
                 </div>
@@ -75,8 +75,9 @@
             <div class="col-lg-8">  
                     <div class="card-body">
                         <div class="table-responsive">
-                            <h2><b>Recently Added Documents</b></h2>
-                            <table id=" " class="table table-striped table-bordered text-nowrap">
+                        @if(count($recently_added_documents)> 0)
+                            <h2><b>Recently Added Documents</b></h2> 
+                            <table id="" class="table table-striped table-bordered text-nowrap">
                             <thead>
                                     <tr>
                                         <th>SN</th>
@@ -89,11 +90,11 @@
                                     </tr>
                                 </thead>
 
-                                <tbody>
+                                  <tbody>
                                     @php  
                                     $count = '1';
-                                    @endphp 
-                                    @if(count($recently_added_documents)> 0)
+                                    @endphp  
+                                    
                                     @foreach($recently_added_documents as $doc)
                                     <tr>
                                         <td>{{$count++}}</td>
@@ -112,14 +113,19 @@
                                         </div>
                                         </td>
                                     </tr> 
-                                    @endforeach
-                                    @endif
-                                </tbody>
+                                    @endforeach 
+                                </tbody>  
                             </table>
+                            @else
+                            <h2><b>No Recent data available</b></h2>
+                            <table> 
+                            </table>
+                            @endif
                         </div>
                     </div>  
                     <br><br>
  
+                    @if(count($recently_added_users) > 0)
                     <div class="card-body">
                     <h2><b>Recently Added User</b></h2>
                         <div class="table-responsive">
@@ -138,7 +144,7 @@
                                     @php  
                                     $count = '1';
                                     @endphp 
-                                    @if(count($recently_added_users) > 0)
+                                  
                                     @foreach($recently_added_users as $user)
                                     <tr>
                                         <td>{{$count++}}</td> 
@@ -148,9 +154,12 @@
                                         <td>{{$user->roleType->name}}</td>  
                                     </tr>
                                     @endforeach
-                                    @endif
-                                </tbody>
+                                  
+                                </tbody>  
                             </table>
+                            @else
+                            <h2><b>No Recent User Available</b></h2>
+                            @endif
                         </div>
                     </div>
             </div>

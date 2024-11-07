@@ -1,5 +1,3 @@
-
-
 <style>
     .ro_ss{
        display: flex;
@@ -20,8 +18,6 @@
     .selected .active{ 
     } 
 </style>
-
- 
 @extends('layouts/backend/main')
 @section('main-section')
     <div class="page-wrapper">
@@ -45,46 +41,10 @@
         </div>
         <div class="container-fluid">
             <div class="ro_ss w-100"> 
-                @if(count($sub_folders) == 0)
+                @if(count($sub_folder_list) == 0)
                 <h2>Empty</h2>
-                @endif
-
-                @if(Auth::user()->role_type_id == 2)
-                @foreach ($sub_folders as $sub_folder)
-                <div class="w_20 g-2">
-                            <div class="card-group my-1" id="folder_div">
-                                <div class="card">
-                                    <div class="d-flex justify-content-center"> 
-                                        <div class="d-flex align-items-center flex-column gap-3" >
-                                            <span class="btn btn-xl text-info btn-circle d-flex align-items-center our-folder">
-                                                <a href="{{ route('backend.folders.view_doc_list', [Crypt::encrypt($main_folder->id), Crypt::encrypt($sub_folder->getSubFolders->id)]) }}">
-                                                    <i class="fa fa-folder" style="color:#ffd60a !important; font-size: 5rem;"></i>
-                                                </a>
-                                            </span>
-                                            <a href="{{ route('backend.folders.view_doc_list', parameters: [Crypt::encrypt($main_folder->id), Crypt::encrypt($sub_folder->getSubFolders->id)]) }}">
-                                                <h6 class="text-muted mb-0 fw-bold">{{ $sub_folder->name }}</h6>
-                                            </a>
-                                        </div> 
-                                          <div class="dropdown">
-                                            <button class="btn btn-link" type="button" id="threeDotsMenu" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="fa fa-ellipsis-v"></i>
-                                            </button>
-                                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="threeDotsMenu">
-                                            <li><a class="dropdown-item" href="{{route('backend_folder_permission.assign.direct', [Crypt::encrypt($main_folder->id), Crypt::encrypt($sub_folder->getSubFolders->id)])}}">Permissions</a></li> 
-                                                <li><a class="dropdown-item" href="                                                <li><a class="dropdown-item" href="{{route('backend_folder_permission.assign.direct', [Crypt::encrypt($main_folder->id), Crypt::encrypt($sub_folder->getSubFolders->id)])}}">Permissions</a></li> 
-                                                <li><a class="dropdown-item" href="{{route('backend.document.direct_upload', [Crypt::encrypt($main_folder->id), Crypt::encrypt($sub_folder->getSubFolders->id)])}}">Upload File</a></li> 
-                                                <li><a class="dropdown-item" href="{{route('backend.folders.delete_sub_folder', [Crypt::encrypt($main_folder->id), Crypt::encrypt($sub_folder->getSubFolders->id)])}}">Delete Folder</a></li> ">Upload File</a></li> 
-                                                <li><a class="dropdown-item" href="{{route('backend.folders.delete_sub_folder', [Crypt::encrypt($main_folder->id), Crypt::encrypt($sub_folder->getSubFolders->id)])}}">Delete Folder</a></li> 
-                                            </ul>
-                                        </div> 
-                                    </div>
-                                </div>
-                            </div> 
-                        </div>
-                        @endforeach
-
-                        @else 
-                            @foreach ($sub_folders as $sub_folder)
+                @endif 
+                            @foreach ($sub_folder_list as $sub_folder)
                                  <div class="w_20 g-2">
                                         <div class="card-group my-1" id="folder_div">
                                             <div class="card">
@@ -93,7 +53,7 @@
                                                     <div class="d-flex align-items-center flex-column gap-3" >
                                                         <span class=" btn-xl text-info btn-circle d-flex align-items-center our-folder">
                                                             <span>
-                                                            <a href="{{ route('backend.folders.view_doc_list', [Crypt::encrypt($main_folder->id), Crypt::encrypt($sub_folder->getSubFolders->id)]) }}">
+                                                            <a href="{{ route('backend.folders.view_doc_list', [Crypt::encrypt($main_folder->id), Crypt::encrypt($sub_folder->id)]) }}">
                                                                 <i class="fa fa-folder" style="color:#ffd60a !important; font-size: 5rem;"></i>
                                                             </a>
                                                            </span>
@@ -101,41 +61,30 @@
                                                             <a class=" btn-link" type="button" id="threeDotsMenu" data-bs-toggle="dropdown" aria-expanded="false"
                                                                 style="font-size: 16px;">
                                                                 <i class="fa fa-ellipsis-v"></i>
-                                                            </a>
-
+                                                            </a> 
                                                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="threeDotsMenu">
                                                                 <li><a class="dropdown-item"
-                                                                        href="{{route('backend_folder_permission.assign.direct', [Crypt::encrypt($main_folder->id), Crypt::encrypt($sub_folder->getSubFolders->id)])}}">Permissions</a>
+                                                                        href="{{route('backend_folder_permission.assign.direct', [Crypt::encrypt($main_folder->id), Crypt::encrypt($sub_folder->id)])}}">Permissions</a>
                                                                 </li>
                                                                 <li><a class="dropdown-item"
-                                                                        href="{{route('backend.document.direct_upload', [Crypt::encrypt($main_folder->id), Crypt::encrypt($sub_folder->getSubFolders->id)])}}">Upload
+                                                                        href="{{route('backend.document.direct_upload', [Crypt::encrypt($main_folder->id), Crypt::encrypt($sub_folder->id)])}}">Upload
                                                                         File</a></li>
                                                                 <li><a class="dropdown-item"
-                                                                        href="{{route('backend.folders.delete_sub_folder', [Crypt::encrypt($main_folder->id), Crypt::encrypt($sub_folder->getSubFolders->id)])}}">Delete
+                                                                        href="{{route('backend.folders.delete_sub_folder', [Crypt::encrypt($main_folder->id), Crypt::encrypt($sub_folder->id)])}}">Delete
                                                                         Folder</a></li>
-                                                            </ul>
-
-                                                        </div>
-
+                                                            </ul> 
+                                                        </div> 
                                                         </span> 
 
-                                                        <a href="{{ route('backend.folders.view_doc_list', [Crypt::encrypt($main_folder->id), Crypt::encrypt($sub_folder->getSubFolders->id)]) }}">
-                                                            <h6 class="text-muted mb-0 fw-bold">{{ $sub_folder->getSubFolders->name }}</h6>
-                                                        </a>
-
-                                                    </div>
-
-
-
+                                                        <a href="{{ route('backend.folders.view_doc_list', [Crypt::encrypt($main_folder->id), Crypt::encrypt($sub_folder->id)]) }}">
+                                                            <h6 class="text-muted mb-0 fw-bold">{{ $sub_folder->name }}  ({{count($sub_folder->getDocument)}})</h6>
+                                                        </a> 
+                                                    </div> 
                                                 </div>
                                             </div>
                                         </div> 
-                                    </div>
-
-                            @endforeach
-
-                        @endif
-
+                                    </div> 
+                            @endforeach 
             </div>
         </div>
         <div class="card w-100">
@@ -152,10 +101,10 @@
                             <div class="col-lg-12">
                                 <div class="card">
                                     <div class="card-body"> 
-                                        <form method="POST" action="{{ route('backend.folders.store', [Crypt::encrypt($main_folder->id)]) }}">
+                                        <form method="POST" action="{{ route('backend.folders.store', [Crypt::encrypt($main_folder?->id)]) }}">
                                             @csrf    
                                             <div class="form-floating mb-3">
-                                                <input type="text" class="form-control" placeholder="Folder Name" required name="folder_name" />
+                                                <input type="text" class="form-control" placeholder="Folder Name" required name="folder_name" maxlength="30" />
                                                 <label><i data-feather="folder" class="sun"></i>&nbsp;Folder Name</label>
                                             </div> 
                                             <div class="d-md-flex align-items-center my-2">

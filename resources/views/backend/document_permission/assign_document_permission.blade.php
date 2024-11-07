@@ -90,6 +90,16 @@
             });
         </script>
 @endif
+@if(Session::has('document_access_synced')) 
+        <script>
+            Swal.fire({
+                title: "Success!",
+                text: "{{ Session::get('document_access_synced') }}",
+                icon: "success",
+                timer: 5000,
+            });
+        </script>
+@endif
 
  <script>
    $('#access_form').on('submit', function(e) {

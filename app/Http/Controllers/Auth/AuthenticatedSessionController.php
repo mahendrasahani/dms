@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Models\backend\LoginAudit;
 use App\Models\backend\Notification;
+use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -27,25 +28,37 @@ class AuthenticatedSessionController extends Controller
      * Handle an incoming authentication request.
      */
     public function store(LoginRequest $request): RedirectResponse{
-        $request->authenticate();
-        $request->session()->regenerate();
-        
-        Notification::create([
-            "user_id" => Auth::user()->id,
-            "title" =>  "New Login",
-            "notification" => Auth::user()->name. ' Login',
-            "notification_for" => 1,
-            "icon" => '<i class="fa fa-sign-in" aria-hidden="true"></i>',
-            "read_status" => 0,
-            "status" => 1,
-        ]);
-        $ipAddress = $request->ip();
-        LoginAudit::create([
-            "user_id" => Auth::user()->id,
-            "email" => Auth::user()->email,
-            "ip" => $ipAddress
-        ]);
-        return redirect()->intended(RouteServiceProvider::HOME);
+        // $request->authenticate();
+        // $request->session()->regenerate(); 
+        $credentials = $request->only('email', 'password');
+        $remember = $request->filled('remember');
+        $user = User::where('email', $request->email)->first();
+        if (!$user){
+            return back()->withErrors([
+                'email' => 'This Email id does not exist.',
+            ]);
+        } 
+        if (Auth::attempt($credentials, $remember)) {
+            $request->session()->regenerate(); 
+            Notification::create([
+                "user_id" => Auth::user()->id,
+                "title" =>  "New Login",
+                "notification" => Auth::user()->name . ' Login',
+                "notification_for" => 1,
+                "icon" => '<i class="fa fa-sign-in" aria-hidden="true"></i>',
+                "read_status" => 0,
+                "status" => 1,
+            ]); 
+            $ipAddress = $request->ip();
+            LoginAudit::create([
+                "user_id" => Auth::user()->id,
+                "email" => Auth::user()->email,
+                "ip" => $ipAddress,
+            ]); 
+            return redirect()->intended(RouteServiceProvider::HOME);
+        } return back()->withErrors([ 
+            'password' => 'Wrong Password.',
+        ]); 
     }
 
     /**

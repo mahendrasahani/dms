@@ -9,9 +9,7 @@
     <link href="{{ url('public/assets/backend/assets/extra-libs/calendar/calendar.css') }}" rel="stylesheet" />
     <link href="{{ url('public/assets/backend/assets/libs/fullcalendar/dist/fullcalendar.min.css') }}"rel="stylesheet" />
     <link rel="canonical" href="https://www.wrappixel.com/templates/flexy-bootstrap-admin-template/" />
-
-     <link rel="icon" type="image/png" sizes="16x16" href="{{ url('public/assets/backend/assets/images/favicon.png')}}" /> 
-
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url('public/assets/backend/assets/images/favicon.png')}}" /> 
     <link rel="stylesheet" href="{{ url('public/assets/backend/assets/extra-libs/taskboard/css/lobilist.css') }}" />
     <link rel="stylesheet" href="{{ url('public/assets/backend/assets/extra-libs/taskboard/css/jquery-ui.min.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ url('public/assets/backend/assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}" />
@@ -29,54 +27,48 @@
         align-items: center;
     }
     .topNavbarAdd ul{
-    list-style: none;
-  display: flex;
-  align-items: center;
-}
-.topNavbarAdd ul li{
-    padding: 0 8px;
-    border-right: 1px solid #253a76;
-    margin: 0 5px;
-}.topNavbarAdd ul li a{color:#253a76}
-
-a.sidebar-link.waves-effect.waves-dark {
-   background: none;
- 
-}
- .iconcolortext svg{
-    color:#fff !important
- }
- .iconcolortext span{
-    color:#fff !important;
- }
- 
-
-a.sidebar-link.has-arrow.waves-effect.waves-dark.iconcolortext.active span, a.sidebar-link.has-arrow.waves-effect.waves-dark.iconcolortext.active svg{
-    color:#253a76 !important
-}
-
-a.sidebar-link.has-arrow.waves-effect.waves-dark.iconcolortext:focus span, a.sidebar-link.has-arrow.waves-effect.waves-dark.iconcolortext:focus svg{
-    color:#253a76 !important
-}
-
-a.sidebar-link.waves-effect.waves-dark.iconcolortext.active span, a.sidebar-link.waves-effect.waves-dark.iconcolortext.active svg{
-     color:#253a76 !important
-}
- 
-.mini-sidebar .logo-icon img{
-    width: 50px !important;
-}
-.logoicon{
-    padding: 2rem 0 1rem 0;
-}
-.logoicon img{
-   
-    width:65%;
-}
-
+        list-style: none;
+        display: flex;
+        align-items: center;
+    }
+    .topNavbarAdd ul li{
+        padding: 0 8px;
+        border-right: 1px solid #253a76;
+        margin: 0 5px;
+    }
+    .topNavbarAdd ul li a{
+        color:#253a76;
+    } 
+    a.sidebar-link.waves-effect.waves-dark {
+        background: none;
+    }
+    .iconcolortext svg{
+        color:#fff !important
+    }
+    .iconcolortext span{
+        color:#fff !important;
+    }
+    a.sidebar-link.has-arrow.waves-effect.waves-dark.iconcolortext.active span, a.sidebar-link.has-arrow.waves-effect.waves-dark.iconcolortext.active svg{
+        color:#253a76 !important
+    } 
+    a.sidebar-link.has-arrow.waves-effect.waves-dark.iconcolortext:focus span, a.sidebar-link.has-arrow.waves-effect.waves-dark.iconcolortext:focus svg{
+        color:#253a76 !important
+    } 
+    a.sidebar-link.waves-effect.waves-dark.iconcolortext.active span, a.sidebar-link.waves-effect.waves-dark.iconcolortext.active svg{
+        color:#253a76 !important
+    }
+    .mini-sidebar .logo-icon img{
+        width: 50px !important;
+    }
+    .logoicon{
+        padding: 2rem 0 1rem 0;
+    }
+    .logoicon img{
+        width:65%;
+    } 
 </style>
-</head>
 
+</head> 
 <body>
     <div class="preloader">
         <svg class="tea lds-ripple" width="37" height="48" viewbox="0 0 37 48" fill="none"
@@ -145,10 +137,9 @@ a.sidebar-link.waves-effect.waves-dark.iconcolortext.active span, a.sidebar-link
                             <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{route('admin.task.index')}}" aria-expanded="false">
                                 <span class="hide-menu">Tasks</span>
                             </a>
-                        </li>
-               
+                        </li> 
                         @php
-$all_document_check = App\Models\backend\UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 14)->exists();
+                            $all_document_check = App\Models\backend\UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 14)->exists();
                         @endphp
                           @if($all_document_check)
                         <li class="sidebar-item">
@@ -159,7 +150,7 @@ $all_document_check = App\Models\backend\UserPermission::where('user_id', Auth::
                         @endif
 
                         @php
-$all_department_check = App\Models\backend\UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 38)->exists();
+                            $all_department_check = App\Models\backend\UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 38)->exists();
                         @endphp
                           @if($all_department_check)
                         <li class="sidebar-item">
@@ -179,9 +170,7 @@ $all_department_check = App\Models\backend\UserPermission::where('user_id', Auth
                                 aria-expanded="false"><span class="hide-menu">Login Report</span>
                             </a>
                         </li>
-                        @endif
-
-
+                        @endif 
                     <!-- 
                         @php
                             $master_check_list_check = App\Models\backend\UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 52)->exists();
@@ -204,8 +193,7 @@ $all_department_check = App\Models\backend\UserPermission::where('user_id', Auth
                             </a>
                         </li>
                         @endif 
-                    -->
-
+                    --> 
                         </ul>
                        </div>
                     </ul>
@@ -223,7 +211,7 @@ $all_department_check = App\Models\backend\UserPermission::where('user_id', Auth
                             </a>
                             <div class="dropdown-menu dropdown-menu-end mailbox dropdown-menu-animate-up">
                           @php
-$notifications = App\Models\backend\Notification::where('notification_for', Auth::user()->id)->orderBy('id', 'desc')->get();
+                $notifications = App\Models\backend\Notification::where('notification_for', Auth::user()->id)->orderBy('id', 'desc')->get();
                           @endphp
                                 <ul class="list-style-none">
                                     <li>
@@ -278,9 +266,9 @@ $notifications = App\Models\backend\Notification::where('notification_for', Auth
 
                                 <div class="d-none d-md-flex">
                                     <span class="ms-2">Hi,
-                                        <span class="text-dark fw-bold">{{Auth::user()->name}}</span></span>
+                                        <span class="text-dark fw-bold">{{Auth::user()->first_name.' '.Auth::user()->last_name}}</span></span>
                                     <span>
-                                        <i data-feather="chevron-down" class="feather-sm"></i>
+                                        <i data-feather="chevron-down" cla  ss="feather-sm"></i>
                                     </span>
                                 </div>
                             </a>
@@ -302,9 +290,9 @@ $notifications = App\Models\backend\Notification::where('notification_for', Auth
                                             <img src="{{ url('public/assets/backend/assets/images/upload/profile_image')}}/{{Auth::user()->profile_image}}" class="rounded-circle" width="30%" />
                                             @endif
                                             <div class="ms-4">
-                                                <h4 class="mb-0">{{Auth::user()->name}}</h4>
+                                                <h4 class="mb-0">{{Auth::user()->first_name.' '.Auth::user()->last_name}}</h4>
                                                 @php
-$user_role = App\Models\User::with('roleType:id,name', 'getDepartmentType')->where('id', Auth::user()->id)->first();
+                                                $user_role = App\Models\User::with('roleType:id,name', 'getDepartmentType')->where('id', Auth::user()->id)->first();
                                                 @endphp
                                                     {{$user_role->roleType->name}}
                                                     @if($user_role->roleType->id == 2)
@@ -390,79 +378,92 @@ $user_role = App\Models\User::with('roleType:id,name', 'getDepartmentType')->whe
                         </li>
                         @endif -->
 
-                      
+                        @if(Auth::user()->role_type_id == 1 || Auth::user()->role_type_id == 2 || Auth::user()->role_type_id == 5)
+                        <li class="sidebar-item" style="background-color: #253a76;">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link iconcolortext" href="{{route('backend.user.create')}}"
+                                aria-expanded="false" style="background-color: #253a76;" >
+                                <i data-feather="user-check"></i><span class="hide-menu">Add User</span>
+                            </a>
+                        </li>
+                        @endif
+
+                        @if(Auth::user()->role_type_id == 1)
+                        <li class="sidebar-item" style="background-color: #253a76;">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link iconcolortext" href="{{route('backend.unit.index')}}"
+                                aria-expanded="false" style="background-color: #253a76;" >
+                                <i data-feather="user-check"></i><span class="hide-menu">Units</span>
+                            </a>
+                        </li>
+                        @endif
+
                     @if(Auth::user()->role_type_id != 7)
-                                                                                                                                        <li class="sidebar-item">
-                                                                                                                                            <a class="sidebar-link has-arrow waves-effect waves-dark iconcolortext" href="javascript:void(0)" aria-expanded="false">
-                                                                                                                                                <i data-feather="inbox"></i><span class="hide-menu">User System</span></a>
-                                                                                                                                            <ul aria-expanded="false" class="collapse first-level" style="background-color: #253a76;">
-                                                                                                                                            @if(Auth::user()->role_type_id == 1)
-                                                                                                                                                <li class="sidebar-item" style="background-color: #253a76;" >
-                                                                                                                                                    <a class="sidebar-link  waves-effect waves-dark iconcolortext" href="{{route('backend.head_department.index')}}" aria-expanded="false">
-                                                                                                                                                        <i data-feather="user-check"></i>
-                                                                                                                                                        <span class="hide-menu">Corporate Department</span>
-                                                                                                                                                    </a>
-                                                                                                                                                </li>
-                                                                                                                                            @endif
+                        <li class="sidebar-item">
+                            <a class="sidebar-link has-arrow waves-effect waves-dark iconcolortext" href="javascript:void(0)" aria-expanded="false">
+                                <i data-feather="inbox"></i><span class="hide-menu">User System</span></a>
+                            <ul aria-expanded="false" class="collapse first-level" style="background-color: #253a76;">
+                                @if(Auth::user()->role_type_id == 1)
+                                   <li class="sidebar-item" style="background-color: #253a76;" >
+                                          <a class="sidebar-link  waves-effect waves-dark iconcolortext" href="{{route('backend.head_department.index')}}" aria-expanded="false">
+                                        <i data-feather="user-check"></i>
+                                        <span class="hide-menu">Corporate Department</span>
+                                    </a>
+                                    </li>
+                                @endif
+                                {{-- @if(Auth::user()->role_type_id == 1 || Auth::user()->role_type_id == 2)
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link  waves-effect waves-dark iconcolortext"href="{{route('backend.unit.index')}}" aria-expanded="false">
+                                    <i data-feather="home"></i>
+                                   <span class="hide-menu">Units</span>
+                                    </a>
+                                    </li>
+                                    @endif --}}
 
+                                    {{-- @if(Auth::user()->role_type_id == 1 || Auth::user()->role_type_id == 2 || Auth::user()->role_type_id == 3)
+                                    <li class="sidebar-item">
+                                    <a class="sidebar-link  waves-effect waves-dark iconcolortext" href="{{route('backend.hotel_department.index')}}" aria-expanded="false">
+                                    <i data-feather="user-check"></i>
+                                    <span class="hide-menu">Hotel Department</span>
+                                    </a>
+                                    </li> 
+                                    @endif --}}
 
-                                                                                                                                            @if(Auth::user()->role_type_id == 1 || Auth::user()->role_type_id == 2)
-                                                                                                                                                <li class="sidebar-item">
-                                                                                                                                                    <a class="sidebar-link  waves-effect waves-dark iconcolortext"href="{{route('backend.hotel.index')}}" aria-expanded="false">
-                                                                                                                                                        <i data-feather="home"></i>
-                                                                                                                                                        <span class="hide-menu">Units</span>
-                                                                                                                                                    </a>
-                                                                                                                                                </li>
-                                                                                                                                            @endif
-
-                                                                                                                                                @if(Auth::user()->role_type_id == 1 || Auth::user()->role_type_id == 2 || Auth::user()->role_type_id == 3)
-                                                                                                                                                    <li class="sidebar-item">
-                                                                                                                                                        <a class="sidebar-link  waves-effect waves-dark iconcolortext" href="{{route('backend.hotel_department.index')}}" aria-expanded="false">
-                                                                                                                                                            <i data-feather="user-check"></i>
-                                                                                                                                                            <span class="hide-menu">Hotel Department</span>
-                                                                                                                                                        </a>
-                                                                                                                                                    </li> 
-                                                                                                                                                @endif
-
-                                                                                                                                                @if(
-        Auth::user()->role_type_id == 1 || Auth::user()->role_type_id == 2 ||
-        Auth::user()->role_type_id == 3 || Auth::user()->role_type_id == 4
-    ) 
-                                                                                                                                                <li class="sidebar-item">
-                                                                                                                                                    <a class="sidebar-link  waves-effect waves-dark iconcolortext" href="{{route('backend.manager.index')}}" aria-expanded="false">
-                                                                                                                                                        <i data-feather="user-check"></i>
-                                                                                                                                                        <span class="hide-menu">Manager</span>
-                                                                                                                                                    </a>
-                                                                                                                                                </li> 
-                                                                                                                                                @endif
-
-                                                                                                                                                @if(
-        Auth::user()->role_type_id == 1 || Auth::user()->role_type_id == 2 ||
-        Auth::user()->role_type_id == 3 || Auth::user()->role_type_id == 4 ||
-        Auth::user()->role_type_id == 5
-    ) 
-                                                                                                                                                <li class="sidebar-item">
-                                                                                                                                                    <a class="sidebar-link  waves-effect waves-dark iconcolortext" href="{{route('backend.team_leader.index')}}" aria-expanded="false">
-                                                                                                                                                        <i data-feather="user-check"></i>
-                                                                                                                                                        <span class="hide-menu">Team Leader</span>
-                                                                                                                                                    </a>
-                                                                                                                                                </li>
-                                                                                                                                                @endif
-
-                                                                                                                                                @if(
-        Auth::user()->role_type_id == 1 || Auth::user()->role_type_id == 2 ||
-        Auth::user()->role_type_id == 3 || Auth::user()->role_type_id == 4 ||
-        Auth::user()->role_type_id == 5 || Auth::user()->role_type_id == 6
-    ) 
-                                                                                                                                                                                                                                                        <li class="sidebar-item">
-                                                                                                                                                                                                                                                            <a class="sidebar-link  waves-effect waves-dark iconcolortext" href="{{route('backend.team_member.index')}}" aria-expanded="false">
-                                                                                                                                                                                                                                                                <i data-feather="user-check"></i>
-                                                                                                                                                                                                                                                                <span class="hide-menu">Team Member</span>
-                                                                                                                                                                                                                                                            </a>
-                                                                                                                                                                                                                                                        </li>
-                                                                                                                                                @endif
-                                                                                                                                        </ul>
-                                                                                                                                    </li>  
+                                    @if(
+                                        Auth::user()->role_type_id == 1 || Auth::user()->role_type_id == 2 ||
+                                        Auth::user()->role_type_id == 3 || Auth::user()->role_type_id == 4
+                                    ) 
+                                    <li class="sidebar-item">
+                                    <a class="sidebar-link  waves-effect waves-dark iconcolortext" href="{{route('backend.manager.index')}}" aria-expanded="false">
+                                    <i data-feather="user-check"></i>
+                                    <span class="hide-menu">Manager</span>
+                                    </a>
+                                    </li> 
+                                    @endif
+                                    @if(
+                                        Auth::user()->role_type_id == 1 || Auth::user()->role_type_id == 2 ||
+                                        Auth::user()->role_type_id == 3 || Auth::user()->role_type_id == 4 ||
+                                        Auth::user()->role_type_id == 5
+                                    ) 
+                                    <li class="sidebar-item">
+                                    <a class="sidebar-link  waves-effect waves-dark iconcolortext" href="{{route('backend.team_leader.index')}}" aria-expanded="false">
+                                    <i data-feather="user-check"></i>
+                                    <span class="hide-menu">Team Leader</span>
+                                    </a>
+                                    </li>
+                                    @endif
+                                    @if(
+                                        Auth::user()->role_type_id == 1 || Auth::user()->role_type_id == 2 ||
+                                        Auth::user()->role_type_id == 3 || Auth::user()->role_type_id == 4 ||
+                                        Auth::user()->role_type_id == 5 || Auth::user()->role_type_id == 6
+                                    ) 
+                                    <li class="sidebar-item">
+                                    <a class="sidebar-link  waves-effect waves-dark iconcolortext" href="{{route('backend.team_member.index')}}" aria-expanded="false">
+                                    <i data-feather="user-check"></i>
+                                    <span class="hide-menu">Team Member</span>
+                                    </a>
+                                    </li>
+                                    @endif
+                                    </ul>
+                                    </li>  
                     @endif 
                         <!-- @php
                             $all_employee_check = App\Models\backend\UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 31)->exists();
@@ -494,7 +495,7 @@ $user_role = App\Models\User::with('roleType:id,name', 'getDepartmentType')->whe
                             </a> 
                         </li> --}}
                         @php 
-                        $main_folder_assigned_permissions = App\Models\backend\UserMainFolderPermission::where('user_id', Auth::user()->id)->pluck('main_folder_permission_lists_id')->toArray();
+                        $main_folder_assigned_permissions = App\Models\backend\UserMainFolderPermission::where('user_id', Auth::user()->id)->pluck('main_folder_id')->toArray();
                         @endphp
                         <li class="sidebar-item">
                             <a class="sidebar-link  waves-effect waves-dark iconcolortext" href="{{route('backend.folders.main_folder_list')}}" aria-expanded="false">

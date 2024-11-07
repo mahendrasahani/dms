@@ -62,52 +62,23 @@
 
 @section('javascript-section')
 <script>
-    $(document).ready(function() {
-        $('.select2 js-programmatic').select2(); 
-        // $('#folder_div').on('contextmenu', function(event){
-        //     event.preventDefault();
-        //     alert('Right-click detected on the div!');
-        // }); 
-            // function FolderRightClick(event){
-            //     // event.preventDefault();
-            //     alert('Right-click detected on the div!');
-            // }
-
-    }); 
-</script>
-@if (Session::has('success'))
+    
+</script> 
+    @if(Session::has('foler_permission_synced'))
     <script>
         Swal.fire({
             title: "Success!",
-            text: "{{ Session::get('success') }}",
+            text: "{{ Session::get('foler_permission_synced') }}",
             icon: "success",
             timer: 5000,
         });
     </script>
-@elseif(Session::has('update'))
+    @elseif(Session::has('folder_permission_synced'))
     <script>
         Swal.fire({
             title: "Success!",
-            text: "{{ Session::get('update') }}",
+            text: "{{ Session::get('folder_permission_synced') }}",
             icon: "success",
-            timer: 5000,
-        });
-    </script>
-@elseif(Session::has('warning'))
-    <script>
-        Swal.fire({
-            title: "Warning!",
-            text: "{{ Session::get('warning') }}",
-            icon: "warning",
-            timer: 5000,
-        });
-    </script>
-    @elseif(Session::has('error'))
-    <script>
-        Swal.fire({
-            title: "Error!",
-            text: "{{ Session::get('error') }}",
-            icon: "error",
             timer: 5000,
         });
     </script>

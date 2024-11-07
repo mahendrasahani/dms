@@ -31,7 +31,8 @@ class Document extends Model
        'department_type_id', 
        'doc_path',
        'assigned_users', 
-       'owner_id'
+       'owner_id',
+       'converted_file'
     ];
     protected $casts = [
         'assigned_users' => 'array'

@@ -22,4 +22,8 @@ class SubFolder extends Model
     public function getUserPermissionList(){
         return $this->hasOne(UserFolderPermission::class, 'folder_permission_list_id');
     }
+
+    public function getMainFolder(){
+        return $this->belongsTo(MainFolder::class, 'main_folder_id');
+    }
 }

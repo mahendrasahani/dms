@@ -28,7 +28,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id="zero_config" class="table table-striped table-bordered text-nowrap">
+                            <table id="" class="table table-striped table-bordered text-nowrap">
                                 <thead>
                                     <tr>
                                         <th>Action Date</th>
@@ -43,15 +43,16 @@
                                     @foreach($document_audits as $audit)
                                     <tr>
                                         <td>{{Carbon\Carbon::parse($audit->created_at)->format('d M, Y')}}</td>
-                                        <td><a href="{{route('backend.document.view', [Crypt::encrypt($audit->getDocument?->doc_file)])}}">{{$audit->getDocument->document_title ?? "No Title"}}</a></td>
-                                        <td>{{$audit->getMainFolder->name}}</td>
-                                        <td>{{$audit->getSubFolder->name}}</td> 
+                                        <td><a href="{{route('backend.document.view', [Crypt::encrypt($audit->getDocument?->doc_file)])}}">{{$audit->getDocument?->document_title ?? "No Title"}}</a></td>
+                                        <td>{{$audit->getMainFolder?->name}}</td>
+                                        <td>{{$audit->getSubFolder?->name}}</td> 
                                         <td>{{strtoupper($audit->operation)}}</td>
-                                        <td>{{$audit->getUser->name}}</td>
+                                        <td>{{$audit->getUser?->name}}</td>
                                     </tr> 
                                     @endforeach
                                 </tbody>
                             </table>
+                            {{$document_audits->links('pagination::bootstrap-5')}} 
                         </div>
                     </div>
                 </div>

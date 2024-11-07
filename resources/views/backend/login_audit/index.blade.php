@@ -26,7 +26,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id="zero_config" class="table table-striped table-bordered text-nowrap">
+                            <table id="" class="table table-striped table-bordered text-nowrap">
                                 <thead>
                                     <tr>
                                         <th>Name</th>
@@ -38,19 +38,16 @@
                                 <tbody>
                                     @foreach($login_audits as $audit)
                                     <tr>
-                                        <td>{{$audit->getUser->name}}</td>
-                                        <td>{{$audit->getUser->email}}</td>
+                                        <td>{{$audit->getUser?->name}}</td>
+                                        <td>{{$audit->getUser?->email}}</td>
                                         <td>{{$audit->ip}}</td>
                                         <td>{{Carbon\Carbon::parse($audit->created_at)->format('d M, Y')}}</td>
                                        
                                     </tr>
-                                    @endforeach
-                                     
-                                     
-                                     
-                                     
+                                    @endforeach 
                                 </tbody>
                             </table>
+                            {{$login_audits->links('pagination::bootstrap-5')}} 
                         </div>
                     </div>
                 </div>

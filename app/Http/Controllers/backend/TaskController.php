@@ -12,6 +12,7 @@ use App\Models\User;
 use Auth;
 use Carbon\Carbon;
 use Crypt;
+use File;
 use Illuminate\Http\Request;
 use Mail;
 use Session;
@@ -47,7 +48,7 @@ class TaskController extends Controller
                 ->orWhere('assigned_by', Auth::user()->id);
             }
         }
-        $tasks = $tasks->get();  
+        $tasks = $tasks->paginate(10);  
         return view('backend.task.index', compact('tasks'));
     }
 
@@ -147,11 +148,20 @@ class TaskController extends Controller
 
     public function viewDoc($id){
         try{
-            $decrypt_id = Crypt::decrypt($id);
-            $task = Document::where('id', $decrypt_id)->first();
-            return view('backend.task.viewDoc', compact('task'));
+            $decrypt_id = Crypt::decrypt($id); 
+            $current_date = Carbon::now()->format('Y-m-d');
+            $task = Task::where('document_id', $decrypt_id)->first(); 
+            $start_date = Carbon::parse($task->start_date)->format('Y-m-d');
+            $end_date = Carbon::parse($task->end_date)->format('Y-m-d');
+            $file_type = File::extension($task->document_name);
+            if($current_date >= $start_date && $current_date <= $end_date){
+                return view('backend.task.viewDoc', compact('task', 'file_type'));
+            }else{
+                return response()->view('errors.410', [], 410);
+            }    
         }catch(\Exception $e){
-            abort('404');
+            return $e->getMessage();
+            // abort('404');
         }
     }
 

@@ -46,19 +46,39 @@
                                     <div class="">
                                         <input class="form-control" type="text" required=""
                                             placeholder="Email":value="__('Email')" name="email" />
+                                            <?php $__errorArgs = ['email'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                            <p style="color:red;"><?php echo e($message); ?></p>
+                                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?> 
                                     </div>
                                 </div>
                                 <div class="form-group mb-4">
                                     <div class="">
                                         <input class="form-control" type="password" required=""
                                             placeholder="Password" name="password" />
+                                            <?php $__errorArgs = ['password'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                            <p style="color:red;"><?php echo e($message); ?></p>
+                                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?> 
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="d-flex">
                                         <div class="checkbox checkbox-info pt-0">
                                             <input id="checkbox-signup" type="checkbox"
-                                                class="material-inputs chk-col-indigo" />
+                                                class="material-inputs chk-col-indigo" name="remember"/>
                                             <label for="checkbox-signup"><span
                                                     style="color: #fff;"><?php echo e(__('Remember me')); ?></span></label>
                                         </div>
@@ -83,14 +103,7 @@
                                         </button>
                                     </div>
                                 </div>
-                                <div class="form-group mb-0 mt-4">
-                                    <div class="col-sm-12 justify-content-center d-flex">
-                                        <p>
-                                            <span style="color: #fff;"> Don't have an account?</span>
-                                            <a href="" class="text-primary font-weight-medium ms-1">Sign Up</a>
-                                        </p>
-                                    </div>
-                                </div>
+                                 
                             </form>
                         </div>
                     </div>

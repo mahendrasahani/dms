@@ -3,146 +3,83 @@
 namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\backend\Unit;
 use App\Models\backend\UserHierarchy;
 use App\Models\User;
 use Auth;
 use Crypt;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules;
 
 class TeamLeaderController extends Controller
 {
-    public function index(){
-        $team_leader = User::with(['getUserHierarchie.getHeadDepartment.getDepartmentType', 'getUserHierarchie.getHotel', 'getUserHierarchie.getHotelDepartment'])->where('role_type_id', 6)->get(); 
-        return view('backend.team_leader.index', compact('team_leader'));
+    public function index(){ 
+        $team_leaders = User::with(['getDepartmentType', 'getHead', 'getUnit', 'getManager']);
+        if(Auth::user()->role_type_id == 2){
+            $team_leaders = $team_leaders->whereIn('unit_id', Auth::user()->unit_ids)
+            ->where('head_department_id', Auth::user()->id);
+        }
+        if(Auth::user()->role_type_id == 5){
+            $team_leaders = $team_leaders->where('manager_id', Auth::user()->id);
+        }
+        $team_leaders = $team_leaders->where('role_type_id', 6)
+        ->orderBy('id', 'desc')->paginate(10);
+        return view('backend.team_leader.index', compact('team_leaders'));
     }
-
-    public function create(){
-        $heade_departments = User::with('getDepartmentType')->where('role_type_id', 2)->get(); 
-        return view('backend.team_leader.create', compact('heade_departments'));
-    }
-
-    public function store(Request $request){ 
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email:dns', 'max:255', 'unique:'.User::class],
-            'phone' => ['required', 'numeric', 'digits:10', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'head_department' => ['required'],
-            'hotel' => ['required'],
-            'hotel_department' => ['required'],
-            'manager' => ['required'],
-        ]);
-
-        $name = $request->name;
-        $email = $request->email;
-        $phone = $request->phone;
-        $head_department_id = $request->head_department;
-        $hotel_id = $request->hotel;
-        $hotel_department_id = $request->hotel_department;
-        $manager_id = $request->manager;
-        $password = Hash::make($request->password);
-        $manager = User::create([
-            "name" => $name,
-            "email" => $email,
-            "phone" => $phone,
-            "password" => $password,
-            "role_type_id" => 6,
-            "created_by" => Auth::user()->id
-        ]);
-        UserHierarchy::create([
-            "user_id" => $manager->id,
-            "head_department_id" => $head_department_id,
-            "hotel_id" => $hotel_id,
-            "hoted_department_id" => $hotel_department_id,
-            "manager_id" => $manager_id,
-        ]);
-
-        return redirect()->route('backend.team_leader.index')->with('success', "Team Leader has been added successfully");
-    }
-
+  
     public function edit($id){
         try{
             $decrypt_id = Crypt::decrypt($id);
-            $team_leader = User::with('getUserHierarchie')->where('id', $decrypt_id)->first();
-            $heade_departments = User::with('getDepartmentType')->where('role_type_id', 2)->get(); 
-            $hotels = User::where('role_type_id', 3)
-            ->whereHas('getUserHierarchie', function ($query) use ($team_leader)  {
-                $query->where('head_department_id', $team_leader->getUserHierarchie->head_department_id);
-            })->get(); 
-            $hotel_departments = User::where('role_type_id', 4)
-            ->whereHas('getUserHierarchie', function ($query) use ($team_leader){
-                $query->where('hotel_id', $team_leader->getUserHierarchie->hotel_id);
-            })->get();  
-            $h_managers = User::where('role_type_id', 5)
-            ->whereHas('getUserHierarchie', function($query) use ($team_leader){
-                $query->where('manager_id', $team_leader->getUserHierarchie->hotel_department_id);
-            })->get(); 
-            return view('backend.team_leader.edit', compact('heade_departments', 'team_leader',
-            'hotels', 'hotel_departments', 'h_managers'));
-    }catch(\Exception $e){
-        abort('404');
+            $team_leader = User::with(['getDepartmentType', 'getHead', 'getUnit', 'getManager'])->where('id', $decrypt_id)->first();
+            $department_heads = User::where('role_type_id', 2)->where('status', 1)->get();
+            $units = Unit::whereIn('id', $team_leader->getHead?->unit_ids)->get();
+            return view('backend.team_leader.edit', compact('team_leader',
+        'department_heads', 'units')); 
+        
+        }catch(\Exception $e){
+            abort('404');
+        }
     }
-}
 
     public function update(Request $request, $id){
         $decrypt_id = Crypt::decrypt($id);
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255'],
-            'phone' => ['required', 'numeric', 'digits:10'], 
+            'f_name' => ['required', 'string', 'max:255', 'regex:/^[a-zA-Z\s]+$/'],
+            'l_name' => ['required', 'string', 'max:255', 'regex:/^[a-zA-Z\s]+$/'],
+            // 'email' => ['required', 'string', 'lowercase', 'email:dns', 'email', 'max:255', Rule::unique(User::class)->ignore($decrypt_id)],
+            'phone' => ['required', 'numeric', 'digits:10', Rule::unique(User::class)->ignore($decrypt_id)], 
             'head_department' => ['required'],
-            'hotel' => ['required'],
-            'hotel_department' => ['required'],
+            'hotel' => ['required'], 
             'manager' => ['required'],
         ]); 
-        $name = $request->name;
-        $email = $request->email;
+        $f_name = $request->f_name;
+        $l_name = $request->l_name; 
+        // $email = $request->email;
         $phone = $request->phone;
         $head_department_id = $request->head_department;
-        $hotel_id = $request->hotel;
-        $hotel_department_id = $request->hotel_department;
-        $manager_id = $request->manager;  
+        $hotel_id = $request->hotel; 
+        $manager_id = $request->manager; 
         $manager = User::where('id', $decrypt_id)->update([
-            "name" => $name,
-            "email" => $email,
-            "phone" => $phone,  
-        ]); 
-        UserHierarchy::where('user_id', $decrypt_id)->update([
+            "first_name" => $f_name,
+            "last_name" => $l_name,
+            "name" => $f_name.' '.$l_name,
+            // "email" => $email,
+            "phone" => $phone,
             "head_department_id" => $head_department_id,
-            "hotel_id" => $hotel_id,
-            "hoted_department_id" => $hotel_department_id,
-            "manager_id" => $manager_id,
+            "unit_id" => $hotel_id,
+            "manager_id" => $manager_id
         ]); 
-        if($request->new_pasword != ''){
+        
+        if($request->password != ''){
             User::where('id', $decrypt_id)->update([
-                'password' => Hash::make($request->new_pasword), 
-            ]);   
+                'password' => Hash::make($request->password), 
+            ]);     
         } 
         return redirect()->route('backend.team_leader.index')->with('success', "Team Leader has been updated successfully");
     }
-
-    public function getManagerList(Request $request){
-        try{
-            $hotel_department_id = $request->hotel_department_id;
-            $manager_list = UserHierarchy::where('hoted_department_id', $hotel_department_id)->get();
-            $user_ids = [];
-            foreach($manager_list as $mang){
-                $user_ids[] = $mang->user_id;
-            }
-            $manager_list = User::whereIn('id', $user_ids)->where('role_type_id', 5)->get();
-            return response()->json([
-                "status" => "success",
-                "manager_list" => $manager_list
-            ], 200); 
-        }catch(\Exception $e){
-            return response()->json([
-                "status" => "failed",
-                "error" => $e->getMessage()
-            ], 400);
-        }
-    }
+ 
 
     public function destroy($id){
         try{
@@ -160,6 +97,22 @@ class TeamLeaderController extends Controller
             }
         }catch(\Exception $e){
             abort('404');
+        }
+    }
+
+    public function statusChange(Request $request){
+        try{
+            User::where('id', $request->id)->update([
+                "status" => $request->status
+            ]); 
+            return response()->json([
+                "status" => "success", 
+            ]);
+        }catch(\Exception $e){
+            return response()->json([
+                "status" => "failed",
+                "error" => $e->getMessage()
+            ]);
         }
     }
 

@@ -24,21 +24,37 @@
                                 @csrf
                                 <div class="row">
                                     <div class="mb-3 col-md-6">
-                                        <lable>Name</lable>
-                                        <input type="text" class="form-control" placeholder="User Name" name="name" value="{{$head_department->name}}"/>
-                                        @error('name')
+                                        <lable>First Name</lable>
+                                        <input type="text" class="form-control" placeholder="Enter First Name" name="f_name" value="{{$head_department->first_name ?? ''}}"
+                                        oninput="capitalizeEachWord(this)"/>
+                                        @error('f_name')
                                         <p style="color:red">{{$message}}</p>
                                         @enderror
                                     </div>
                                     <div class="mb-3 col-md-6">
-                                        <input type="email" class="form-control" placeholder="User Email" name="email" value="{{$head_department->email}}"/>
+                                        <lable>Last Name</lable>
+                                        <input type="text" class="form-control" placeholder="Enter Last Name" name="l_name" value="{{$head_department->last_name ?? ''}}"
+                                        oninput="capitalizeEachWord(this)"/>
+                                        @error('l_name')
+                                        <p style="color:red">{{$message}}</p>
+                                        @enderror
+                                    </div>
+                                    <div class="mb-3 col-md-6">
+                                    <lable>Email</lable>
+                                        <input type="email" class="form-control" placeholder="User Email" name="email" value="{{$head_department->email}}" disabled/>
                                         @error('email')
                                         <p style="color:red">{{$message}}</p>
                                         @enderror
                                     </div>
                                     <div class="mb-3 col-md-6">
                                     <lable>Phone</lable>
-                                        <input type="number" class="form-control" id="desig" placeholder="User Phone" name="phone" value="{{$head_department->phone}}"/>
+                                        <input type="tel" class="form-control" id="desig" placeholder="User Phone" name="phone" value="{{$head_department->phone}}"
+                                            maxlength="10" 
+                                            minlength="10" 
+                                            pattern="\d{10}"    
+                                            oninput="validatePhone(this)"/>
+                                            <span style="font-size:11px; color:gray;">Phone number should be 10 digits without country code.</span>
+
                                         @error('phone')
                                         <p style="color:red">{{$message}}</p>
                                         @enderror
@@ -56,12 +72,30 @@
                                     @enderror
                                     </div>
  
+                                    <div class="col-md-6 mt-3">
+                                        @php 
+                                        $units = App\Models\backend\Unit::get();
+                                        
+                                        @endphp
+                                        <lable>Select Units</lable> 
+                                        <select class="select2 form-control" multiple="multiple" name="units[]" style="height: 40px; width: 100%" id="units">
+                                        @foreach($units as $unit)
+                                            <option value="{{$unit->id}}" {{in_array($unit->id, $head_department->unit_ids) ? 'selected':''}}>{{$unit->name}}</option>
+                                            @endforeach
+                                        </select>  
+                                    </div>
+ 
                                     <div class="mb-3 col-md-6">
-                                    <lable>Enter password if you want to change</lable>
-                                        <input type="text" class="form-control" id="desig" placeholder="New Password" name="password"  />
+                                        <label>Enter password if you want to change</label>
+                                        <div class="input-group">
+                                            <input type="password" class="form-control" id="password" placeholder="New Password" name="password" />
+                                            <span class="input-group-text" onclick="togglePassword()" style="cursor: pointer;">
+                                                <i class="fas fa-eye" id="togglePasswordIcon"></i>
+                                            </span>
+                                        </div>
                                         @error('password')
-                                    <p style="color:red">{{$message}}</p>
-                                    @enderror
+                                            <p style="color:red">{{$message}}</p>
+                                        @enderror
                                     </div>
  
                                     <div class="mb-3">
@@ -97,5 +131,7 @@
             });
         </script>
     @endif
+
+
 @endsection
 @endsection

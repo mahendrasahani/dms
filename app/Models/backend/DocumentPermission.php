@@ -16,6 +16,7 @@ class DocumentPermission extends Model
         "read",
         "write",
         "download",
+        "access_given_by",
     ];
 
     public function document(){

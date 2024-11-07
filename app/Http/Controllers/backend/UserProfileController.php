@@ -7,27 +7,34 @@ use App\Models\User;
 use Auth;
 use Hash;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class UserProfileController extends Controller
 {
     public function index(){
-        $user = User::with('roleType')->where('id', Auth::user()->id)->first();
+        $user = User::with(['roleType', 'getDepartmentType', 'getHead', 'getUnit', 'getManager', 'getTeamLeader'])->where('id', Auth::user()->id)->first();
         return view('backend.user_profile.index', compact('user'));
     }
 
     public function update(Request $request){
-        $name = $request->name;
-        $email = $request->email;
+        $validate = $request->validate([
+            "f_name" => ['required'], 
+            "l_name" => ['required'], 
+            "phone" => ['required', 'numeric', 'digits:10', Rule::unique(User::class)->ignore(Auth::user()->id)],
+        ]); 
+        $f_name = $request->f_name; 
+        $l_name = $request->l_name; 
         $phone = $request->phone; 
         User::where('id', Auth::user()->id)->update([
-            "name" => $name,
-            "email" => $email,
+            "first_name" => $f_name, 
+            "last_name" => $l_name, 
+            "name" => $f_name.' '.$l_name, 
             "phone" => $phone
         ]); 
         if($request->new_password != ''){
             User::where('id', Auth::user()->id)->update([
                 "password" => Hash::make($request->new_password)
-            ]); 
+            ]);
         }
         if($request->hasFile('profile_image')){
             $profile_name = time().''.$request->file('profile_image')->getClientOriginalExtension();
@@ -36,9 +43,7 @@ class UserProfileController extends Controller
                 "profile_image" => $profile_name
             ]);
         }   
-
         return redirect()->back()->with("profile_updated", "Profile has been updated successfully.");
-
-        }
+    } 
     
 }

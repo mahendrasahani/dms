@@ -10,6 +10,7 @@ use App\Models\backend\Hotel;
 use App\Models\backend\role_types;
 use App\Models\backend\RoleType;
 use App\Models\backend\Department;
+use App\Models\backend\Unit;
 use App\Models\backend\UserHierarchy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -38,11 +39,17 @@ class User extends Authenticatable
         'role_type_id',
         'status',
         'department_id',
-        'department_type_id'
+        'department_type_id',
+        'unit_id',
+        'head_department_id',
+        'manager_id',
+        'team_leader_id',
+        'unit_ids',
+        'first_name',
+        'last_name'
     ];
 
-    
-
+     
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -60,6 +67,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+          "unit_ids" => "array"
     ];
 
     
@@ -92,7 +100,20 @@ class User extends Authenticatable
         return $this->hasOne(DocumentPermission::class, 'user_id');
     }
 
+    public function getUnit(){
+        return $this->belongsTo(Unit::class, 'unit_id');
+    }
+
+    public function getHead(){
+        return $this->belongsTo(User::class, 'head_department_id');
+    }
+    public function getManager(){
+        return $this->belongsTo(User::class, 'manager_id');
+    }
+    public function getTeamLeader(){
+        return $this->belongsTo(User::class, 'team_leader_id');
+    }
     
-    
+
 
 }

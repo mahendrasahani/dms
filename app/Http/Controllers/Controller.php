@@ -15,4 +15,8 @@ class Controller extends BaseController
        $pass = Hash::make('sachin.gaur@cygnetthotels.com');
        return $pass;
     }
+
+    public function emailTemplateTesting(){
+        return view('emails.test');
+    }
 }

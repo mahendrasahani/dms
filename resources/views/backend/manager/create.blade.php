@@ -50,7 +50,7 @@
                                             @enderror
                                     </div> 
 
-                                    <div class="mb-3 col-md-6">
+                                    <!-- <div class="mb-3 col-md-6">
                                     <lable>Head Department</lable>
                                         <select name="head_department"  class="select2 hotel form-control"
                                             style="width: 100%;" id="head_department" required>
@@ -62,7 +62,7 @@
                                         @error('head_department')
                                             <p style="color:red;">{{$message}}</p>
                                             @enderror
-                                    </div>
+                                    </div> -->
 
                                     <div class="mb-3 col-md-6">
                                     <lable>Hotel</lable>

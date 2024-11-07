@@ -38,7 +38,7 @@
                                 <tbody>
                                     @foreach($documents as $document)
                                     <tr>
-                                         <td><a href="javascript:void()">{{$document->document_title ?? 'No Title'}}</a></td> 
+                                         <td><a href="{{route('backend.document.view', [Crypt::encrypt($document->doc_file)])}}">{{$document->document_title ?? 'No Title'}}</a></td> 
                                         <td>{{$document->getDepartmentType->name ?? ''}}</td> 
                                         <td>{{$document->getMainFolder->name ?? ''}}</td> 
                                         <td>{{$document->getSubFolder->name ?? ''}}</td> 
@@ -60,6 +60,7 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                            {{$documents->links('pagination::bootstrap-5')}}
                         </div>
                     </div>
                 </div>
@@ -98,6 +99,17 @@
         });
     });
 </script>
+
+
+@if(Session::has('success'))
+    <script>
+        Swal.fire({
+            title: "Success!",
+            text: "{{Session::get('success')}}",
+            icon: "success"
+        });
+    </script>
+@endif
 @endsection
 
 @endsection

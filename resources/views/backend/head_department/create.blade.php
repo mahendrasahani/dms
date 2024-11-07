@@ -11,7 +11,7 @@
                             <li class="breadcrumb-item active" aria-current="page">Create</li>
                         </ol>
                     </nav>
-                    <h1 class="mb-0 fw-bold">Add Head Department</h1>
+                    <h1 class="mb-0 fw-bold">Add Department Head</h1>
                 </div>
             </div>
         </div>
@@ -24,34 +24,57 @@
                                 @csrf
                                 <div class="row">
                                     <div class="mb-3 col-md-6">
+                                        <label>User Name</label>
                                         <input type="text" class="form-control" placeholder="User Name" name="name" required value="{{old('name')}}"/>
+                                        @error('name')
+                                        <p style="color:red;">{{$message}}</p>
+                                        @enderror
                                     </div>
                                     <div class="mb-3 col-md-6">
+                                    <label>User Email</label>
                                         <input type="email" class="form-control" placeholder="User Email" name="email" required value="{{old('email')}}"/>
+                                        @error('email')
+                                        <p style="color:red;">{{$message}}</p>
+                                        @enderror
                                     </div>
                                     <div class="mb-3 col-md-6">
-                                        <input type="number" class="form-control" id="desig" placeholder="User Phone" name="phone"required {{old('phone')}}/>
+                                    <label>User Phone number</label>
+                                        <input type="tel" class="form-control" id="desig" placeholder="User Phone" name="phone" required {{old('phone')}} maxlength="10"/>
+                                        @error('phone')
+                                        <p style="color:red;">{{$message}}</p>
+                                        @enderror
                                     </div>
+
                                     <div class="mb-3 col-md-6">
+                                    <label>Select Department</label>
                                     <select name="department" required class="select2 js-programmatic form-control"  style="width: 100%; height: 36px">
-                                    <option></option>
+                                    <option value=""></option>
                                     @foreach ($head_departments as $department)
                                     <option value="{{$department->id}}">{{$department->name ?? ''}}</option>
                                     @endforeach
                                  </select>
+                                 @error('department')
+                                    <p style="color:red;">{{$message}}</p>
+                                @enderror
                                     </div>
+
+<!--                                     
                                     <div class="mb-3 col-md-6">
+                                    <label>User Password</label>
                                         <input type="text" class="form-control" placeholder="Password" name="password" required />
                                     </div>
                                     @error('password')
                                     <p style="color:red">{{$message}}</p>
                                     @enderror
                                     <div class="mb-3 col-md-6">
+                                    <label>Confirm Password</label> 
                                         <input type="text" class="form-control" placeholder="Confirm Password" name="password_confirmation" required />
                                     </div>
                                     @error('confirm_password')
                                     <p style="color:red">{{$message}}</p>
-                                    @enderror
+                                    @enderror -->
+
+
                                     <div class="mb-3">
                                         <button class="btn btn-primary rounded-pill px-4 mt-3" type="submit">
                                             <i data-feather="send" class="feather-sm ms-2 fill-white"></i>

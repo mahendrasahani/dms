@@ -8,15 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class UserFolderPermission extends Model
 {
     use HasFactory;
+    protected $table = 'user_sub_folder_permissions';
 
     protected $fillable = [
-        "folder_permission_list_id",
+        "sub_folder_id",
         "user_id",
         "status",
         "access_given_by",
     ];
 
     public function getSubFolders(){
-        return $this->belongsTo(SubFolder::class, 'folder_permission_list_id');
+        return $this->belongsTo(SubFolder::class, 'sub_folder_id');
     }
+    
 }

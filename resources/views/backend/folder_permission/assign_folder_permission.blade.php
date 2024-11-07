@@ -21,9 +21,10 @@
         <form action="{{route('backend.folder_permission.sync')}}" method="POST">
             @csrf
             <input type="hidden" name="user_id" value="{{Crypt::encrypt($user->id) ?? ''}}">
+            <input type="hidden" name="user_email" value="{{$user->email}}">
             <div class="form-group row">
                 <div class="col-md-4">
-                    <div class="form-group row">
+                    <div class="form-group row">    
                         <div class="col-sm-4">
                             <label for="name" class="form-label">Name :</label>
                         </div>
@@ -38,7 +39,7 @@
                             <label for="email" class="form-label">Email :</label>
                         </div>
                         <div class="col-sm-9">
-                        <p>{{$user->email ?? ''}}</p>
+                            <p>{{$user->email ?? ''}}</p>
                         </div>
                     </div>
                 </div>
@@ -48,95 +49,93 @@
                             <label for="phone" class="form-label">Phone :</label>
                         </div>
                         <div class="col-sm-9">
-                           <p>{{$employee->phone ?? ''}}</p>
+                           <p>{{$user->phone ?? ''}}</p>
                         </div>
                     </div>
                 </div>
             </div>
         
-        <div class="card mt-3">
-            <div class="card-header header-btn">
-                <button type="button" class="btn btn-link" id="checkAll">CHECK ALL</button>
-                <button type="button" class="btn btn-link" id="checkNone">CHECK NONE</button>
-            </div>
+            <div class="card mt-3">
+                <div class="card-header header-btn">
+                    <button type="button" class="btn btn-link" id="checkAll">CHECK ALL</button>
+                    <button type="button" class="btn btn-link" id="checkNone">CHECK NONE</button>
+                </div>
             <div class="card-body"> 
             @php 
-            $auth_user_permission_folder = App\Models\Backend\UserMainFolderPermission::where('user_id', Auth::user()->id)->pluck('main_folder_permission_lists_id')->toArray();
+                $auth_user_permission_folder = App\Models\Backend\UserMainFolderPermission::where('user_id', Auth::user()->id)->pluck('main_folder_id')->toArray();
             @endphp
-            @foreach ($main_folder_permission_list as $main_folderorder_id => $main_folder_permissions)
-            @if(Auth::user()->role_type_id != 1)
-            @if(in_array($main_folder_permissions->main_folder_id, $auth_user_permission_folder)) 
-            <div class="form-group row config-system"> 
-                    <div class="col-md-2">
-                    <input type="checkbox" class="main_folder_checkbox" name="main_folder_permission_ids[]"  value="{{$main_folder_permissions->main_folder_id}}" 
-                    {{in_array($main_folder_permissions->main_folder_id, $user_main_folder_assigned_permission_list) ? 'checked':''}}>
-                        <label for="main_folder_permission_ids" class="form-label">{{$main_folder_permissions->name}}</label>
-                    </div>
-                    <div class="col-md-7">
-                    <div class="row">
-                    @foreach($sub_folder_permission_list as $folder_permission)
-                    @if($folder_permission->main_folder_id == $main_folder_permissions->id)
-                        <div class="col-sm-4">
-                            <input type="checkbox" class="sub-folder-checkbox" name="sub_permission_ids[]"  value="{{$folder_permission->sub_folder_id}}" 
-                            {{in_array($folder_permission->sub_folder_id, $user_folder_assigned_permission_list) ? 'checked':''}}>
-                            <label for="view_checkbox" class="form-label">{{$folder_permission->name}}</label>
+
+            @foreach($main_folder_permission_list as $main_folderorder_id => $main_folder_permissions)
+                @if(Auth::user()->role_type_id != 1)
+                      @if(in_array($main_folder_permissions->main_folder_id, $auth_user_permission_folder)) 
+                        <div class="form-group row config-system">
+                            <div class="col-md-2">
+                                <input type="checkbox" class="main_folder_checkbox" name="main_folder_permission_ids[]"  value="{{$main_folder_permissions->main_folder_id}}" 
+                                {{in_array($main_folder_permissions->main_folder_id, $user_main_folder_assigned_permission_list) ? 'checked':''}}>
+                                <label for="main_folder_permission_ids" class="form-label">{{$main_folder_permissions->name}}</label>
+                            </div>
+                            <div class="col-md-7">
+                                <div class="row">
+                                    @foreach($sub_folder_permission_list as $folder_permission)
+                                        @if($folder_permission->main_folder_id == $main_folder_permissions->main_folder_id)
+                                            <div class="col-sm-4">
+                                                <input type="checkbox" class="sub-folder-checkbox" name="sub_permission_ids[]"  value="{{$folder_permission->sub_folder_id}}" 
+                                                {{in_array($folder_permission->sub_folder_id, $user_folder_assigned_permission_list) ? 'checked':''}}>
+                                                <label for="view_checkbox" class="form-label">{{$folder_permission->name}}</label>
+                                            </div> 
+                                        @endif
+                                    @endforeach 
+                                </div>
+                            </div>    
+                            <div class="col-md-3 btn-col">
+                                <div class="row">
+                                    <div class="col-sm-2 check-btn">
+                                        <button type="button" class="btn btn-dark check-all-btn">all</button>
+                                        <p class="divider">|</p>
+                                        <button type="button" class="btn btn-dark check-none-btn">none</button>
+                                    </div>
+                                </div>
+                            </div> 
                         </div> 
                     @endif
-                    @endforeach 
-                    </div>
-                    </div>   
-
-                    <div class="col-md-3 btn-col">
-                        <div class="row">
-                            <div class="col-sm-2 check-btn">
-                                <button type="button" class="btn btn-dark check-all-btn">all</button>
-                                <p class="divider">|</p>
-                                <button type="button" class="btn btn-dark check-none-btn">none</button>
-                            </div>
-                        </div>
-                    </div> 
-                </div> 
-                @endif
-                
+                     
                 @else
-                <div class="form-group row config-system"> 
-                    <div class="col-md-2">
-                    <input type="checkbox" class="main_folder_checkbox" name="main_folder_permission_ids[]"  value="{{$main_folder_permissions->main_folder_id}}" 
-                    {{in_array($main_folder_permissions->main_folder_id, $user_main_folder_assigned_permission_list) ? 'checked':''}}>
-                        <label for="main_folder_permission_ids" class="form-label">{{$main_folder_permissions->name}}</label>
-                    </div> 
-                    <div class="col-md-7">
-                    <div class="row">
-                    @foreach($sub_folder_permission_list as $folder_permission)
-                    @if($folder_permission->main_folder_id == $main_folder_permissions->id)
-                        <div class="col-sm-4">
-                            <input type="checkbox" class="sub-folder-checkbox" name="sub_permission_ids[]"  value="{{$folder_permission->sub_folder_id}}" 
-                            {{in_array($folder_permission->sub_folder_id, $user_folder_assigned_permission_list) ? 'checked':''}}>
-                            <label for="view_checkbox" class="form-label">{{$folder_permission->name}}</label>
+                    <div class="form-group row config-system"> 
+                        <div class="col-md-2">
+                            <input type="checkbox" class="main_folder_checkbox" name="main_folder_permission_ids[]"  value="{{$main_folder_permissions->main_folder_id}}" 
+                            {{in_array($main_folder_permissions->main_folder_id, $user_main_folder_assigned_permission_list) ? 'checked':''}}>
+                            <label for="main_folder_permission_ids" class="form-label">{{$main_folder_permissions->name}}</label>
                         </div> 
-                    @endif
-                    @endforeach 
-                    </div>
-                    </div>   
-
-                    <div class="col-md-3 btn-col">
-                        <div class="row">
-                            <div class="col-sm-2 check-btn">
-                                <button type="button" class="btn btn-dark check-all-btn">all</button>
-                                <p class="divider">|</p>
-                                <button type="button" class="btn btn-dark check-none-btn">none</button>
+                        <div class="col-md-7">
+                            <div class="row">
+                                @foreach($sub_folder_permission_list as $sub_folder_permission)
+                                    @if($sub_folder_permission->main_folder_id == $main_folder_permissions->main_folder_id)
+                                        <div class="col-sm-4">
+                                            <input type="checkbox" class="sub-folder-checkbox" name="sub_permission_ids[]"  value="{{$sub_folder_permission->sub_folder_id}}" 
+                                            {{in_array($sub_folder_permission->sub_folder_id, $user_folder_assigned_permission_list) ? 'checked':''}}>
+                                            <label for="view_checkbox" class="form-label">{{$sub_folder_permission->name}}</label>
+                                        </div> 
+                                    @endif
+                                @endforeach 
                             </div>
-                        </div>
+                        </div>    
+                        <div class="col-md-3 btn-col">
+                            <div class="row">
+                                <div class="col-sm-2 check-btn">
+                                    <button type="button" class="btn btn-dark check-all-btn">all</button>
+                                    <p class="divider">|</p>
+                                    <button type="button" class="btn btn-dark check-none-btn">none</button>
+                                </div>
+                            </div>
+                        </div> 
                     </div> 
-                </div>
-
                 @endif
-                @endforeach
-                    <input type="submit" value="Submit"> 
-                </form>
-            </div>
-        </div>
+            @endforeach
+            <input type="submit" value="Submit"> 
+        </form>
     </div>
+</div>
+</div>
 </div>
 
 @section('javascript-section')

@@ -31,7 +31,7 @@ class ApiController extends Controller
     try{
       $departments = DepartmentType::withCount('getDocument')
       ->get(['name', 'get_document_count']); 
-        $labels = $departments->pluck('name');
+        $labels = $departments->pluck('short_name');
         $data = $departments->pluck('get_document_count'); 
         return response()->json([
           "status" => "success",

@@ -32,10 +32,18 @@
                                 @csrf
                                 <div class="row">
                                     <div class="col-md-4 mb-3">
-                                        <label for="validationDefault02">Role Name</label>
-                                        <input type="text" class="form-control" id="validationDefault02" name="role_name"
-                                            placeholder="Last name" value="{{$role_name->name}}" required/>
-                                        @error('role_name')
+                                        <label for="validationDefault02">Department Full Name</label>
+                                        <input type="text" class="form-control" id="validationDefault02" name="department_full_name"
+                                            placeholder="Department Name" value="{{$role_name->name}}" required/>
+                                        @error('department_full_name')
+                                        <p style="color:red;">{{$message}}</p>
+                                        @enderror
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="validationDefault02">Department Short Name</label>
+                                        <input type="text" class="form-control" id="validationDefault02" name="department_short_name"
+                                            placeholder="Short Name" value="{{$role_name->short_name}}" required/>
+                                        @error('department_short_name')
                                         <p style="color:red;">{{$message}}</p>
                                         @enderror
                                     </div>

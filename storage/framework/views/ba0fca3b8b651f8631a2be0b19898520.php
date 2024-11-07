@@ -34,6 +34,7 @@
 <script src="<?php echo e(url('public/assets/backend/assets/libs/select2/dist/js/select2.full.min.js')); ?>"></script>
 <script src="<?php echo e(url('public/assets/backend/assets/libs/select2/dist/js/select2.min.js')); ?>"></script>
 <script src="<?php echo e(url('public/assets/backend/dist/js/pages/forms/select2/select2.init.js')); ?>"></script>
+<script src="<?php echo e(url('public/assets/backend/dist/js/custom.js')); ?>"></script>
 
  <!-- Chart JS -->
  <!-- <script src="<?php echo e(url('public/assets/backend/dist/js/pages/chartjs/chartjs.init.js')); ?>"></script>
@@ -45,6 +46,21 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+<script> 
+function togglePassword() {
+    const passwordField = document.getElementById('password');
+    const toggleIcon = document.getElementById('togglePasswordIcon'); 
+    if (passwordField.type === 'password') {
+        passwordField.type = 'text';
+        toggleIcon.classList.remove('fa-eye');
+        toggleIcon.classList.add('fa-eye-slash');
+    } else {
+        passwordField.type = 'password';
+        toggleIcon.classList.remove('fa-eye-slash');
+        toggleIcon.classList.add('fa-eye');
+    }
+}
+ </script>
 <?php echo $__env->yieldContent('javascript-section'); ?>
 
 <!-- <script>

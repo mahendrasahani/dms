@@ -33,7 +33,7 @@
                                       
                                     <div class="mb-3 col-md-6">
                                         <input type="tel" class="form-control" id="phone" placeholder="Phone"
-                                            name="phone" value="{{old('phone')}}"/>
+                                            name="phone" value="{{old('phone')}}" maxlength="10"/>
                                             @error('phone')
                                              <p style="color:red">{{ $message }}</p>
                                             @enderror
@@ -70,20 +70,20 @@
                                         @enderror
                                     </div>
 
-                                    <div class="mb-3 col-md-6">
+                                    <!-- <div class="mb-3 col-md-6">
                                         <input type="text" class="form-control" placeholder="Password" name="password"
                                              /> 
                                             @error('password')
                                             <p style="color:red">{{ $message }}</p>
                                             @enderror
-                                        </div>
-                                    <div class="mb-3 col-md-6">
+                                        </div> -->
+                                    <!-- <div class="mb-3 col-md-6">
                                         <input type="text" class="form-control" placeholder="Confirm Password"
                                             name="password_confirmation" />
                                             @error('password_confirmation')
                                             <p style="color:red">{{ $message }}</p>
                                             @enderror
-                                    </div>
+                                    </div> -->
                                     <div class="mb-3">
                                         <button class="btn btn-primary rounded-pill px-4 mt-3" type="submit">
                                             <i data-feather="send" class="feather-sm ms-2 fill-white"></i>

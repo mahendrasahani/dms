@@ -18,14 +18,15 @@ class HotelController extends Controller
     public function index(){
         $hotels = User::
         with(['getUserHierarchie.getHeadDepartment.getDepartmentType', 'getHotelFromHotel']);
-        if(Auth::user()->role_type_id != 1){ 
+        if(Auth::user()->role_type_id != 1){
             $hotels = $hotels->whereHas('getUserHierarchie.getHeadDepartment', function($query){
-            $query = $query->where('head_department_id', Auth::user()->id);
-        });
-    }
-        $hotels = $hotels->where('role_type_id', 3)->get();
+                $query = $query->where('head_department_id', Auth::user()->id);
+            });
+        }
+        $hotels = $hotels->where('role_type_id', 3)->get(); 
         return view('backend.hotels.index', compact( 'hotels'));
     }
+
     public function create(){  
         $head_departments = User::
         with('getDepartmentType')
@@ -41,15 +42,14 @@ class HotelController extends Controller
        $validate = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email:dns', 'max:255', 'unique:'.User::class],
-            'phone' => ['required', 'digits:10', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'phone' => ['required', 'digits:10', 'unique:'.User::class], 
         ]); 
         $hotel_name = $request->name;
         $hotel_location = $request->hotel_location; 
         $email = $request->email;
         $phone = $request->phone;
         $department_id = $request->head_department;
-        $password = Hash::make($request->password);
+        $password = Hash::make($request->email);
 
         $user = User::create([
             "name" => $hotel_name,
@@ -150,13 +150,12 @@ class HotelController extends Controller
             $decrypt_id = Crypt::decrypt($id);
             if(Auth::user()->role_type_id == 1){
                 $user = UserHierarchy::where('hotel_id', $decrypt_id)->exists();
-                if($user){ 
+                if($user){
                     return redirect()->back()->with('already_in_use', 'This hotel has user you cant delete directly');
                 }
                 User::where('id', $decrypt_id)->delete();
                 return redirect()->back()->with('deleted', "Hotel has been deleted successfully");
-            }
-            else{
+            }else{
                 return response()->view('errors.405', [], 405);
             }
         }catch(\Exception $e){

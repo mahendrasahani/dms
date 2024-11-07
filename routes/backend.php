@@ -15,6 +15,8 @@ use App\Http\Controllers\backend\LoginAuditController;
 use App\Http\Controllers\backend\TaskController;
 use App\Http\Controllers\backend\TeamLeaderController;
 use App\Http\Controllers\backend\TeamMemberController;
+use App\Http\Controllers\backend\UnitController;
+use App\Http\Controllers\backend\UserController;
 use App\Http\Controllers\backend\UserProfileController;
 use App\Http\Controllers\backend\HotelController;
 use App\Http\Controllers\backend\EmployeeController;
@@ -22,7 +24,9 @@ use App\Http\Controllers\backend\DataBaseEntryController;
 use App\Http\Controllers\backend\CheckListController;
 use App\Http\Controllers\backend\HeadDepartmentController;
 use App\Http\Controllers\backend\FoldersController;
+use App\Http\Controllers\Controller;
 use App\Models\backend\FolderPermission;
+
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('admin/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
@@ -66,12 +70,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/admin/document/direct_upload_store', [DocumentController::class, 'DirectUploadStore'])->name('backend.document.direct_upload_store');
     Route::get('/admin/document/document_access/{id}', [DocumentController::class, 'DocumentAccess'])->name('backend.document.document_access');
     Route::post('/admin/document/document_access_sync/{id}', [DocumentController::class, 'DocumentAccessSync'])->name('backend.document.document_access_sync');
-    Route::get('/admin/document/delete/{id}', [DocumentController::class, 'delete'])->name('backend.document.delete');
+    
+    Route::get('/admin/document/delete/', [DocumentController::class, 'delete'])->name('backend.document.delete');
+    
     Route::get('/admin/document/download/{id}', [DocumentController::class, 'download'])->name('backend.document.download');
     Route::get('/admin/document/archived_document', [DocumentController::class, 'archivedDocuments'])->name('backend.document.archived_document');
     Route::get('/admin/document/restore/{id}', [DocumentController::class, 'restore'])->name('backend.document.restore');
     Route::get('/admin/document/permanent-delete/{id}', [DocumentController::class, 'PermanentDelete'])->name('backend.document.permanent_delete');
-
 
     Route::controller(CustomPermissionController::class)->group(function(){
         Route::prefix('/admin')->group(function(){
@@ -82,7 +87,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::controller(FolderPermissionController::class)->group(function(){
         Route::prefix('/admin/folder-permission')->group(function(){
-            Route::get('/assign/{id}', 'assignFolderPermission')->name('backend.assign_folder_permission.assign');
+            Route::get('/assign/{user_id}', 'assignFolderPermission')->name('backend.assign_folder_permission.assign');
             Route::post('sync', 'syncFolderPermission')->name('backend.folder_permission.sync');
             Route::get('/assign/direct/{m_folder}/{s_fulder}', 'AssignFolderPermissionDirect')->name('backend_folder_permission.assign.direct');
             Route::post('/sync/direct_permission', 'SyncFolderPermissionDirect')->name('backend_folder_permission.sync.direct');
@@ -92,13 +97,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     Route::controller(FoldersController::class)->group(function () {
-        Route::prefix('admin/folders')->group(function () {
+        Route::prefix('/admin/folders')->group(function () {
             Route::get('/', action: 'mainFolderList')->name('backend.folders.main_folder_list');
+            Route::get('/delete-main-folder', 'deleteMainFolder')->name('backend.folders.delete_main_folder');
             Route::get('/{id}', 'index')->name('backend.folders.index');
             Route::get('/{main_folder_id}/{sub_folder_id}', 'viewDocList')->name('backend.folders.view_doc_list');
-            Route::get('/delete-main-folder', 'deleteMainFolder')->name('backend.folders.delete_main_folder');
             Route::get('/delete_sub_folder/{main_folder_id}/{sub_folder_id}', 'DeleteSubFolder')->name('backend.folders.delete_sub_folder');
-
             // Route::post('/store', 'folderStore')->name('backend.all_document.folders.store');
             Route::post('/store/{id}', 'store')->name('backend.folders.store');
             // Route::get('/view/{id}', 'viewDocFolder')->name('backend.document.folderView');
@@ -117,6 +121,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/get-hotel', 'getHotel')->name('backend.check_list.getHotels');
         });
     });
+
     Route::controller(AssignedCheckListController::class)->group(function () {
         Route::prefix('admin/assigned-check-list')->group(function () {
             Route::get('/admin/assigned-check-list/', 'index')->name('backend.assigned_check_list.index');
@@ -138,57 +143,73 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::controller(HeadDepartmentController::class)->group(function () {
         Route::prefix('admin/head-department')->group(function () {
             Route::get('/', 'index')->name('backend.head_department.index');
-            Route::get('/create', 'create')->name('backend.head_department.create');
-            Route::post('/store', 'store')->name('backend.head_department.store');
+            // Route::get('/create', 'create')->name('backend.head_department.create');
+            // Route::post('/store', 'store')->name('backend.head_department.store');
             Route::get('/edit/{id}', 'edit')->name('backend.head_department.edit');
             Route::post('/update/{id}', 'update')->name('backend.head_department.update');
             Route::get('delete/{id}', 'destroy')->name('backend.head_department.delete');
+            Route::get('status-change', 'statusChange')->name('backend.head_department.status_change');
         });
     });
 
-    Route::controller(HotelController::class)->group(function(){
-        Route::prefix('/admin/hotel')->group(function(){
-            Route::get('/', 'index')->name('backend.hotel.index');
-            Route::get('create', 'create')->name('backend.hotel.create');
-            Route::post('store', 'store')->name('backend.hotel.store');
-            Route::get('edit/{id}', 'edit')->name('backend.hotel.edit');
-            Route::post('update/{id}', 'update')->name('backend.hotel.update');
-            Route::get('delete/{id}', 'destroy')->name('backend.hotel.delete');
+    // Route::controller(HotelController::class)->group(function(){
+    //     Route::prefix('/admin/hotel')->group(function(){
+    //         // Route::get('/', 'index')->name('backend.hotel.index');
+    //         Route::get('create', 'create')->name('backend.hotel.create');
+    //         Route::post('store', 'store')->name('backend.hotel.store');
+    //         Route::get('edit/{id}', 'edit')->name('backend.hotel.edit');
+    //         Route::post('update/{id}', 'update')->name('backend.hotel.update');
+    //         Route::get('delete/{id}', 'destroy')->name('backend.hotel.delete');
+    //     });
+    // });
+
+    Route::controller(UnitController::class)->group(function(){
+        Route::prefix('/admin/unit')->group(function(){
+            Route::get('/', 'index')->name('backend.unit.index');
+            Route::get('/create', 'create')->name('backend.unit.create');
+            Route::post('/store', 'store')->name('backend.unit.store');
+            Route::get('/edit/{unit_id}', 'edit')->name('backend.unit.edit');
+            Route::post('/update/{unit_id}', 'update')->name('backend.unit.update');
+            Route::get('delete', 'destroy')->name('backend.unit.delete');
+            Route::get('city', 'getCity')->name('backend.get_city');
         });
     });
-    Route::controller(HotelDepartmentController::class)->group(function(){
-        Route::prefix('admin/hotel_department')->group(function(){
-            Route::get('/', 'index')->name('backend.hotel_department.index');
-            Route::get('/create', 'create')->name('backend.hotel_department.create');
-            Route::post('/store', 'store')->name('backend.hotel_department.store');
-            Route::get('/edit/{id}', 'edit')->name('backend.hotel_department.edit');
-            Route::post('/update/{id}', 'update')->name('backend.hotel_department.update');
-            Route::get('/get-hotel-list', 'getHotelList')->name('backend.hotel_department.get_hotel_list');
-            Route::get('delete/{id}', 'destroy')->name('backend.hotel_department.delete');
-        });
-    });
+
+    // Route::controller(HotelDepartmentController::class)->group(function(){
+    //     Route::prefix('admin/hotel_department')->group(function(){
+    //         Route::get('/', 'index')->name('backend.hotel_department.index');
+    //         Route::get('/create', 'create')->name('backend.hotel_department.create');
+    //         Route::post('/store', 'store')->name('backend.hotel_department.store');
+    //         Route::get('/edit/{id}', 'edit')->name('backend.hotel_department.edit');
+    //         Route::post('/update/{id}', 'update')->name('backend.hotel_department.update');
+    //         Route::get('/get-hotel-list', 'getHotelList')->name('backend.hotel_department.get_hotel_list');
+    //         Route::get('delete/{id}', 'destroy')->name('backend.hotel_department.delete');
+    //     });
+    // });
+
     Route::controller(ManagerController::class)->group(function(){
         Route::prefix('admin/manager')->group(function (){
             Route::get('/', 'index')->name('backend.manager.index');
-            Route::get('create', 'create')->name('backend.manager.create');
-            Route::post('store', 'store')->name('backend.manager.store');
+            // Route::get('create', 'create')->name('backend.manager.create');
+            // Route::post('store', 'store')->name('backend.manager.store');
             Route::get('edit/{id}', 'edit')->name('backend.manager.edit');
             Route::post('update/{id}', 'update')->name('backend.manager.update');
-            Route::get('/get-hotel-list', 'getHotelList')->name('backend.manager.get_hotel_list');
-            Route::get('/get-hotel-department-list', 'getHotelDepartmentList')->name('backend.manager.get_hotel_department_list');
+            // Route::get('/get-hotel-list', 'getHotelList')->name('backend.manager.get_hotel_list');
+            // Route::get('/get-hotel-department-list', 'getHotelDepartmentList')->name('backend.manager.get_hotel_department_list');
+            Route::get('status-change', 'statusChange')->name('backend.manager.status_change');
             Route::get('delete/{id}', 'destroy')->name('backend.get_hotel_department_list.delete');
         });
     });
     Route::controller(TeamLeaderController::class)->group(function(){
         Route::prefix('/admin/team-leader')->group(function(){
             Route::get('/', 'index')->name('backend.team_leader.index');
-            Route::get('create', 'create')->name('backend.team_leader.create');
-            Route::post('store', 'store')->name('backend.team_leader.store');
+            // Route::get('create', 'create')->name('backend.team_leader.create');
+            // Route::post('store', 'store')->name('backend.team_leader.store');
             Route::get('edit/{id}', 'edit')->name('backend.team_leader.edit');
             Route::post('update/{id}', 'update')->name('backend.team_leader.update');
-            Route::get('/get-manager-list', 'getManagerList')->name('backend.get_manager_list');
-            Route::get('delete/{id}', 'destroy')->name('backend.get_manager_list.delete');
-      
+            // Route::get('/get-manager-list', 'getManagerList')->name('backend.get_manager_list');
+            Route::get('delete/{id}', 'destroy')->name('backend.team_leader.delete');
+            Route::get('status-change', 'statusChange')->name('backend.team_leader.status_change');
         });
     });
 
@@ -201,6 +222,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::post('update/{id}', 'update')->name('backend.team_member.update');
             Route::get('/get-team-leader-list', 'getTeamLeader')->name('backend.get_team_leader');
             Route::get('delete/{id}', 'destroy')->name('backend.team_member.delete');
+            Route::get('status-change', 'statusChange')->name('backend.team_member.status_change');
         
         });
     });
@@ -234,24 +256,41 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
     // Employee 
 
-
+    // Add User
+    Route::controller(UserController::class)->group(function(){
+        Route::prefix('/admin/user')->group(function(){
+            Route::get('/add-user', 'create')->name('backend.user.create');
+            Route::post('/add-user-store', 'store')->name('backend.user.store');
+            Route::get('get_department_list', 'getDepartmentList')->name('backend.get_department_list');
+            Route::get('get_hierarchie_for_manager', 'getHierarchieForManager')->name('backend.get_hierarchie_for_manager');
+            Route::get('get_hierarchie_for_team_leader', 'getHierarchieForTeamLeader')->name('backend.get_hierarchie_for_team_leader');
+            Route::get('get_hierarchie_for_team_member', 'getHierarchieForTeamMember')->name('backend.get_hierarchie_for_team_member');
+            Route::get('get_unit_list', 'getUnitList')->name('backend.get_unit_ist');
+            Route::get('get_manager_list', 'getManagerList')->name('backend.get_manager_ist');
+            Route::get('get_team_leader_list', 'getTeamLeaderList')->name('backend.get_team_leader_list');
+        });
+    });
 
     // This (employee) route is only for testing purpose delete after project complete
     Route::get('/admin/employee', [EmployeeController::class, 'index'])->name('backend.employee.index');
-     
-
-
     Route::get('/admin/create/publicly_shared_url/{id}', [DocumentController::class, 'PubliclySharedDocument'])->name('backend.create_publicly_shared_url');
     Route::post('/admin/create/publicly_shared_url/send', [DocumentController::class, 'PubliclySharedDocumentSend'])->name('backend.create_publicly_shared_url_send');
+    
 
-});
+
+    Route::get('email_template_testing', [Controller::class, 'emailTemplateTesting']); // remove after development
+    });
 
 
-    Route::middleware(['auth', 'super-admin', 'web'])->group(function () {});
+    Route::middleware(['auth', 'super-admin', 'web'])->group(function () {
+    });
     Route::middleware(['auth', 'admin', 'web'])->group(function(){
     });
     // Route::middleware(['auth', 'department', 'web'])->group(function(){
     // });
     Route::middleware(['auth', 'employee', 'web'])->group(function(){
     });
+
+     
+ 
  

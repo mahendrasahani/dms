@@ -17,13 +17,15 @@
               </nav>
                 <h1 class="mb-0 fw-bold">All Departments</h1>
             </div>
+            @if(Auth::user()->role_type_id == 1)
             <div class="col-lg-4 col-md-6 d-none d-md-flex align-items-center justify-content-end">
-
+               
                 <button class="btn btn-info d-flex align-items-center ms-2" title="View Code" data-bs-toggle="modal" data-bs-target="#view-code5-1-modal">
                     <i class="ri-add-line me-1"></i>
                     Add Department
                 </button>
             </div>
+            @endif
         </div>
     </div>
     <div class="container-fluid">
@@ -32,12 +34,15 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id="zero_config" class="table table-striped table-bordered text-nowrap">
+                            <table id="" class="table table-striped table-bordered text-nowrap">
                                 <thead>
                                     <tr>
                                         <th>SN</th>
-                                        <th>Department Name</th> 
+                                        <th>Department Full Name</th> 
+                                        <th>Department Short Name</th> 
+                                        @if(Auth::user()->role_type_id == 1)
                                         <th style="align-item: end;">Action</th>
+                                        @endif
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -47,7 +52,10 @@
                                         @foreach ($roles as $role)
                                             
                                         <td>{{$count++}}</td>
-                                        <td>{{$role->name}}</td> 
+                                        <td>{{$role->name ?? ''}}</td> 
+                                        <td>{{$role->short_name ?? ''}}</td> 
+                                        
+                                        @if(Auth::user()->role_type_id == 1)
                                         <td>
                                             <div class="button-container">
                                                 <a href="{{route('backend.department.edit', [Crypt::encrypt($role->id)])}}">
@@ -83,10 +91,14 @@
                                                 </a>
                                             </div>
                                         </td>
+                                        @endif
+
+
                                     </tr>
                                     @endforeach
                                 </tbody>
                             </table>
+                            {{$roles->links('pagination::bootstrap-5')}}
                         </div>
                     </div>
                 </div>
@@ -109,12 +121,22 @@
                                                 <form method="POST" action="{{ route('backend.department.store') }}" enctype="multipart/form-data">
                                                     @csrf
                                                     <div class="form-floating mb-3">
-                                                        <input type="text" class="form-control" name="role_name" required/>
-                                                        <label><i data-feather="user" class="sun"></i>&nbsp;Department Name</label>
-                                                        @error('role_name')
+                                                        <input type="text" class="form-control" name="department_full_name" required/>
+                                                        <label><i data-feather="user" class="sun"></i>&nbsp;Full Name</label>
+                                                        @error('department_full_name')
                                                         <p style="color:red;">{{$message}}</p>
                                                         @enderror
                                                     </div>
+
+                                                    <div class="form-floating mb-3">
+                                                        <input type="text" class="form-control" name="department_short_name" required/>
+                                                        <label><i data-feather="user" class="sun"></i>&nbsp;Short Name</label>
+                                                        @error('department_short_name')
+                                                        <p style="color:red;">{{$message}}</p>
+                                                        @enderror
+                                                    </div>
+
+
                                                     <div class="d-md-flex align-items-center">
                                                         <div class="mt-3 mt-md-0 ms-auto">
                                                             <button type="submit"
@@ -190,6 +212,14 @@
             Swal.fire({
                 title: "Warning!",
                 text: "{{ Session::get('main_folder_already_in_use') }}",
+                icon: "warning"
+            });
+        </script>
+        @elseif(Session::has('already_exist'))
+        <script>
+            Swal.fire({
+                title: "Warning!",
+                text: "{{ Session::get('already_exist') }}",
                 icon: "warning"
             });
         </script>

@@ -19,4 +19,8 @@ class MainFolder extends Model
     public function getDocumnet(){
         return $this->hasMany(Document::class, 'main_folder_id');
     }
+
+    public function getSubFolder(){
+        return $this->hasMany(SubFolder::class, 'main_folder_id');
+    }
 }

@@ -24,29 +24,25 @@
                                 @csrf
                                 <div class="row">
                                     <div class="mb-3 col-md-6">
-                                        <input type="text" class="form-control" placeholder="Name" name="name"
-                                         value="{{ old('name') }}" required/>
+                                        <input type="text" class="form-control" placeholder="Name" name="name" value="{{ old('name') }}" required/>
                                             @error('name')
                                             <p style="color:red;">{{$message}}</p>
                                             @enderror
                                     </div>
                                     <div class="mb-3 col-md-6">
-                                        <input type="email" class="form-control" placeholder="Email" name="email"
-                                         value="{{ old('email') }}" required/>
+                                        <input type="email" class="form-control" placeholder="Email" name="email" value="{{ old('email') }}" required/>
                                             @error('email')
                                             <p style="color:red;">{{$message}}</p>
                                             @enderror
                                     </div>
                                     <div class="mb-3 col-md-6">
-                                        <input type="number" class="form-control" id="desig" placeholder="Phone"
-                                            name="phone" value="{{ old('phone') }}" required/>
+                                        <input type="tel" class="form-control" id="desig" placeholder="Phone" name="phone" value="{{ old('phone') }}" maxlength="10" required/>
                                             @error('phone')
                                             <p style="color:red;">{{$message}}</p>
                                             @enderror
                                     </div>
                                     <div class="mb-3 col-md-6">
-                                        <select name="head_department" id="head_department" class="select2 js-programmatic form-control"
-                                            style="width: 100%;" required>
+                                        <select name="head_department" id="head_department" class="select2 js-programmatic form-control" style="width: 100%;" required>
                                             <option value="">--Select--</option>
                                             @if(count($heade_departments) > 0)
                                                 @foreach($heade_departments as $h_department)
@@ -60,30 +56,13 @@
                                     </div>
 
                                     <div class="mb-3 col-md-6">
-                                        <select name="hotel" class="select2 hotel form-control"
-                                            style="width: 100%;" id="hotel_list" required>
+                                        <select name="hotel" class="select2 hotel form-control" style="width: 100%;" id="hotel_list" required>
                                             <option value="">--Select--</option> 
                                         </select>
                                         @error('hotel')
                                             <p style="color:red;">{{$message}}</p>
                                             @enderror
-                                    </div>
-
-                                    <div class="mb-3 col-md-6">
-                                        <input type="text" class="form-control" placeholder="Password" name="password" required/>
-                                        @error('password')
-                                        <p style="color:red">{{ $message }}</p>
-                                    @enderror
-                                    </div>
-                                 
-                                    <div class="mb-3 col-md-6">
-                                        <input type="text" class="form-control" placeholder="Confirm Password"
-                                            name="password_confirmation"  />
-                                            @error('password_confirmation')
-                                        <p style="color:red">{{ $message }}</p>
-                                    @enderror
-                                    </div>
-                                   
+                                    </div> 
                                     <div class="mb-3">
                                         <button class="btn btn-primary rounded-pill px-4 mt-3" type="submit">
                                             <i data-feather="send" class="feather-sm ms-2 fill-white"></i>
@@ -124,9 +103,7 @@
                 $("#hotel_list").html(append_to_html); 
          });
      </script>
-
-
-
+ 
     @if (Session::has('success'))
         <script>
             Swal.fire({

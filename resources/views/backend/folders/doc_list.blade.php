@@ -27,7 +27,7 @@
     </div>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-12">
+            <div class="col-12">    
                 <div class="card">
                     <div class="border-bottom title-part-padding">
                         <h4>All Document</h4> 
@@ -48,10 +48,8 @@
                                         <th>Action</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    
-                                    @foreach($documents as $document)
-                                       
+                                <tbody> 
+                                    @foreach($documents as $document) 
                                         <tr>
                                             <td><a href="{{route('backend.document.view', [Crypt::encrypt($document->doc_file)])}}">{{$document->document_title ?? 'No Title'}}</a></td> 
                                             <td>{{ strtoupper(pathinfo($document->doc_file, PATHINFO_EXTENSION)) }}</td> 
@@ -103,11 +101,11 @@
                                                                 </a>
                                                             </span>
                                                             <span>
-                                                                <a href="{{route('backend.document.delete', [Crypt::encrypt($document->id)])}}">
+                                                                <a href="javascript:void(0)" data-id="{{Crypt::encrypt($document->id)}}" id="trash_btn">
                                                                 <i class="fa fa-trash" aria-hidden="true"></i>
                                                                 </a>
                                                             </span>
-                                                           
+                                                           {{-- {{route('backend.document.delete', [Crypt::encrypt($document->id)])}} --}}
 
                                                     <!-- <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">    
                                                         <li><a class="dropdown-item" href="">View</a></li>
@@ -121,6 +119,7 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                            {{$documents->links('pagination::bootstrap-5')}} 
                         </div>
                     </div>
                 </div>
@@ -128,7 +127,53 @@
         </div>
     </div>
 </div>
+@section('javascript-section')
+<script>
+    $(document).on("click", "#trash_btn", async function(){
+        let id = $(this).data('id'); 
+        let url = "{{route('backend.document.delete')}}";  
+        Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+        }).then(async (result) => {
+        if (result.isConfirmed){    
+        let response = await fetch(`${url}/?id=${id}`);
+        let responseData = await response.json(); 
+        if(responseData.status == 'deleted'){
+            Swal.fire({
+            title: "Success!",
+            text: "Document has been deleted !",
+            icon: "success"
+            }).then(()=>{
+                window.location.reload();
+            });
+        }else if(responseData.status == 'something_went_wrong'){
+            Swal.fire({
+            title: "Error!",
+            text: "Something Went Wrong !",
+            icon: "error"
+            });
+        }else if(responseData.status == 'permission_denied'){
+            Swal.fire({
+            title: "Warning!",
+            text: "Permission Denied !",
+            icon: "warning"
+            });
+        }
 
+        }
+        });                         
+    });
+
+   
+</script>
+
+@endsection
 
 
 @endsection

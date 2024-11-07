@@ -20,67 +20,88 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <form class="mt-4" method="POST" action="{{ route('backend.manager.update', [Crypt::encrypt($manager->id)]) }}">
+                            <form class="mt-4" method="POST" action="{{route('backend.manager.update', [Crypt::encrypt($manager->id)])}}">
                                 @csrf
                                 <div class="row">
                                     <div class="mb-3 col-md-6">
-                                        <lable>Name</lable>
-                                        <input type="text" class="form-control" placeholder="Name" name="name" id="name"
-                                            required value="{{ $manager->name}}" />
-                                            @error('name')
+                                        <lable>First Name</lable>
+                                        <input type="text" class="form-control" placeholder="Enter First Name" name="f_name" id="f_name" value="{{$manager->first_name ?? ''}}" required
+                                        oninput="capitalizeEachWord(this)"/>
+                                            @error('f_name')
                                             <p style="color:red;">{{$message}}</p>
                                             @enderror
                                     </div>
                                     <div class="mb-3 col-md-6">
-                                    <lable>Email</lable>
-                                        <input type="email" class="form-control" placeholder="Email" name="email"
-                                            required value="{{ $manager->email }}" />
-                                            @error('email')
+                                        <lable>Last Name</lable>
+                                        <input type="text" class="form-control" placeholder="Enter Last Name" name="l_name" id="l_name" value="{{$manager->last_name ?? ''}}" required
+                                        oninput="capitalizeEachWord(this)"/>
+                                            @error('l_name')
                                             <p style="color:red;">{{$message}}</p>
                                             @enderror
+                                    </div>
+
+                                    <div class="mb-3 col-md-6">
+                                    <lable>Email</lable>
+                                        <input type="email" class="form-control" placeholder="Email" name="email" value="{{$manager->email ?? ''}}" required disabled/>
+                                        @error('email')
+                                        <p style="color:red;">{{$message}}</p>
+                                        @enderror
                                     </div>
                                     <div class="mb-3 col-md-6">
                                     <lable>Phone</lable>
-                                        <input type="number" class="form-control" id="desig" placeholder="Phone"
-                                            name="phone" required value="{{ $manager->phone }}" />
-                                            @error('phone')
-                                            <p style="color:red;">{{$message}}</p>
-                                            @enderror
+                                        <input type="tel" class="form-control" id="phone" placeholder="Phone" name="phone" value="{{$manager->phone ?? ''}}" required
+                                        maxlength="10" 
+                                            minlength="10" 
+                                            pattern="\d{10}" 
+                                            oninput="validatePhone(this)"/>
+                                            <span style="font-size:11px; color:gray;">Phone number should be 10 digits without country code.</span>
+                                        @error('phone')
+                                        <p style="color:red;">{{$message}}</p>
+                                        @enderror
                                     </div> 
 
                                     <div class="mb-3 col-md-6">
                                     <lable>Head Department</lable>
-                                        <select name="head_department" required class="select2 hotel form-control"
-                                            style="width: 100%;" id="head_department">
+                                        <select name="head_department" class="select2 form-control"
+                                            style="width: 100%;" id="head_department" onchange="getUnitList();">
+                                            @if(Auth::user()->role_type_id == 1) 
                                             <option value="">--Select--</option>
-                                            @foreach($heade_departments as $head_department)
-                                            <option value="{{$head_department->id}}" {{$manager->getUserHierarchie->head_department_id == $head_department->id ? "selected":''}}>{{$head_department->getDepartmentType->name}}</option>
+                                            @foreach($head_departments as $head_department)
+                                            <option value="{{$head_department->id}}" {{$head_department->id == $manager->head_department_id ? "selected":""}}>{{$head_department->name ?? ''}}</option>
                                             @endforeach
+                                            @elseif(Auth::user()->role_type_id == 2)
+                                            <option value="{{$manager->getHead?->id}}">{{$manager->getHead?->name}}</option>
+                                            @endif
                                         </select>
+                                        @error('head_department')
+                                        <p style="color:red;">{{$message}}</p>
+                                        @enderror
                                     </div>
 
                                     <div class="mb-3 col-md-6">
                                     <lable>Hotel</lable>
-                                        <select name="hotel" required class="select2 hotel form-control"
-                                            style="width: 100%;" id="hotel">
-                                            @foreach($hotels as $hotel)
-                                            <option value="{{$hotel->id}}" {{$manager->getUserHierarchie->head_department_id == $hotel->id ? "selected":''}}>{{$hotel->name}}</option>
+                                        <select name="hotel" class="select2 form-control" style="width: 100%;" id="hotel">
+                                            <option value="">--Select--</option>
+                                            @foreach($head_units as $head_unit)
+                                                <option value="{{$head_unit->id ?? ''}}" {{$manager->unit_id == $head_unit->id ? "selected":""}}>{{$head_unit->name ?? ''}}</option>
                                             @endforeach
                                         </select>
+                                        @error('hotel')
+                                        <p style="color:red;">{{$message}}</p>
+                                        @enderror
                                     </div>
-
+ 
                                     <div class="mb-3 col-md-6">
-                                    <lable>Hotel Department</lable>
-                                        <select name="hotel_department" required class="select2 hotel form-control"
-                                            style="width: 100%;" id="hotel_department">
-                                            @foreach($hotel_departments as $h_dept)
-                                            <option value="{{$h_dept->id}}" {{$manager->getUserHierarchie->hotel_department_id == $h_dept->id ? "selected":''}}>{{$h_dept->name}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="mb-3 col-md-6">
-                                    <lable>Enter password if you want to change</lable>
-                                        <input type="text" class="form-control" id="New_pasword" placeholder="New Password"  name="new_pasword"/>
+                                        <label>Enter password if you want to change</label>
+                                        <div class="input-group">
+                                            <input type="password" class="form-control" id="password" placeholder="New Password" name="password" />
+                                            <span class="input-group-text" onclick="togglePassword()" style="cursor: pointer;">
+                                                <i class="fas fa-eye" id="togglePasswordIcon"></i>
+                                            </span>
+                                        </div>
+                                        @error('password')
+                                            <p style="color:red">{{$message}}</p>
+                                        @enderror
                                     </div>
                                      
                                     <div class="mb-3">
@@ -97,49 +118,39 @@
             </div>
         </div>
     </div>
-@section('javascript-section') 
+@section('javascript-section')  
     <script>
-         $(document).on("change", "#head_department", async function(){
-            let url = "{{route('backend.manager.get_hotel_list')}}";
-            let head_department_id = $(this).val();
-            let response = await fetch(`${url}/?head_department_id=${head_department_id}`);
-            let resposeData = await response.json(); 
-            let append_to_html = '<option value="">--Select Hotel--</option>'; 
-            if(resposeData.status == "success"){  
-                resposeData.hotel_list.forEach(element => { 
+        async function getUnitList(){
+            let department_id = $("#head_department").val(); 
+            let url = "{{route('backend.get_unit_ist')}}";
+            let response = await fetch(`${url}?department_id=${department_id}`);
+            let responseData = await response.json();
+            let append_to_html = '<option value="">--Select Unit--</option>'; 
+            if(responseData.status == "success"){
+                responseData.unit_list.forEach(element => { 
                     append_to_html += `<option value="${element.id}">${element.name}</option>`;
                 }); 
-                $("#hotel").html(append_to_html); 
-           }
-         });
-    </script>
+                $("#hotel").html(append_to_html);
+            }
+        } 
 
-    <script>
-        $(document).on("change", "#hotel", async function(){
-            let url = "{{route('backend.manager.get_hotel_department_list')}}";
-            let hotel_id = $(this).val();
-            let response = await fetch(`${url}/?hotel_id=${hotel_id}`);
-            let resposeData = await response.json();
-            let append_to_html = '<option value="">--Select Hotel--</option>'; 
-            if(resposeData.status == "success"){  
-                resposeData.hotel_department_list.forEach(element => { 
+         async function getManagerList(){
+            let head_id = $("#department_head").val(); 
+            let unit_id = $("#unit").val(); 
+            let url = "{{route('backend.get_manager_ist')}}"; 
+            let response = await fetch(`${url}?unit_id=${unit_id}&department_head=${head_id}`);
+            let responseData = await response.json();
+            console.log(responseData);  
+            let append_to_html = '<option value="">--Select Manager--</option>';
+            if(responseData.status == "success"){
+                responseData.manager_list.forEach(element => { 
                     append_to_html += `<option value="${element.id}">${element.name}</option>`;
-                }); 
-                $("#hotel_department").html(append_to_html); 
-           } 
-        });
+                });
+                $("#manager").html(append_to_html);
+            } 
+        }
     </script>
-
-    <script>
-    
-    </script>
-
-
-    <script> 
-        $(".hotel").select2({
-            placeholder: "Select Hotel",
-        }); 
-    </script>
+ 
     @if (Session::has('success'))
         <script>
             Swal.fire({
@@ -152,11 +163,6 @@
                 }
             });
         </script>
-    @endif
-
-
-
-
-
+    @endif 
 @endsection
 @endsection

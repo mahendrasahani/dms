@@ -11,11 +11,9 @@
                     <li class="breadcrumb-item active" aria-current="page"><a href="{{route('backend.hotel_department.index')}}" class="link">Hotel Department</a></li>
                  </ol>
             </nav>
-
                 <h1 class="mb-0 fw-bold">All Hotel Department</h1>
             </div>
             <div class="col-lg-4 col-md-6 d-none d-md-flex align-items-center justify-content-end">
-
                 <a class="btn btn-info d-flex align-items-center ms-2" href="{{route('backend.hotel_department.create')}}">
                     <i class="ri-add-line me-1"></i>
                     Add Hotel Department
@@ -48,8 +46,8 @@
                                                 <td>{{$sn++}}</td>
                                                 <td>{{$hotel_department->name}}</td>
                                                 <td>{{$hotel_department->email}}</td>
-                                                <td>{{$hotel_department->getUserHierarchie->getHeadDepartment->getDepartmentType->name ?? ''}}</td>
-                                                <td>{{$hotel_department->getUserHierarchie->getHotel->name ?? ''}}</td>
+                                                <td>{{$hotel_department?->getUserHierarchie?->getHeadDepartment?->getDepartmentType?->name ?? ''}}</td>
+                                                <td>{{$hotel_department?->getUnit?->name ?? ''}}</td>
                                                 <td>
                                                     
                                                     <div class="button-container">

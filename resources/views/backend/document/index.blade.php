@@ -91,6 +91,7 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                            {{$documents->links('pagination::bootstrap-5')}} 
                         </div>
                     </div>
                 </div>

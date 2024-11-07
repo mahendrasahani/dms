@@ -11,34 +11,33 @@ use Illuminate\Http\Request;
 use App\Models\backend\RoleType;
 use App\Models\backend\{DepartmentType, MainFolder};
 use Illuminate\Support\Facades\Auth;
-class DepartmentController extends Controller
-{
+class DepartmentController extends Controller{
     public function index(){
         $permission_check = UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 38)->exists();
         if($permission_check){
-        $roles = DepartmentType::get();
+        $roles = DepartmentType::orderBy('id', 'desc')->paginate(10);
         return view('backend.departments.index', compact('roles'));
         }else{
             return response()->view('errors.405', [], 405);
         }
     }
-
-
     public function update(Request $request, $id){
         $validate = $request->validate([
-            "role_name" => ['required']
+            "department_full_name" => ['required'],
+            "department_short_name" => ['required']
         ]);
         $permission_check = UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 41)->exists();
         if($permission_check){
-        $role_name = $request->role_name;
+        $department_full_name = $request->department_full_name;
+        $department_short_name = $request->department_short_name;
         DepartmentType::where('id', $id)->update([
-            'name' => $role_name
+            'name' => $department_full_name,
+            'short_name' => $department_short_name,
         ]);
         return redirect()->route('backend.department.index')->with('update', "Department has been update successfully");
         }else{
             return response()->view('errors.405', [], 405);
-        }
-
+        } 
     }
 
     public function edit($id){
@@ -58,36 +57,43 @@ class DepartmentController extends Controller
  
     public function store(Request $request){
         $validate = $request->validate([
-            "role_name" => ['required']
-        ]);
+            "department_full_name" => ['required'],
+            "department_short_name" => ['required']
+        ]); 
         $permission_check = UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 41)->exists();
         if($permission_check){
-        $name = $request->role_name;
-        $lastGroupId = DB::table('main_folder_permission_lists')->max('group_id');  
-        $newGroupId = $lastGroupId ? $lastGroupId + 1 : 1; 
-        $department = DepartmentType::create([
-            'name' => $name,
-            'status' => 1
-        ]);
-        $main_folder = MainFolder::create([
-            'name' => $name,
-            'department_type_id' => $department->id
-        ]);  
-        $main_folder_permission_list = MainFolderPermissionList::create([
-            'name' => $name,
-            'main_folder_id' => $main_folder->id,
-            'group_name' => $newGroupId,
-            'status' => 1
-        ]); 
-        UserMainFolderPermission::create([
-            "main_folder_permission_lists_id" => $main_folder->id,
-            "user_id" => 1,
-            "status" => 1
-        ]); 
-        return redirect()->route('backend.department.index')->with('success', "New Department has been added successfully");
-    }else{
-        return response()->view('errors.405', [], 405);
-    }
+            $name = $request->department_full_name;
+            $short_name = $request->department_short_name; 
+            $check_department = DepartmentType::where('name', $request->department_full_name)->exists();
+            if($check_department){
+                return redirect()->back()->with('already_exist', "The department with this name is already exists.");
+            } 
+            $lastGroupId = DB::table('main_folder_permission_lists')->max('group_id');  
+            $newGroupId = $lastGroupId ? $lastGroupId + 1 : 1;
+            $department = DepartmentType::create([
+                'name' => $name,
+                'short_name' => $short_name,
+                'status' => 1
+            ]);
+            $main_folder = MainFolder::create([
+                'name' => $name,
+                'department_type_id' => $department->id
+            ]);
+            MainFolderPermissionList::create([
+                'name' => $name,
+                'main_folder_id' => $main_folder->id,
+                'group_name' => $newGroupId,
+                'status' => 1
+            ]);
+            UserMainFolderPermission::create([
+                "main_folder_id" => $main_folder->id,
+                "user_id" => 1,
+                "status" => 1
+            ]); 
+            return redirect()->route('backend.department.index')->with('success', "New Department has been added successfully");
+        }else{
+            return response()->view('errors.405', [], 405);
+        }
     }
  
     public function updateStatus(Request $request){

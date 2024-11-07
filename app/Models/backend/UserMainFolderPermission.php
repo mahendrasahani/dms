@@ -9,7 +9,7 @@ class UserMainFolderPermission extends Model
 {
     use HasFactory;
     protected $fillable = [
-        "main_folder_permission_lists_id",
+        "main_folder_id",
         "user_id",
         "access_given_by",
         "status",

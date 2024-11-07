@@ -76,6 +76,9 @@
                                 <div class="form-group mb-3">
                                     <div class="">
                                         <input class="form-control" type="text" placeholder="Email" :value="old('email')" name="email" autofocus="autofocus"/>
+                                        @error('email')
+                                            <p style="color:red;">{{$message}}</p>
+                                        @enderror
                                     </div>
                                 </div>
                                  
@@ -88,14 +91,7 @@
 
                                     </div>
                                 </div>
-                                <div class="form-group mb-0 mt-4">
-                                    <div class="col-sm-12 justify-content-center d-flex">
-                                        <p>
-                                            <span style="color: #fff;"> Don't have an account?</span>
-                                            <a href="" class="text-primary font-weight-medium ms-1">Sign Up</a>
-                                        </p>
-                                    </div>
-                                </div>
+                                 
                             </form>
                         </div>
                     </div>

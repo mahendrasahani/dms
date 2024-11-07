@@ -42,18 +42,30 @@
               <small class="text-muted">Email address</small>
               <h6>{{$user->email}}</h6>
               <small class="text-muted pt-4 db">Phone</small>
-              <h6>{{$user->phone}}</h6>  
-              <!-- <small class="text-muted pt-4 db">Social Profile</small>
-              <br />
-              <button class="btn btn-circle btn-secondary">
-                <i class=" ri-facebook-line fs-6 d-flex align-items-center justify-content-center " ></i>
-              </button>
-              <button class="btn btn-circle btn-secondary">
-                <i class=" ri-twitter-line fs-6 d-flex align-items-center justify-content-center " ></i>
-              </button>
-              <button class="btn btn-circle btn-secondary">
-                <i class=" ri-youtube-line fs-6 d-flex align-items-center justify-content-center " ></i>
-              </button> -->
+              <h6>{{$user->phone}}</h6>   
+
+              @if(Auth::user()->role_type_id == 2 || Auth::user()->role_type_id == 5 || Auth::user()->role_type_id == 6 || Auth::user()->role_type_id == 7)
+              <small class="text-muted pt-4 db">Department</small>
+              <h6>{{$user->getDepartmentType?->name ?? ''}}</h6>  
+              @endif 
+
+              @if(Auth::user()->role_type_id == 5 || Auth::user()->role_type_id == 6 || Auth::user()->role_type_id == 7)
+              <small class="text-muted pt-4 db">Head</small>
+              <h6>{{$user->getHead?->name ?? ''}}</h6>  
+              <small class="text-muted pt-4 db">Unit</small>
+              <h6>{{$user->getUnit?->name ?? ''}}</h6> 
+              @endif 
+
+              @if(Auth::user()->role_type_id == 6 || Auth::user()->role_type_id == 7)
+              <small class="text-muted pt-4 db">Manager</small>
+              <h6>{{$user->getManager?->name ?? ''}}</h6>  
+              @endif 
+
+              @if(Auth::user()->role_type_id == 7)
+              <small class="text-muted pt-4 db">Team Leader</small>
+              <h6>{{$user->getTeamLeader?->name ?? ''}}</h6>  
+              @endif 
+
             </div>
           </div>
         </div>
@@ -69,21 +81,40 @@
                   <form class="form-horizontal form-material" action="{{route('backend.user_profile.update')}}" enctype="multipart/form-data" method="POST">
                   @csrf  
                   <div class="mb-3">
+                      <label class="col-md-12">First Name</label>
+                      <div class="col-md-12">
+                        <input type="text" name="f_name" placeholder="Enter First Name" class="form-control form-control-line" value="{{$user->first_name}}" required/>
+                      </div>
+                    </div>
+                    <div class="mb-3">
+                      <label class="col-md-12">Last Name</label>
+                      <div class="col-md-12">
+                        <input type="text" name="l_name" placeholder="Enter Last Name" class="form-control form-control-line" value="{{$user->last_name}}" required/>
+                      </div>
+                    </div>
+                    
+                  <!-- <div class="mb-3">
                       <label class="col-md-12">Full Name</label>
                       <div class="col-md-12">
                         <input type="text" name="name" placeholder="Your Name" class="form-control form-control-line" value="{{$user->name}}" required/>
                       </div>
-                    </div>
+                    </div> -->
                     <div class="mb-3">
                       <label for="example-email" class="col-md-12">Email</label>
                       <div class="col-md-12">
-                        <input type="email" name="email" placeholder="Email" class="form-control form-control-line" name="email"  value="{{$user->email}}" required/>
+                        <input type="email" name="email" placeholder="Email" class="form-control form-control-line" name="email"  value="{{$user->email}}" required disabled/>
+                        @error('email')
+                          <p style="color:red;">{{$message}}</p>
+                        @enderror
                       </div>
                     </div>
                     <div class="mb-3">
                       <label class="col-md-12">Phone No</label>
                       <div class="col-md-12">
-                        <input type="text" name="phone" placeholder="Your Phone No." class="form-control form-control-line" value="{{$user->phone}}" />
+                        <input type="tel" name="phone" placeholder="Your Phone No." class="form-control form-control-line" value="{{$user->phone}}" maxlength="10"/>
+                        @error('phone')
+                          <p style="color:red;">{{$message}}</p>
+                        @enderror
                       </div>
                     </div>
                     <div class="mb-3">
@@ -117,7 +148,18 @@
     </div>
   </div>
 </div>
+@section('javascript-section')
+  @if(Session::has('profile_updated'))
+    <script>
+      Swal.fire({
+        title: "Updated!",
+        text: "{{Session::get('profile_updated')}}",
+        icon: "success"
+      });
+    </script>
+  @endif
 
+@endsection
 
 
 @endsection

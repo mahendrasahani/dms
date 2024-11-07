@@ -52,6 +52,7 @@
                                 <thead>
                                     <tr>
                                         <th>Title</th>    
+                                        <th>Type</th>    
                                         <th>Assign Date</th>
                                         <th>Start Date</th>
                                         <th>End Date</th> 
@@ -65,7 +66,8 @@
                                     @if(count($tasks) > 0) 
                                     @foreach($tasks as $task)
                                         <tr>
-                                            <td><a href="{{route('admin.task.view_doc', [Crypt::encrypt($task->document_id)])}}">{{$task->getDocument?->document_title ?? 'No Title'}}</a></td> 
+                                            <td><a href="{{route('admin.task.view_doc', [Crypt::encrypt($task->id)])}}">{{$task->getDocument?->document_title ?? 'No Title'}}</a></td> 
+                                            <td>{{ strtoupper(pathinfo($task->document_name, PATHINFO_EXTENSION)) }}</td>
                                             <td>{{Carbon\Carbon::parse($task->assign_date)->format('d M, Y')}}</td>
                                             <td>
                                             @if($task->start_date != NULL)
@@ -96,6 +98,7 @@
                                         @endif
                                 </tbody>
                             </table>
+                            {{$tasks->links('pagination::bootstrap-5')}} 
                         </div>
                     </div>
                 </div>

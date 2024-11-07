@@ -52,6 +52,10 @@
                     <lable>Enter Multiple Email Separate by (,)</lable>
                     <input type="text" class="form-control" name="email" placeholder="example:- abc@test.com, abc2@test.com" required>
                 </div>
+                <div class="col-md-6">
+                    <lable>Link valid untill</lable>
+                    <input type="date" class="form-control" name="date" placeholder="Select Date">
+                </div>
                 <div class="col-md-6"></div>
                 <br>
                 <div class="col-md-6">

@@ -191,3 +191,22 @@ $(function () {
     $(this).next(".custom-file-label").html(fileName);
   });
 });
+
+
+function validatePhone(input) { 
+  input.value = input.value.replace(/\D/g, '');
+}
+
+function capitalizeEachWord(input) { 
+  input.value = input.value
+      .toLowerCase()
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+}
+
+function allowOnlyLetters(event) {
+  const input = event.target;
+  const value = input.value; 
+  input.value = value.replace(/[^a-zA-Z\s]/g, '');
+}

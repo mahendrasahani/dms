@@ -12,6 +12,7 @@ class DepartmentType extends Model{
 
     protected $fillable = [
         'name',
+        'short_name',
         'user_id',
         'status'
     ];
@@ -38,4 +39,5 @@ class DepartmentType extends Model{
     public function getAccessibleDepartmentList(){
         return $this->hasMany(UserMainFolderPermission::class, 'main_folder_permission_lists_id');
     }
+    
 }

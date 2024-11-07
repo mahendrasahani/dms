@@ -46,19 +46,25 @@
                                     <div class="">
                                         <input class="form-control" type="text" required=""
                                             placeholder="Email":value="__('Email')" name="email" />
+                                            @error('email')
+                                            <p style="color:red;">{{$message}}</p>
+                                            @enderror 
                                     </div>
                                 </div>
                                 <div class="form-group mb-4">
                                     <div class="">
                                         <input class="form-control" type="password" required=""
                                             placeholder="Password" name="password" />
+                                            @error('password')
+                                            <p style="color:red;">{{$message}}</p>
+                                            @enderror 
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="d-flex">
                                         <div class="checkbox checkbox-info pt-0">
                                             <input id="checkbox-signup" type="checkbox"
-                                                class="material-inputs chk-col-indigo" />
+                                                class="material-inputs chk-col-indigo" name="remember"/>
                                             <label for="checkbox-signup"><span
                                                     style="color: #fff;">{{ __('Remember me') }}</span></label>
                                         </div>
@@ -82,14 +88,7 @@
                                         </button>
                                     </div>
                                 </div>
-                                <div class="form-group mb-0 mt-4">
-                                    <div class="col-sm-12 justify-content-center d-flex">
-                                        <p>
-                                            <span style="color: #fff;"> Don't have an account?</span>
-                                            <a href="" class="text-primary font-weight-medium ms-1">Sign Up</a>
-                                        </p>
-                                    </div>
-                                </div>
+                                 
                             </form>
                         </div>
                     </div>

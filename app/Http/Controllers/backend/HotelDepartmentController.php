@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
+use App\Mail\SendPasswordToAdminMail;
+use App\Models\backend\Unit;
 use App\Models\backend\UserHierarchy;
 use App\Models\backend\UserPermission;
 use App\Models\User;
@@ -11,43 +13,52 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use Mail;
 
 
 class HotelDepartmentController extends Controller
 {
     public function index(){ 
-        $hotel_departments = User::with(['getUserHierarchie.getHeadDepartment.getDepartmentType', 'getUserHierarchie.getHotel'])->where('role_type_id', 4)->get();
+        $hotel_departments = User::with(['getUserHierarchie.getHeadDepartment.getDepartmentType', 'getUserHierarchie.getHotel', 'getUnit']);
+        if(Auth::user()->role_type_id != 1){
+            $hotel_departments = $hotel_departments->whereHas('getUserHierarchie.getHeadDepartment', function($query){
+                $query = $query->where('head_department_id', Auth::user()->id);
+            });
+        }
+        $hotel_departments = $hotel_departments->where('role_type_id', 4)->get();
         return view('backend.hotel_department.index', compact('hotel_departments'));
     }
 
-    public function create(){
+    public function create(){ 
         if(Auth::user()->role_type_id == 1){
             $heade_departments = User::with('getDepartmentType')->where('role_type_id', 2)->where('status', 1)->get();
             $hotels = User::where('role_type_id', 3)->where('status', 1)->get();
             return view('backend.hotel_department.create', compact('heade_departments', 'hotels'));
-       
-        }else{
+        }elseif(Auth::user()->role_type_id == 2){
+            $heade_departments = User::with('getDepartmentType')->where('id', Auth::user()->id)->where('status', 1)->get();
+            $hotels = Unit::where('department_id', Auth::user()->id)->get();
+            return view('backend.hotel_department.create', compact('heade_departments', 'hotels'));
+        }
+        else{
             return response()->view('errors.405', [], 405);
-        } 
-
-
+        }
     }
 
     public function store(Request $request){ 
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'phone' => ['required', 'numeric', 'digits:10', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'phone' => ['required', 'numeric', 'digits:10', 'unique:'.User::class], 
             'head_department' => ['required'],
             'hotel' => ['required'],
-        ]);  
+        ]);
         $name = $request->name; 
         $email = $request->email;
         $phone = $request->phone;
         $heade_department_id = $request->head_department;
         $hote_id = $request->hotel;
-        $password = Hash::make($request->password); 
+        $randompassword = substr(str_shuffle('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'), 0, 10);
+        $password = Hash::make($randompassword);
         $user = User::create([
             "name" => $name,
             "email" => $email,
@@ -55,6 +66,7 @@ class HotelDepartmentController extends Controller
             "password" => $password,
             "role_type_id" => 4,
             "created_by" => Auth::user()->id,
+            'unit_id' => $hote_id,
             "status" => 1
         ]);
         UserHierarchy::create([
@@ -62,7 +74,19 @@ class HotelDepartmentController extends Controller
             "head_department_id" => $heade_department_id,
             "hotel_id" => $hote_id,
             "status" => 1
-        ]); 
+        ]);
+
+        $user_detail_mail_data = [
+            "message" => "Email Message",
+            "name" => $name,
+            "email" => $email,
+            "phone" => $phone,
+            "password" => $randompassword,
+            "login_url" => route('login')
+        ];
+        $admin_email = User::where('role_type_id', 1)->first();
+        Mail::to($admin_email->email)->send(new SendPasswordToAdminMail($user_detail_mail_data));
+        Mail::to($email)->send(new SendPasswordToAdminMail($user_detail_mail_data));
         return redirect()->route('backend.hotel_department.index')->with('success', "Hotel Department has been added successfully");
     }
 
@@ -73,14 +97,14 @@ class HotelDepartmentController extends Controller
                 $hotel_department = User::where('id', $decrypt_id)->with(['getUserHierarchie.getHeadDepartment', 'getUserHierarchie.getHotel'])->first();
                 $head_departments = User::with('getDepartmentType')->where('role_type_id', 2)->where('status', 1)->get();
                 $hotels = User::where('role_type_id', 3)->where('status', 1)->get();
-                return view('backend.hotel_department.edit', compact('hotel_department', 'head_departments', 'hotels'));
+                return view('backend.hotel_department.edit', compact('hotel_department', 'head_departments', 'hotels'));                
             }else{
                 return response()->view('errors.405', [], 405);
             }
         }catch(\Exception $e){
             abort('404');
         }
-}
+    }
 
     public function update(Request $request, $id){
         try{ 
@@ -118,13 +142,9 @@ class HotelDepartmentController extends Controller
         }
     }
 
-    public function getHotelList(Request $request){
-       $user_hierarchy = UserHierarchy::where('head_department_id', $request->head_department)->get();
-       $user_ids = [];
-       foreach($user_hierarchy as $id){
-            $user_ids[] = $id->user_id;
-       }
-       $hotels = User::whereIn('id', $user_ids)->where('role_type_id', 3)->get();
+    public function getHotelList(Request $request){ 
+       $department_head = User::where('id', $request->head_department)->first();  
+       $hotels = Unit::where('department_id', $department_head->id)->get();
        return response()->json([
         "status" => "success",
         "hotel_list" => $hotels

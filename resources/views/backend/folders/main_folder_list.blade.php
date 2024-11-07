@@ -21,7 +21,6 @@
     } 
 </style>
 
- 
 @extends('layouts/backend/main')
 @section('main-section')
     <div class="page-wrapper">
@@ -32,33 +31,27 @@
                 <ol class="breadcrumb mb-0 d-flex align-items-center">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}" class="link"><i class="ri-home-3-line fs-5"></i></a></li> 
                     <li class="breadcrumb-item active" aria-current="page">All Department</li>
-               
                 </ol>
-            </nav>
+                </nav>
                     <h1 class="mb-0 fw-bold">{{$main_folder->name ?? ''}}</h1>
                 </div> 
             </div>
         </div>
         <div class="container-fluid">
-            <div class="ro_ss w-100"> 
-
+            <div class="ro_ss w-100">  
             @foreach($main_folders as $main_folder)
-                                                    @if(Auth::user()->role_type_id != 1)
-                                                        @if(Auth::user()->role_type_id == 2)
-                                                            @php
-                if (!in_array(Auth::user()->department_type_id, $main_folder_assigned_permissions)) {
-                    $main_folder_assigned_permissions[] = Auth::user()->department_type_id;
-                }
-                                                            @endphp
-                                                        @endif
-                                                        @if(in_array($main_folder->id, $main_folder_assigned_permissions))
-
-
-
-
-                                <div class="w_20 g-2">
-                                            <div class="card-group my-1" id="folder_div"> 
-                                                <div class="card">
+                @if(Auth::user()->role_type_id != 1)
+                {{-- @if(Auth::user()->role_type_id == 2)
+                    @php 
+                        if(!in_array(Auth::user()->department_type_id, $main_folder_assigned_permissions)) {
+                            $main_folder_assigned_permissions[] = Auth::user()->department_type_id;
+                        }
+                     @endphp
+                @endif  --}} 
+                    @if(in_array($main_folder->id, $main_folder_assigned_permissions))
+                                    <div class="w_20 g-2">
+                                        <div class="card-group my-1" id="folder_div"> 
+                                            <div class="card">
                                                     <div class="d-flex justify-content-center"> 
                                                         <div class="d-flex align-items-center flex-column gap-3" >
                                                             <span class="btn btn-xl text-info btn-circle d-flex align-items-center our-folder">
@@ -67,7 +60,7 @@
                                                                 </a>
                                                             </span>
                                                             <a href="{{route('backend.folders.index', [Crypt::encrypt($main_folder->id)])}}">
-                                                                <h6 class="text-muted mb-0 fw-bold">{{$main_folder->name}}</h6>
+                                                                <h6 class="text-muted mb-0 fw-bold">{{$main_folder->name}} - {{count($main_folder->getSubFolder)}}</h6>
                                                             </a>
                                                         </div> 
 
@@ -77,18 +70,17 @@
                                                             </button>
                                                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="threeDotsMenu">
                                                             <li><a class="dropdown-item" href="{{route('backend.folders.index', [Crypt::encrypt($main_folder->id)])}}">Open</a></li> 
-                                                            <li><a class="dropdown-item" href="">Permissions</a></li> 
-                                                                 <li><a class="dropdown-item" href="">Delete Folder</a></li>
+                                                            <!-- <li><a class="dropdown-item" href="">Permissions</a></li>  -->
+                                                            <li><a class="dropdown-item" href="javascript:void(0)" id="delete_btn" data-id="{{$main_folder->id}}">Delete Folder</a></li>
                                                              </ul>
-                                                        </div>
-
+                                                        </div> 
                                                     </div>
-                                                </div>
+                                                </div> 
+                                        </div> 
+                                    </div>
+                                        @endif
 
-                                            </div> 
-                                        </div>
-                                        @endif 
-                                        @else
+                @else
                                             <div class="w_20 g-2">
                                                 <div class="card-group my-1" id="folder_div"> 
                                                     <div class="card">
@@ -106,24 +98,18 @@
                                                                                 <i class="fa fa-ellipsis-v"></i>
                                                                             </a>
                                                                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="threeDotsMenu">
-                                                                                <li><a class="dropdown-item"
-                                                                                        href="{{route('backend.folders.index', [Crypt::encrypt($main_folder->id)])}}">Open</a></li>
-
-                                                                                <li><a class="dropdown-item" href="javascript:void(0)" id="delete_btn" data-id="{{$main_folder->id}}">Delete
-                                                                                        Folder</a></li>
+                                                                                <li><a class="dropdown-item" href="{{route('backend.folders.index', [Crypt::encrypt($main_folder->id)])}}">Open</a></li>
+                                                                                <li><a class="dropdown-item" href="javascript:void(0)" id="delete_btn" data-id="{{$main_folder->id}}">Delete Folder</a></li>
                                                                             </ul>
-                                                                        </div>
-
+                                                                        </div> 
                                                                 </span>
                                                                 <span>
                                                                     <a href="{{route('backend.folders.index', [Crypt::encrypt($main_folder->id)])}}">
-                                                                        <h6 class="text-muted mb-0 fw-bold">{{$main_folder->name}}</h6>
+                                                                        <h6 class="text-muted mb-0 fw-bold">{{$main_folder->name}} ({{count($main_folder->getSubFolder)}})</h6>
                                                                     </a>
                                                                 </span>
                                                             </div> 
-
-
-
+ 
                                                         </div>
                                                     </div>
 
@@ -137,10 +123,11 @@
  
 @section('javascript-section')
 <script>
+    
+    
     $(document).on("click", "#delete_btn", async function(){
-        let main_folder_id = $(this).data('id');
-        let url = "{{route('backend.folders.delete_main_folder')}}";
-         
+        let main_folder_id = $(this).data('id'); 
+        let url = "{{route('backend.folders.delete_main_folder')}}";  
         Swal.fire({
         title: "Are you sure?",
         text: "You won't be able to revert this!",
@@ -152,14 +139,33 @@
         }).then(async (result) => {
         if (result.isConfirmed){    
         let response = await fetch(`${url}/?id=${main_folder_id}`);
-        let responseData = await response.json();
-        console.log(responseData);
- 
+        let responseData = await response.json(); 
+        if(responseData.status == 'deleted'){
+            Swal.fire({
+            title: "Success!",
+            text: "Main Folder has been deleted successfully !",
+            icon: "success"
+            }).then(()=>{
+                window.location.reload();
+            });
+        }else if(responseData.status == 'warning'){
+            Swal.fire({
+            title: "Warning!",
+            text: "Please Delete all sub folder first from this folder !",
+            icon: "warning"
+            });
+        }else if(responseData.status == 'permission_denied'){
+            Swal.fire({
+            title: "Warning!",
+            text: "Permission Denied !",
+            icon: "warning"
+            });
         }
-        });
 
-
-       
+        }
+        });                         
     });
+
+   
 </script>
 @endsection

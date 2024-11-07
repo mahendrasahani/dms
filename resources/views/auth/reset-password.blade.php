@@ -114,14 +114,7 @@
                                         </button>
                                     </div>
                                 </div>
-                                <div class="form-group mb-0 mt-4">
-                                    <div class="col-sm-12 justify-content-center d-flex">
-                                        <p>
-                                            <span style="color: #fff;"> Don't have an account?</span>
-                                            <a href="" class="text-primary font-weight-medium ms-1">Sign Up</a>
-                                        </p>
-                                    </div>
-                                </div>
+                                 
                             </form>
                         </div>
                     </div>

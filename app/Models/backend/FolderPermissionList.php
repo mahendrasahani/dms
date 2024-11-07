@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class FolderPermissionList extends Model
 {
     use HasFactory, SoftDeletes;
+    protected $table = 'sub_folder_permission_lists';
 
     protected $fillable = [
         "name",

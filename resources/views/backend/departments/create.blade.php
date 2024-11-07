@@ -18,7 +18,7 @@
                         <form class="mt-4" method="POST" action="">
                             <input type="hidden" name="_token" value="Qr6tILrsBhlY0ldLUO6DXhi9e1y288W2ULnym1Qt" autocomplete="off">                                <div class="row">
                                 <div class="mb-3 col-md-6">
-                                    <input type="text" class="form-control" placeholder="Department Name" name="department_name" required value=""/>
+                                    <input type="text" class="form-control" placeholder="Department Name" name="department_name" required/>
                                 </div>
 
                                 <div class="mb-3 col-md-6">
