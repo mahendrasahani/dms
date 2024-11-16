@@ -58,8 +58,8 @@
 
                                     <div class="mb-3 col-md-6">
                                     <lable>Head Department</lable>
-                                        <select name="head_department" required class="select2 hotel form-control"
-                                            style="width: 100%;" id="head_department" onchange="getUnitList();">
+                                        <select name="head_department" class="select2 hotel form-control"
+                                            style="width: 100%;" id="head_department" onchange="getManagerList();">
                                             @if(Auth::user()->role_type_id == 1)
                                             <option value="">--Select--</option>
                                             @foreach($head_departments as $head_dep)
@@ -79,21 +79,31 @@
                                     <lable>Unit</lable>
                                         <select name="hotel" required class="select2 hotel form-control"
                                             style="width: 100%;" id="unit" onchange="getManagerList();">  
-                                                @foreach($units as $unit)
-                                                    <option value="{{$unit->id}}" {{$unit->id == $team_member->unit_id ? "selected" : ""}}>{{$unit->name}}</option>
-                                                @endforeach
+                                            @if(Auth::user()->role_type_id == 1 || Auth::user()->role_type_id == 2)
+                                            <option value="">--Select--</option>  
+                                            @foreach($units as $unit)
+                                                <option value="{{$unit->id}}" {{$team_member->unit_id == $unit->id ? "selected":""}}>{{$unit->name}}</option>
+                                            @endforeach
+                                            @else
+                                            <option value="{{$team_member->getUnit?->id}}">{{$team_member->getUnit?->name}}</option>
+                                            @endif
                                         </select>
                                         @error('hotel')
                                             <p style="color:red;">{{$message}}</p>
                                         @enderror
-                                    </div> 
+                                    </div>
                                     <div class="mb-3 col-md-6">
                                     <lable>Manager</lable>
-                                        <select name="manager" required class="select2 hotel form-control"
-                                            style="width: 100%;" id="manager" onchange="getTeamLeaderList();">  
+                                        <select name="manager" class="select2 hotel form-control"
+                                            style="width: 100%;" id="manager" onchange="getTeamLeaderList();">
+                                            @if(Auth::user()->role_type_id == 1 || Auth::user()->role_type_id == 2)
+                                            <option value="">--Select--</option>  
                                             @foreach($managers as $manager)
                                                 <option value="{{$manager->id}}" {{$manager->id == $team_member->manager_id ? "selected":""}}>{{$manager->first_name .' '. $manager->last_name}}</option>
-                                            @endforeach
+                                            @endforeach 
+                                            @else
+                                            <option value="{{Auth::user()->id}}">{{$team_member->getManager?->first_name .' '. $team_member->getManager?->last_name}}</option>
+                                            @endif
                                         </select>
                                         @error('manager')
                                             <p style="color:red;">{{$message}}</p>
@@ -101,16 +111,16 @@
                                     </div> 
                                     <div class="mb-3 col-md-6">
                                     <lable>Team Leader</lable>
-                                        <select name="team_leader" required class="select2 hotel form-control"
-                                            style="width: 100%;" id="team_leader"> 
+                                        <select name="team_leader" class="select2 hotel form-control"
+                                            style="width: 100%;" id="team_leader">
+                                            <option value="">--Select Team Leader--</option> 
                                             @foreach($team_leaders as $team_leader)
-                                            <option value="{{$team_leader->id}}">{{$team_leader->first_name .' '. $team_leader->last_name}}</option>
-                                            @endforeach
-                                            
+                                            <option value="{{$team_leader->id}}" {{$team_leader->id == $team_member->getTeamLeader?->id ? "selected":""}}>{{$team_leader->first_name .' '. $team_leader->last_name}}</option>
+                                            @endforeach 
                                         </select>
                                         @error('team_leader')
                                             <p style="color:red;">{{$message}}</p>
-                                            @enderror
+                                        @enderror
                                     </div>
                                     <div class="mb-3 col-md-6">
                                         <label>Enter password if you want to change</label>
@@ -158,15 +168,23 @@
             async function getManagerList(){
             let head_id = $("#head_department").val(); 
             let unit_id = $("#unit").val(); 
+
             let url = "{{route('backend.get_manager_ist')}}"; 
             let response = await fetch(`${url}?unit_id=${unit_id}&department_head=${head_id}`);
             let responseData = await response.json(); 
-            let append_to_html = '<option value="">--Select Manager--</option>';
+            let append_to_html1 = '<option value="">--Select Manager--</option>';
+            let append_to_html2 = '<option value="">--Select Team Leader--</option>';
             if(responseData.status == "success"){
+                console.log(responseData);
                 responseData.manager_list.forEach(element => { 
-                    append_to_html += `<option value="${element.id}">${element.name}</option>`;
+                    append_to_html1 += `<option value="${element.id}">${element.name}</option>`;
                 });
-                $("#manager").html(append_to_html);
+                $("#manager").html(append_to_html1);
+
+                responseData.team_leader_list.forEach(element => { 
+                    append_to_html2 += `<option value="${element.id}">${element.name}</option>`;
+                });
+                $("#team_leader").html(append_to_html2); 
             } 
         }
 

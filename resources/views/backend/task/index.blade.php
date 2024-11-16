@@ -19,6 +19,14 @@
               </nav>
                 <h1 class="mb-0 fw-bold">Task</h1>
             </div> 
+            <div class="col-lg-4 col-md-6 d-none d-md-flex align-items-center justify-content-end">
+                 <a href="{{route('admin.task.create_new_task')}}">
+                <button class="btn btn-info d-flex align-items-center ms-2">
+                    <i class="ri-add-line me-1"></i>
+                    New Task
+                </button>
+            </a>
+            </div>
         </div>
 
 
@@ -68,7 +76,7 @@
                                         <tr>
                                             <td><a href="{{route('admin.task.view_doc', [Crypt::encrypt($task->id)])}}">{{$task->getDocument?->document_title ?? 'No Title'}}</a></td> 
                                             <td>{{ strtoupper(pathinfo($task->document_name, PATHINFO_EXTENSION)) }}</td>
-                                            <td>{{Carbon\Carbon::parse($task->assign_date)->format('d M, Y')}}</td>
+                                            <td>{{Carbon\Carbon::parse($task->assign_date)->format('d M, Y h:i A')}}</td>
                                             <td>
                                             @if($task->start_date != NULL)
                                             {{Carbon\Carbon::parse($task->start_date)->format('d M, Y')}}

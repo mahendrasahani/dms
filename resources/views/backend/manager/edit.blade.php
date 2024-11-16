@@ -82,9 +82,9 @@
                                     <lable>Hotel</lable>
                                         <select name="hotel" class="select2 form-control" style="width: 100%;" id="hotel">
                                             <option value="">--Select--</option>
-                                            @foreach($head_units as $head_unit)
-                                                <option value="{{$head_unit->id ?? ''}}" {{$manager->unit_id == $head_unit->id ? "selected":""}}>{{$head_unit->name ?? ''}}</option>
-                                            @endforeach
+                                             @foreach($units as $unit)
+                                                <option value="{{$unit->id ?? ''}}" {{$manager->unit_id == $unit->id ? "selected":""}}>{{$unit->name ?? ''}}</option>
+                                            @endforeach   
                                         </select>
                                         @error('hotel')
                                         <p style="color:red;">{{$message}}</p>

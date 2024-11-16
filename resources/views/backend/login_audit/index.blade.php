@@ -41,8 +41,7 @@
                                         <td>{{$audit->getUser?->name}}</td>
                                         <td>{{$audit->getUser?->email}}</td>
                                         <td>{{$audit->ip}}</td>
-                                        <td>{{Carbon\Carbon::parse($audit->created_at)->format('d M, Y')}}</td>
-                                       
+                                        <td>{{Carbon\Carbon::parse($audit->created_at)->format('d M, Y h:i A')}}</td>
                                     </tr>
                                     @endforeach 
                                 </tbody>

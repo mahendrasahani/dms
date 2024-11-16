@@ -37,28 +37,27 @@ class TeamMemberController extends Controller
     }
  
     public function edit($id){
-        try{
-        $decrypt_id = Crypt::decrypt($id);
-        $head_departments = User::where('role_type_id', 2)->get(); 
-        $team_member = User::with(['getDepartmentType', 'getHead', 'getUnit', 'getManager'])->where('id', $decrypt_id)->first();
-        $units = Unit::whereIn('id', $team_member->getHead?->unit_ids)->get();
-         
-        $managers = User::where('head_department_id', $team_member->getHead?->id)
-        ->where('unit_id', $team_member->getHead?->unit_ids)
-        ->where('role_type_id', 5)->get();
-
-        $team_leaders = User::where('head_department_id', $team_member->head_department_id)
-        ->where('unit_id', $team_member->unit_id)
-        // ->where('manager_id', $team_member->manager_id)
-        ->where('role_type_id', 6)->get(); 
-
-        // return $team_leaders;
-
-        return view('backend.team_member.edit', compact(['team_member',
-         'head_departments', 'units', 'managers', 'team_leaders'])); 
-    }catch(\Exception $e){
-        abort('404');
-    }
+        try{ 
+            $decrypt_id = Crypt::decrypt($id);
+            $head_departments = User::where('role_type_id', 2)->get(); 
+            $team_member = User::with(['getDepartmentType', 'getHead', 'getUnit', 'getManager', 'getTeamLeader'])->where('id', $decrypt_id)->first();
+            $units = Unit::get(); 
+                if($team_member->head_department_id != ''){
+                    $managers = User::where('head_department_id', $team_member->head_department_id)
+                    ->where('unit_id', $team_member->unit_id)
+                    ->where('role_type_id', 5)->get();
+                } 
+            $team_leaders = User::where('head_department_id', $team_member->head_department_id)
+            ->where('unit_id', $team_member->unit_id);
+                if($team_member->manager_id != ''){
+                    $team_leaders = $team_leaders->where('manager_id', $team_member->manager_id);
+                }
+            $team_leaders = $team_leaders->where('role_type_id', 6)->get();   
+            return view('backend.team_member.edit', compact(['team_member',
+            'head_departments', 'managers', 'team_leaders', 'units']));  
+        }catch(\Exception $e){
+            abort('404');
+        }
     }
  
     public function update(Request $request, $id){   
@@ -70,8 +69,8 @@ class TeamMemberController extends Controller
             'phone' => ['required', 'numeric', 'digits:10', Rule::unique(User::class)->ignore($decrypt_id)], 
             'head_department' => ['required'],
             'hotel' => ['required'], 
-            'manager' => ['required'],
-            'team_leader' => ['required'],
+            // 'manager' => ['required'],
+            // 'team_leader' => ['required'],
         ]);
  
         $f_name = $request->f_name;
@@ -80,15 +79,17 @@ class TeamMemberController extends Controller
         $phone = $request->phone;
         $head_department_id = $request->head_department;
         $hotel_id = $request->hotel;
-        $hotel_department_id = $request->hotel_department;
+        // $hotel_department_id = $request->hotel_department;
         $manager_id = $request->manager;
         $team_leader_id = $request->team_leader;
+        $department_head = User::where('id', $head_department_id)->first();
         $member = User::where('id', $decrypt_id)->update([
             "first_name" => $f_name,
             "last_name" => $l_name,
             "name" => $f_name .' '. $l_name,
             // "email" => $email,
-            "phone" => $phone,  
+            "phone" => $phone,
+            "department_type_id" => $department_head->department_type_id,
             "head_department_id" => $head_department_id,
             "unit_id" => $hotel_id,
             "manager_id" => $manager_id,

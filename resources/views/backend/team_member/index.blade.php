@@ -108,7 +108,7 @@
                                                     <span class="slider round"></span>
                                                 </label>
                                             </td>
-                                            <td>{{Carbon\Carbon::parse($member->created_at)->format('d M, Y')}}</td>
+                                            <td>{{Carbon\Carbon::parse($member->created_at)->format('d M, Y h:i A')}}</td>
                                             <td>
                                             <div class="button-container">
                                             <a href="{{route('backend.assign_custom_permission', [Crypt::encrypt($member->id)])}}">Permission</a> |

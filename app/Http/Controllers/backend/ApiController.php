@@ -45,4 +45,35 @@ class ApiController extends Controller
       ]);
     }
   }
+
+  public function getSFolderWithMfolderId(Request $request){
+    try{
+        $sub_folder_list = SubFolder::where('main_folder_id', $request->main_folder_id)->get();
+        return response()->json([
+          "status" => "success",
+          "sub_folder_list" => $sub_folder_list,
+        ], 200);
+    }catch(\Exception $e){
+      return response()->json([
+        "status" => "failed",
+        "error" => $e->getMessage()
+      ], 400);
+    }
+  }
+
+  public function getDocumentList(Request $request){
+    try{
+      $document_list = Document::where('main_folder_id', $request->main_folder_id)
+      ->where('sub_folder_id', $request->sub_folder_id)->get();
+      return response()->json([
+        "status" => "success",
+        "document_list" => $document_list
+      ], 200);
+    }catch(\Exception $e){
+      return response()->json([
+        "status" => "failed",
+        "error" => $e->getMessage()
+      ], 400);
+    }
+  }
 }

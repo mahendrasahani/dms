@@ -238,6 +238,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/view/{id}', 'view')->name('admin.task.view');
             Route::post('/task_comment', 'TaskComment')->name('admin.task.comment');
             Route::post('/reply-on-comment', 'ReplyOnComment')->name('admin.task.comment.reply');
+            Route::get('/new', 'createNewTask')->name('admin.task.create_new_task');
         });
     });
 
@@ -275,13 +276,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/admin/employee', [EmployeeController::class, 'index'])->name('backend.employee.index');
     Route::get('/admin/create/publicly_shared_url/{id}', [DocumentController::class, 'PubliclySharedDocument'])->name('backend.create_publicly_shared_url');
     Route::post('/admin/create/publicly_shared_url/send', [DocumentController::class, 'PubliclySharedDocumentSend'])->name('backend.create_publicly_shared_url_send');
-    
-
-
+     
     Route::get('email_template_testing', [Controller::class, 'emailTemplateTesting']); // remove after development
     });
-
-
+ 
     Route::middleware(['auth', 'super-admin', 'web'])->group(function () {
     });
     Route::middleware(['auth', 'admin', 'web'])->group(function(){

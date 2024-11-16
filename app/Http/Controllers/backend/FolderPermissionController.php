@@ -117,8 +117,14 @@ class FolderPermissionController extends Controller{
         $main_folder = MainFolder::where('id', $decrypt_m_folder)->first();
         $sub_folder = SubFolder::where('id', $decrypt_s_folder)->first(); 
         $users = User::select('*');
-        if(Auth::user()->role_type_id != 1){
-            $users = $users->where('created_by', Auth::user()->id);
+        if(Auth::user()->role_type_id == 2){
+            $users = $users->where('head_department_id', Auth::user()->id);
+        }
+        if(Auth::user()->role_type_id == 5){
+            $users = $users->where('manager_id', Auth::user()->id);
+        }
+        if(Auth::user()->role_type_id == 6){
+            $users = $users->where('team_leader_id', Auth::user()->id);
         }
         $users = $users->get();   
         $assigned_users = UserFolderPermission::where('sub_folder_id', $decrypt_s_folder)

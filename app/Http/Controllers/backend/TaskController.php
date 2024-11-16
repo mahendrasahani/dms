@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Mail\TaskAssignMail;
 use App\Models\backend\Document;
 use App\Models\backend\DocumentComment;
+use App\Models\backend\MainFolder;
 use App\Models\backend\Notification;
 use App\Models\backend\Task;
+use App\Models\backend\UserMainFolderPermission;
 use App\Models\User;
 use Auth;
 use Carbon\Carbon;
@@ -48,7 +50,7 @@ class TaskController extends Controller
                 ->orWhere('assigned_by', Auth::user()->id);
             }
         }
-        $tasks = $tasks->paginate(10);  
+        $tasks = $tasks->orderBy('id', 'desc')->paginate(10);  
         return view('backend.task.index', compact('tasks'));
     }
 
@@ -59,28 +61,26 @@ class TaskController extends Controller
         $users = User::select('*');
         if(Auth::user()->role_type_id != 1){
             if(Auth::user()->role_type_id == 2){
-                $user = $users->whereHas('getUserHierarchie', function($query){
-                    $query = $query->where('head_department_id', Auth::user()->id);
-                });
-            }else if(Auth::user()->role_type_id == 3){
-                $user = $users->whereHas('getUserHierarchie', function($query){
-                    $query = $query->where('hotel_id', Auth::user()->id);
-                });
-            }else if(Auth::user()->role_type_id == 4){
-                $user = $users->whereHas('getUserHierarchie', function($query){
-                    $query = $query->where('hoted_department_id', Auth::user()->id);
-                });
-            }else if(Auth::user()->role_type_id == 5){
-                $user = $users->whereHas('getUserHierarchie', function($query){
-                    $query = $query->where('manager_id', Auth::user()->id);
-                });
+                $user = $users->where('head_department_id', Auth::user()->id);
+            }
+            // else if(Auth::user()->role_type_id == 3){
+            //     $user = $users->whereHas('getUserHierarchie', function($query){
+            //         $query = $query->where('hotel_id', Auth::user()->id);
+            //     });
+            // }else if(Auth::user()->role_type_id == 4){
+            //     $user = $users->whereHas('getUserHierarchie', function($query){
+            //         $query = $query->where('hoted_department_id', Auth::user()->id);
+            //     });
+            // }
+            else if(Auth::user()->role_type_id == 5){
+                $user = $users->where('manager_id', Auth::user()->id);
+             
             }else if(Auth::user()->role_type_id == 6){
-                $user = $users->whereHas('getUserHierarchie', function($query){
-                    $query = $query->where('team_leader_id', Auth::user()->id);
-                });
+                $user = $users->where('team_leader_id', Auth::user()->id);
+                
             } 
-        }  
-        $users = $users->get();  
+        }
+        $users = $users->where('role_type_id', '!=', 1)->get();  
         return view('backend.task.create', compact('users', 'document'));
             }catch(\Exception $e){
                 abort('404');
@@ -108,18 +108,18 @@ class TaskController extends Controller
             "start_date" => $request->start_date, 
             "end_date" => $request->end_date, 
             "current_status" => 'pending',
+            "description" => $request->description
         ]);
         $this->UpdateNotification(Auth::user()->id, "New Task Assigned", 
                 "New Task Assigned", $user->id, 
                 $task->id, $task->document_id, 0, route('admin.task.view', [Crypt::encrypt($task->id)]), '<i class="fa fa-tasks" aria-hidden="true"></i>');  
-
         $task_assign_data = [
             "assign_by" => Auth::user()->name,
             "document_title" => $document->document_title ?? "No Title",
             "start_date" => $request->start_date,
             "end_date" => $request->end_date,
             "task_url" => route('admin.task.view', [Crypt::encrypt($task->id)])
-        ]; 
+        ];
         Mail::to($user->email)->send(new TaskAssignMail($task_assign_data));
         Session::flash('success', 'Task has been assigned successfully!');
         return redirect()->back();
@@ -150,7 +150,7 @@ class TaskController extends Controller
         try{
             $decrypt_id = Crypt::decrypt($id); 
             $current_date = Carbon::now()->format('Y-m-d');
-            $task = Task::where('document_id', $decrypt_id)->first(); 
+            $task = Task::where('id', $decrypt_id)->first(); 
             $start_date = Carbon::parse($task->start_date)->format('Y-m-d');
             $end_date = Carbon::parse($task->end_date)->format('Y-m-d');
             $file_type = File::extension($task->document_name);
@@ -249,5 +249,31 @@ class TaskController extends Controller
         }
         return redirect()->back(); 
     }
- 
+
+    public function createNewTask(){
+        $assigned_m_f_permissions = UserMainFolderPermission::where('user_id', Auth::user()->id)->pluck('main_folder_id')->toArray(); 
+        $users = User::where('role_type_id', '!=', 1);
+        $m_f_list = MainFolder::select('*');
+        if(Auth::user()->role_type_id == 2){ 
+            $users = $users->where('role_type_id', '!=', 2)
+            ->where('head_department_id', Auth::user()->id);  
+        }
+        if(Auth::user()->role_type_id == 5){
+            $users = $users->where('role_type_id', '!=', 5)
+            ->where('manager_id', Auth::user()->id);
+        }
+        if(Auth::user()->role_type_id == 6){
+            $users = $users->where('role_type_id', '!=', 6)
+            ->where('team_leader_id', Auth::user()->id);
+        }
+        $users = $users->get(); 
+        if(Auth::user()->role_type_id != 1){
+            $m_f_list = $m_f_list->whereIn('id', $assigned_m_f_permissions);
+        }
+        $m_f_list = $m_f_list->get();
+         
+        return view('backend.task.new_task', compact('users',
+         'm_f_list'));
+    }
+
 }

@@ -28,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
     {
         View::composer('*', function ($view) {
             $departments = SubFolder::get();
-            $main_folders = MainFolder::with('getSubFolder')->get();
+            $main_folders = MainFolder::with('getSubFolder')->orderBy('name')->get();
             
             $view->with([
                 'departments' => $departments, 

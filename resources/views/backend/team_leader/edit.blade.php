@@ -5,12 +5,12 @@
             <div class="row">
                 <div class="col-lg-8 col-md-6 col-12 align-self-center">
                 <nav aria-label="breadcrumb">
-                <ol class="breadcrumb mb-0 d-flex align-items-center">
-                    <li class="breadcrumb-item"><a href="{{route('dashboard')}}" class="link"><i class="ri-home-3-line fs-5"></i></a></li> 
-                    <li class="breadcrumb-item active" aria-current="page"><a href="{{route('backend.team_leader.index')}}" class="link">Team Leader</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Edit</li>
-                </ol>
-            </nav>
+                    <ol class="breadcrumb mb-0 d-flex align-items-center">
+                        <li class="breadcrumb-item"><a href="{{route('dashboard')}}" class="link"><i class="ri-home-3-line fs-5"></i></a></li> 
+                        <li class="breadcrumb-item active" aria-current="page"><a href="{{route('backend.team_leader.index')}}" class="link">Team Leader</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Edit</li>
+                    </ol>
+                </nav>
                     <h1 class="mb-0 fw-bold">Edit Team Leader</h1>
                 </div>
             </div>
@@ -59,7 +59,7 @@
                                     <div class="mb-3 col-md-6">
                                     <lable>Head Department</lable>
                                         <select name="head_department" class="select2 hotel form-control"
-                                            style="width: 100%;" id="head_department" onchange="getUnitList();">
+                                            style="width: 100%;" id="head_department" onchange="getManagerList();">
                                             @if(Auth::user()->role_type_id == 1)
                                             <option value="">--Select--</option>
                                             @foreach($department_heads as $head)
@@ -72,20 +72,19 @@
                                         @error('head_department')
                                             <p style="color:red;">{{$message}}</p>
                                             @enderror
-                                    </div>
-
+                                    </div> 
                                     <div class="mb-3 col-md-6">
                                     <lable>Unit</lable>
                                         <select name="hotel" class="select2 hotel form-control"
                                             style="width: 100%;" id="unit" onchange="getManagerList();"> 
                                             @if(Auth::user()->role_type_id == 1 || Auth::user()->role_type_id == 2)
                                             <option value="">--Select--</option>
-                                            @foreach($units as $unit)
-                                                <option value="{{$unit->id}}" {{$unit->id == $team_leader->unit_id ? "selected":"" }}>{{$unit->name}}</option>
-                                            @endforeach
-                                                @else
-                                                <option value="{{$team_leader->getUnit?->id}}" selected}}>{{$team_leader->getUnit?->name}}</option>
-                                            @endif
+                                             @foreach ($units as $unit)
+                                                <option value="{{$unit->id}}" {{$unit->id == $team_leader->unit_id ? "selected":""}}>{{$unit->name}}</option>
+                                             @endforeach
+                                             @else
+                                             <option value="{{$team_leader->getUnit?->id}}" {{$team_leader->getUnit?->id == $team_leader->unit_id ? "selected":""}}>{{$team_leader->getUnit?->name}}</option>
+                                             @endif
                                         </select>
                                         @error('hotel')
                                             <p style="color:red;">{{$message}}</p>
@@ -93,9 +92,20 @@
                                     </div> 
                                     <div class="mb-3 col-md-6">
                                     <lable>Manager</lable>
+
                                         <select name="manager" class="select2 hotel form-control"
-                                            style="width: 100%;" id="manager">   
-                                            <option value="{{$team_leader->getManager?->id}}">{{$team_leader->getManager?->first_name.' '.$team_leader->getManager?->last_name}}</option>
+                                            style="width: 100%;" id="manager">  
+                                            @if(Auth::user()->role_type_id  == 1 || Auth::user()->role_type_id == 2)
+                                            <option value="">--Select--</option>
+                                            @if($managers != '' && $managers != NULL)
+                                            @foreach($managers as $manager)
+                                            <option value="{{$manager?->id}}" {{$manager->id == $team_leader->manager_id ? "selected":""}}>{{$manager?->first_name.' '.$manager?->last_name}}</option>
+                                            @endforeach
+                                            @endif 
+                                            @else
+                                            <option value="{{$team_leader->getManager?->id}}" {{$team_leader->getManager->id == $team_leader->manager_id ? "selected":""}}>{{$team_leader->getManager?->first_name.' '.$team_leader->getManager?->last_name}}</option>
+
+                                            @endif
                                         </select>
                                         @error('manager')
                                             <p style="color:red;">{{$message}}</p>

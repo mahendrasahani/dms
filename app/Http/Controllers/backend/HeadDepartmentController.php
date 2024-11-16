@@ -39,6 +39,7 @@ class HeadDepartmentController extends Controller{
             if(Auth::user()->role_type_id == 1){
                 $head_department_type = DepartmentType::where('status', 1)->get();  
                 $head_department = User::where('id', $decrypt_id)->first();
+                
                 return view('backend.head_department.edit', compact('head_department', 'head_department_type'));
             }else{
                 return response()->view('errors.405', [], 405);
@@ -58,12 +59,13 @@ class HeadDepartmentController extends Controller{
             'phone' => ['required', 'numeric', 'digits:10']
         ]);
 
-        $unit_ids = array_map('intval', $request->units ?? []); 
+        // $unit_ids = array_map('intval', $request->units ?? []); 
         $user_f_name = $request->f_name;
         $user_l_name = $request->l_name; 
         // $user_email = $request->email;
         $user_phone = $request->phone;
         $department_type_id = $request->department;
+        
         $newUser = User::where('id', $decrypt_id)->update([
             'first_name' => $user_f_name,
             'last_name' => $user_l_name,
@@ -71,7 +73,7 @@ class HeadDepartmentController extends Controller{
             // 'email' => $user_email,
             'phone' => $user_phone,
             'department_type_id' => $department_type_id,
-            "unit_ids" => $unit_ids,
+            // "unit_ids" => $unit_ids,
         ]);
         User::where('head_department_id', $decrypt_id)->update([ 
             'department_type_id' => $department_type_id,

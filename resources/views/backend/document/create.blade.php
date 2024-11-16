@@ -89,7 +89,7 @@
                                     </div>
 
                                     <div class="col-md-6 mt-3">
-                                        <input type="file" name="document" id="document" class="form-control" />
+                                        <input type="file" name="document" id="document" class="form-control" accept=".pdf,.png,.doc,.docx,.xls,.xlsx,.xlsm,.pptx,.gif,.jpg"/>
                                         @error('document')
                                          <p style="color:red">{{ $message }}</p>
                                         @enderror

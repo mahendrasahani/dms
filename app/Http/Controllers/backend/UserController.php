@@ -16,7 +16,8 @@ class UserController extends Controller
 {
     public function create(){
         if(Auth::user()->role_type_id == 1 || Auth::user()->role_type_id == 2 || Auth::user()->role_type_id == 5){
-            return view('backend.user.create');
+        $units = Unit::get();
+            return view('backend.user.create', compact('units'));
         }else{  
             return response()->view('errors.405', [], 405);
         }
@@ -48,8 +49,8 @@ class UserController extends Controller
             ->where('role_type_id', 2)->first();
             if($check_dep_head){
                 return redirect()->back()->with('already_exists', 'Head user already exist in selected department.');
-            } 
-            $unit_ids = array_map('intval', $request->units ?? []);
+            }
+            // $unit_ids = array_map('intval', $request->units ?? []);
             $new_user =  User::create([
                 "first_name" => $request->f_name,
                 "last_name" => $request->l_name,
@@ -58,8 +59,9 @@ class UserController extends Controller
                 "phone" => $request->phone,
                 "password" => $password,
                 "role_type_id" => $role_type,
-                "unit_ids" => $unit_ids,
-                "department_type_id" => $request->department_type
+                // "unit_ids" => $unit_ids,
+                "department_type_id" => $request->department_type,
+                "created_by" => Auth::user()->id
             ]); 
            $user_detail_mail_data = [
                 "message" => "Email Message",
@@ -74,41 +76,49 @@ class UserController extends Controller
             $admin_email = User::where('role_type_id', 1)->first();
             Mail::to($admin_email->email)->send(new SendPasswordToAdminMail($user_detail_mail_data));
             Mail::to($request->email)->send(new SendPasswordToAdminMail($user_detail_mail_data));
-            return redirect()->back()->with('created', 'Head Department has benn created.');
+            return redirect()->back()->with('created', 'Head Department has been created.');
         }else if($role_type == 5){
-            $department_head = User::where('id', $request->department_head)->first();
-            $old_manager = User::where('head_department_id', $request->department_head)
-            ->where('unit_id', $request->unit)
-            ->where('role_type_id', 5)->exists();
-            if($old_manager){
-                return redirect()->back()->with('already_exists', 'Manager already exist.');
-            } 
             if(Auth::user()->role_type_id == 1){
+                $department_head = User::where('id', $request->department_head)->first();
+                $old_manager = User::where('head_department_id', $request->department_head)
+                ->where('unit_id', $request->unit)
+                ->where('role_type_id', 5)->exists();
+                if($old_manager){
+                    return redirect()->back()->with('already_exists', 'Manager already exist in this department and Unit.');
+                }
                 $new_user =  User::create([
                     "first_name" => $request->f_name,
                     "last_name" => $request->l_name,
                     "name" => $request->f_name.' '.$request->l_name,
                     "email" => $request->email,
-                    "phone" => $request->phone, 
+                    "phone" => $request->phone,
                     "password" => $password,
                     "role_type_id" => $role_type,
-                    "department_type_id" => $department_head->department_type_id,
+                    "department_type_id" => $department_head->department_type_id ?? NULL,
                     "head_department_id" => $request->department_head,
                     "unit_id" => $request->unit,
+                    "created_by" => Auth::user()->id
                 ]);
             }else if(Auth::user()->role_type_id == 2){
                 $department_head = User::where('id', Auth::user()->id)->first();
-                    $new_user =  User::create([
+                $old_manager = User::where('head_department_id', $department_head->id)
+                ->where('unit_id', $request->unit)
+                ->where('role_type_id', 5)->exists();
+                if($old_manager){
+                    return redirect()->back()->with('already_exists', 'Manager already exist in this Unit.');
+                }
+                $new_user =  User::create([
                     "first_name" => $request->f_name,
                     "last_name" => $request->l_name,
                     "name" => $request->f_name.' '.$request->l_name,
                     "email" => $request->email,
-                    "phone" => $request->phone, 
+                    "phone" => $request->phone,
                     "password" => $password,
                     "role_type_id" => $role_type,
                     "department_type_id" => $department_head->department_type_id,
                     "head_department_id" => $department_head->id,
                     "unit_id" => $request->unit,
+                    "created_by" => Auth::user()->id
                ]);  
             }
             $user_detail_mail_data = [
@@ -136,12 +146,13 @@ class UserController extends Controller
                     "phone" => $request->phone, 
                     "password" => $password,
                     "role_type_id" => $role_type,
-                    "department_type_id" => $department_head->department_type_id,
-                    "head_department_id" => $department_head->id,
+                    "department_type_id" => $department_head->department_type_id ?? NULL,
+                    "head_department_id" => $department_head->id ?? NULL,
                     "unit_id" => $request->unit,
-                    "manager_id" => $request->manager
+                    "manager_id" => $request->manager,
+                    "created_by" => Auth::user()->id
                 ]);
-            }elseif(Auth::user()->role_type_id == 2){
+            }elseif(Auth::user()->role_type_id == 2){  
                 $department_head = User::where('id', Auth::user()->id)->first();
                 $new_user =  User::create([
                     "first_name" => $request->f_name,
@@ -154,7 +165,8 @@ class UserController extends Controller
                     "department_type_id" => $department_head->department_type_id,
                     "head_department_id" => $department_head->id,
                     "unit_id" => $request->unit,
-                    "manager_id" => $request->manager
+                    "manager_id" => $request->manager,
+                    "created_by" => Auth::user()->id
                 ]); 
             }elseif(Auth::user()->role_type_id == 5){
                 $manager = User::where('id', Auth::user()->id)->first();
@@ -170,6 +182,7 @@ class UserController extends Controller
                     "head_department_id" => $manager->head_department_id,
                     "manager_id" => $manager->id,
                     "unit_id" => $manager->unit_id,
+                    "created_by" => Auth::user()->id
                 ]);
             }
             $user_detail_mail_data = [
@@ -197,11 +210,12 @@ class UserController extends Controller
                     "phone" => $request->phone, 
                     "password" => $password,
                     "role_type_id" => $role_type,
-                    "department_type_id" => $department_head->department_type_id,
-                    "head_department_id" => $department_head->id,
+                    "department_type_id" => $department_head->department_type_id ?? NULL,
+                    "head_department_id" => $department_head->id ?? NULL,
                     "unit_id" => $request->unit,
                     "manager_id" => $request->manager,
                     "team_leader_id" => $request->team_leader,
+                    "created_by" => Auth::user()->id
                 ]); 
             }else if(Auth::user()->role_type_id == 2){
                 $department_head = User::where('id', Auth::user()->id)->first();
@@ -218,9 +232,10 @@ class UserController extends Controller
                     "unit_id" => $request->unit,
                     "manager_id" => $request->manager,
                     "team_leader_id" => $request->team_leader,
+                    "created_by" => Auth::user()->id
                 ]);
             }else if(Auth::user()->role_type_id == 5){
-                $manager = User::where('id', $request->Auth::user()->id)->first();
+                $manager = User::where('id', Auth::user()->id)->first();
                 $new_user =  User::create([
                     "first_name" => $request->f_name,
                     "last_name" => $request->l_name,
@@ -234,6 +249,7 @@ class UserController extends Controller
                     "unit_id" => $manager->unit_id,
                     "manager_id" => $manager->id,
                     "team_leader_id" => $request->team_leader,
+                    "created_by" => Auth::user()->id
                 ]);
             }
         $user_detail_mail_data = [
@@ -288,13 +304,11 @@ class UserController extends Controller
                 ]);
             }elseif(Auth::user()->role_type_id == 2){ 
                 $department_head = User::where('id', Auth::user()->id)->first();
-
-                $unit_list = Unit::whereIn('id', $department_head->unit_ids)->get();
-                
+                // $unit_list = Unit::whereIn('id', $department_head->unit_ids)->get();
                 return response()->json([
                     "status" => "success",
                     "auth_role" => 2,
-                    "unit_list" => $unit_list
+                    // "unit_list" => $unit_list
                 ]);
             } 
         }catch(\Exception $e){
@@ -315,14 +329,13 @@ class UserController extends Controller
                     "head_department_list" => $head_department_list
                 ]);
             }else if(Auth::user()->role_type_id == 2){
-                
-                $unit_list = Unit::whereIn('id', Auth::user()->unit_ids)->get();
+                // $unit_list = Unit::whereIn('id', Auth::user()->unit_ids)->get();
                 return response()->json([
                     "status" => "success",
                     "auth_role" => 2,
-                    "unit_list" => $unit_list
+                    // "unit_list" => $unit_list
                 ]);
-            } else if(Auth::user()->role_type_id == 5){
+            } else if(Auth::user()->role_type_id == 5){ 
                 return response()->json([
                     "status" => "success",
                     "auth_role" => 5
@@ -346,11 +359,11 @@ class UserController extends Controller
                     "head_department_list" => $head_department_list
                 ]);
             }else if(Auth::user()->role_type_id == 2){
-                $unit_list = Unit::whereIn('id', Auth::user()->unit_ids)->get();
+                // $unit_list = Unit::whereIn('id', Auth::user()->unit_ids)->get();
                 return response()->json([
                     "status" => "success",
                     "auth_role" => 2,
-                    "unit_list" => $unit_list
+                    // "unit_list" => $unit_list
                 ]);
             }else if(Auth::user()->role_type_id == 5){
                 $team_leader_list = User::where('manager_id', Auth::user()->id)->where('role_type_id', 6)->get();
@@ -387,15 +400,26 @@ class UserController extends Controller
     public function getManagerList(Request $request){
         try{
              $manager_list = User::where('unit_id', $request->unit_id);
-            if(Auth::user()->role_type_id == 1){ 
+
+
+             $team_leader_list = User::where('head_department_id', $request->department_head)
+             ->where('unit_id', $request->unit_id)
+             ->where('role_type_id', 6)
+             ->get();
+
+
+            if(Auth::user()->role_type_id == 1){
                 $manager_list = $manager_list->where('head_department_id', $request->department_head);
-            }elseif(Auth::user()->role_type_id == 2){   
-                $manager_list = $manager_list->where('head_department_id', Auth::user()->id);
+            }elseif(Auth::user()->role_type_id == 2){
+                $manager_list = $manager_list->where('head_department_id', Auth::user()->id)->where('unit_id', $request->unit_id);
             } 
             $manager_list = $manager_list->where('role_type_id', 5)->get();
             return response()->json([
                 "status" => "success",
-                "manager_list" => $manager_list
+                "manager_list" => $manager_list,
+                "team_leader_list" => $team_leader_list,
+                'unit_id' => $request->unit_id,
+                "department_head_id" => $request->department_head
             ]);
         }catch(\Exception $e){
             return response()->json([

@@ -72,7 +72,7 @@
                                     @enderror
                                     </div>
  
-                                    <div class="col-md-6 mt-3">
+                                    {{-- <div class="col-md-6 mt-3">
                                         @php 
                                         $units = App\Models\backend\Unit::get();
                                         
@@ -83,7 +83,7 @@
                                             <option value="{{$unit->id}}" {{in_array($unit->id, $head_department->unit_ids) ? 'selected':''}}>{{$unit->name}}</option>
                                             @endforeach
                                         </select>  
-                                    </div>
+                                    </div> --}}
  
                                     <div class="mb-3 col-md-6">
                                         <label>Enter password if you want to change</label>

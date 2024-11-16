@@ -28,7 +28,9 @@ class Task extends Model
         "end_time",
         "deleted_by",
         "status",
-        "current_status"
+        "current_status",
+        "description",
+        "title"
     ];
 
     public function getDocument(){

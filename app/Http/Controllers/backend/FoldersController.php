@@ -23,12 +23,12 @@ class FoldersController extends Controller
         $sub_folder_ids = SubFolder::where('main_folder_id', $decrypt_id)->pluck('id')->toArray(); 
         
         if(Auth::user()->role_type_id == 1){
-            $sub_folder_list = SubFolder::with('getDocument')->where('main_folder_id', $decrypt_id)->get(); 
+            $sub_folder_list = SubFolder::with('getDocument')->where('main_folder_id', $decrypt_id)->orderBy('name')->get(); 
         }else{ 
             $sub_folders = UserFolderPermission::with('getSubFolders')
             ->whereIn('sub_folder_id', $sub_folder_ids)
             ->where('user_id', Auth::user()->id)->pluck('sub_folder_id')->toArray(); 
-            $sub_folder_list =  SubFolder::with('getDocument')->whereIn('id', $sub_folders)->get(); 
+            $sub_folder_list =  SubFolder::with('getDocument')->whereIn('id', $sub_folders)->orderBy('name')->get(); 
         }    
         // if(Auth::user()->role_type_id == 2){ 
         //     if($id == Auth::user()->department_type_id){
@@ -125,8 +125,8 @@ class FoldersController extends Controller
     public function mainFolderList(){ 
         $main_folder_assigned_permissions = UserMainFolderPermission::
         where('user_id', Auth::user()->id)->pluck('main_folder_id')->toArray(); 
-       
-         
+
+
         return view('backend.folders.main_folder_list', compact('main_folder_assigned_permissions'));
     }
     

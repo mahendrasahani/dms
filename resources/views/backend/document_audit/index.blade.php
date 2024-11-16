@@ -42,7 +42,7 @@
                                 <tbody> 
                                     @foreach($document_audits as $audit)
                                     <tr>
-                                        <td>{{Carbon\Carbon::parse($audit->created_at)->format('d M, Y')}}</td>
+                                        <td>{{Carbon\Carbon::parse($audit->created_at)->format('d M, Y h:i A')}}</td>
                                         <td><a href="{{route('backend.document.view', [Crypt::encrypt($audit->getDocument?->doc_file)])}}">{{$audit->getDocument?->document_title ?? "No Title"}}</a></td>
                                         <td>{{$audit->getMainFolder?->name}}</td>
                                         <td>{{$audit->getSubFolder?->name}}</td> 

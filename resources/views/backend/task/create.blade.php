@@ -47,21 +47,28 @@
                                 <input type="hidden" name="document_id" value="{{$document->id}}">
                                 <div class="row">
                                     <div class="mb-3 col-md-6">
-                                    <lable>Select User</lable>
-                                    <select name="user" required class="select2 js-programmatic form-control"  style="width: 100%; height: 36px">
-                                    <option value=" ">Select</option> 
-                                    @if(count($users) > 0)
-                                    @foreach($users as $user)
-                                    <option value="{{$user->id}}">{{$user->name}}</option> 
-                                    @endforeach 
-                                    @endif 
-                                 </select>
-                                 @error('user')
-                                    <p style="color:red;">{{$message}}</p>
-                                 @enderror
-                                    </div> 
-                                    </div> 
-
+                                        <lable>Select User</lable>
+                                        <select name="user" required class="select2 js-programmatic form-control"  style="width: 100%; height: 36px">
+                                            <option value=" ">Select</option> 
+                                            @if(count($users) > 0)
+                                            @foreach($users as $user)
+                                            <option value="{{$user->id}}">{{$user->name}}</option> 
+                                            @endforeach 
+                                            @endif 
+                                        </select>
+                                        @error('user')
+                                            <p style="color:red;">{{$message}}</p>
+                                        @enderror
+                                    </div>
+                                    <div class="mb-3 col-md-6">
+                                        <lable>Description</lable>
+                                        <textarea class="form-control" name="description"></textarea>
+                                        @error('user')
+                                            <p style="color:red;">{{$message}}</p>
+                                        @enderror
+                                    </div>
+                                </div> 
+ 
                                     <div class="row"> 
                                     <div class="col-md-6 mt-3">
                                     <lable>Start Date</lable>

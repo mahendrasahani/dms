@@ -16,14 +16,19 @@ use Illuminate\Validation\Rules;
 class ManagerController extends Controller
 {
     public function index(){ 
+        if(Auth::user()->role_type_id == 1 || Auth::user()->role_type_id == 2){
         $managers = User::with(['getDepartmentType', 'getHead', 'getUnit'])
         ->where('role_type_id', 5); 
         if(Auth::user()->role_type_id == 2){
-            $managers = $managers->where('head_department_id', Auth::user()->id)
-            ->whereIn('unit_id', Auth::user()->unit_ids);
+            $managers = $managers->where('head_department_id', Auth::user()->id);
         }
         $managers = $managers->orderBy('id', 'desc')->paginate(10);  
+        // return $managers;
+        
         return view('backend.manager.index', compact('managers'));
+        }else{
+            abort('404');
+        }
     }
 
     public function create(){
@@ -77,16 +82,22 @@ class ManagerController extends Controller
     }
 
     public function edit($id){
-        try{ 
-            $decrypt_id = Crypt::decrypt($id);
-            $manager = User::with(['getDepartmentType', 'getHead', 'getUnit'])->where('id', $decrypt_id)->first();
-            $head_departments = User::where('role_type_id', 2)->get();
-            $head_units = Unit::whereIn('id', $manager?->getHead?->unit_ids)->get(); 
-        }catch(\Exception $e){
+        if(Auth::user()->role_type_id == 1 || Auth::user()->role_type_id == 2){
+            try{ 
+                $decrypt_id = Crypt::decrypt($id);
+                $manager = User::with(['getDepartmentType', 'getHead', 'getUnit'])->where('id', $decrypt_id)->first();
+                // return $manager;
+                $head_departments = User::where('role_type_id', 2)->get();
+                $units = Unit::get();
+                // $head_units = Unit::whereIn('id', $manager?->getHead?->unit_ids)->get(); 
+            }catch(\Exception $e){
+                abort('404');
+            } 
+            return view('backend.manager.edit', compact('manager', 
+            'head_departments', 'units'));
+        }else{
             abort('404');
-        } 
-        return view('backend.manager.edit', compact('manager', 
-        'head_departments', 'head_units'));
+        }
     }
 
     public function update(Request $request, $id){

@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('document_comments', function (Blueprint $table) {
-            // $table->unsignedBigInteger('task_id')->nullable()->after('id');
+        Schema::table('tasks', function (Blueprint $table) {
+            $table->String('title')->nullable()->after('document_id');
+            $table->Text('description')->nullable()->after('title');
         });
     }
 
@@ -21,7 +22,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('document_comments', function (Blueprint $table) {
+        Schema::table('tasks', function (Blueprint $table) {
             //
         });
     }

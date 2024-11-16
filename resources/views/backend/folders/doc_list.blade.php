@@ -56,16 +56,16 @@
                                             <td>{{$document->getDepartmentType->name ?? ''}}</td>
                                             <td>{{$document->getMainFolder->name ?? ''}}</td>
                                             <td>{{$document->getSubFolder->name ?? ''}}</td>
-                                            <td>{{Carbon\Carbon::parse($document->created_at)->format('d-m-Y')}}</td> 
+                                            <td>{{Carbon\Carbon::parse($document->created_at)->format('d-m-Y h:i A')}}</td> 
                                             <td>
                                                 <div class="dropown dropstart d-flex justify-content-around" style="cursor: pointer;">
                                                             <span>
-                                                                <a href="{{route('backend.document.view', [Crypt::encrypt($document->doc_file)])}}">
+                                                                <a href="{{route('backend.document.view', [Crypt::encrypt($document->doc_file)])}}" title="View Document">
                                                                     <i class="far fa-eye" class="feather-sm"></i>
                                                                 </a>
                                                             </span>
                                                             <span>
-                                                                <a href="{{route('backend.document.edit', [Crypt::encrypt($document->id)])}}">
+                                                                <a href="{{route('backend.document.edit', [Crypt::encrypt($document->id)])}}" title="Edit">
                                                                     <i class="fas fa-pencil-alt"></i>
                                                                 </a>
                                                             </span>
@@ -75,18 +75,18 @@
                                                                 </a>
                                                             </span> -->
                                                             <span>
-                                                                <a href="{{route('backend.document.document_access', [Crypt::encrypt($document->id)])}}">
+                                                                <a href="{{route('backend.document.document_access', [Crypt::encrypt($document->id)])}}" title="Document Read Write Access">
                                                                 <i class="fa fa-lock" aria-hidden="true"></i>
                                                                 </a>
                                                             </span>
 
                                                             <span>
-                                                                <a href="{{route('backend.create_publicly_shared_url', [Crypt::encrypt($document->id)])}}">
+                                                                <a href="{{route('backend.create_publicly_shared_url', [Crypt::encrypt($document->id)])}}" title="Share Document">
                                                                     <i class="fa fa-share-alt" aria-hidden="true"></i>
                                                                 </a>
                                                             </span> 
                                                             <span>
-                                                                <a href="{{route('backend.document.upload_new_file', [Crypt::encrypt($document->id)])}}">
+                                                                <a href="{{route('backend.document.upload_new_file', [Crypt::encrypt($document->id)])}}" title="Upload New File">
                                                                 <i class="fa fa-upload" aria-hidden="true"></i>
                                                                 </a>
                                                             </span>
@@ -96,12 +96,12 @@
                                                                 </a>
                                                             </span> -->
                                                             <span>
-                                                                <a href="{{route('admin.task.create', [Crypt::encrypt($document->id)])}}">
+                                                                <a href="{{route('admin.task.create', [Crypt::encrypt($document->id)])}}" title="Assign Task">
                                                                 <i class="fa fa-tasks" aria-hidden="true"></i>
                                                                 </a>
                                                             </span>
                                                             <span>
-                                                                <a href="javascript:void(0)" data-id="{{Crypt::encrypt($document->id)}}" id="trash_btn">
+                                                                <a href="javascript:void(0)" data-id="{{Crypt::encrypt($document->id)}}" id="trash_btn" title="Delete">
                                                                 <i class="fa fa-trash" aria-hidden="true"></i>
                                                                 </a>
                                                             </span>

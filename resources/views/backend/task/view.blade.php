@@ -34,7 +34,7 @@
                 <div class="col-12">
                     <div class="card">
                     <div class="border-bottom title-part-padding">
-                    <h4><a href="{{route('admin.task.view_doc', [Crypt::encrypt($task->document_id)])}}">{{$task->getDocument?->document_title ?? 'No Title'}}</a></h4>
+                    <h4><a href="{{route('admin.task.view_doc', [Crypt::encrypt($task->id)])}}">{{$task->getDocument?->document_title ?? 'No Title'}}</a></h4>
                     </div>
                         <div class="card-body">
                                  <div class="row">
@@ -63,6 +63,11 @@
                                     <lable>Current Status</lable> 
                                     <input type="text" class="form-control" disabled value="{{strtoupper($task->current_status)}}"/>
                                 </div>  
+                                <div class="mb-3 col-md-6">
+                                    <br>
+                                    <lable>Description</lable> 
+                                   <p>{{$task->description ?? ''}}</p>
+                                </div> 
                                 </div> 
 
                 <div class="row">

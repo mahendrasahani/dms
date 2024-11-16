@@ -80,8 +80,12 @@ class DocumentController extends Controller{
             'document_title' => ['max:100'],
             'department' => ['required'],
             'sub_folder' => ['required'],
-            'document' => ['required', 'mimes:pdf,png,doc,docx,xls,xlsx,xlsm,txt']
-        ]);
+          'document' => ['required', 'mimes:pdf,png,doc,docx,xls,xlsx,xlsm,pptx,gif,jpg', 'max:512000',]
+        ],
+        [
+            'document.max' => 'The document field must not be greater than 500 MB.',
+        ]); 
+
         $permission_check = UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 15)->exists();
         if($permission_check){
         $title = $request->document_title;
@@ -162,7 +166,7 @@ class DocumentController extends Controller{
             abort('404');
         }   
     } 
-    public function update(Request $request, $id){
+    public function update(Request $request, $id){ 
         $permission_check = UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 17)->exists();
         if($permission_check){
         $title = $request->document_title;
@@ -308,8 +312,12 @@ class DocumentController extends Controller{
     } 
     public function DirectUploadStore(Request $request){
         $validate = $request->validate([
-            'document' => ['required', 'mimes:pdf,png,doc,docx,xls,xlsx,xlsm']
-        ]);
+            'document' => ['required', 'mimes:pdf,png,doc,docx,xls,xlsx,xlsm,pptx,gif,jpg', 'max:512000',]
+        ],
+        [
+            'document.max' => 'The document field must not be greater than 500 MB.',
+        ]
+    );
         $m_id = $request->m_id;
         $s_id = $request->s_id;
         $title = $request->document_title;
@@ -522,7 +530,10 @@ class DocumentController extends Controller{
     } 
     public function uploadNewFileStore(Request $request, $id){
         $validate = $request->validate([
-            "document" => ['required', 'mimes:pdf,png,doc,docx,xls,xlsx,xlsm']
+            'document' => ['required', 'mimes:pdf,png,doc,docx,xls,xlsx,xlsm,pptx,gif,jpg', 'max:512000',]
+        ],
+        [
+            'document.max' => 'The document field must not be greater than 500 MB.',
         ]);
         $decrypt_id = Crypt::decrypt($id); 
         $document = Document::where('id', $decrypt_id)->first();
