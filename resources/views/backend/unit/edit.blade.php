@@ -25,7 +25,7 @@
                                 <div class="row">
                                     <div class="mb-3 col-md-6">
                                         <lable>Name</lable>
-                                        <input type="text" class="form-control" placeholder="Name" value="{{$unit->name}}" name="name" oninput="allowOnlyLetters(event);" maxlength="30" />
+                                        <input type="text" class="form-control" placeholder="Name" value="{{$unit->name}}" name="name" oninput="capitalizeEachWord(this); allowOnlyLetters(event);" maxlength="30" />
                                             @error('name')
                                              <p style="color:red">{{ $message }}</p>
                                             @enderror   

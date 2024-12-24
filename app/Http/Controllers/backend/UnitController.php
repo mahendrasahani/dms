@@ -35,9 +35,6 @@ class UnitController extends Controller{
         $states = State::where('status', 1)->get();
         return view('backend.unit.create', compact('head_departments', 'states'));
     }
-
-
-
  
     public function store(Request $request){
         $validate = $request->validate([
@@ -47,7 +44,8 @@ class UnitController extends Controller{
             "city" => ['required'],
         ]);
      
-        $unit = Unit::where('name', $request->name)->where('city', $request->city)->exists();   
+        $unit = Unit::where('name', $request->name)
+        ->where('city', $request->city)->exists();   
 
         $state = State::where('id', $request->state)->first(); 
 
@@ -66,14 +64,13 @@ class UnitController extends Controller{
     }
 
     public function edit($unit_id){
-        try{ 
+        try{
             $states = State::where('status', 1)->get();
             $decrypt_unit_id = Crypt::decrypt($unit_id);
             $unit = Unit::where('id', $decrypt_unit_id)->first();
             $selected_state = State::where('name', $unit->state)->first();
-            $cities = City::where('state_id', $selected_state->id)->get();
-            $head_departments = User::
-            with('getDepartmentType')
+            $cities = City::where('state_id', $selected_state->id)->where('status', 1)->get();
+            $head_departments = User::with('getDepartmentType')
             ->where('role_type_id', 2);  
             if(Auth::user()->role_type_id != 1){
                 $head_departments = $head_departments->where('id', Auth::user()->id);
@@ -81,6 +78,7 @@ class UnitController extends Controller{
             $head_departments = $head_departments->get();
             return view('backend.unit.edit', compact('unit', 'head_departments', 'states', 'cities'));
         }catch(\Exception $e){
+            return $e->getMessage();
             abort('404');
         }
     }
@@ -131,7 +129,7 @@ class UnitController extends Controller{
     public function getCity(Request $request){
         try{ 
             $state_id = $request->state_id;
-            $cities = City::where('state_id', $state_id)->get();
+            $cities = City::where('state_id', $state_id)->where('status', 1)->get();
             return response()->json([
                 "status" => "success",
                 "cities" => $cities
@@ -143,6 +141,25 @@ class UnitController extends Controller{
             ]);
         }
 
+    }
+
+    public function updateStatus(Request $request){
+        try{
+            $id = $request->id;
+            $status = $request->status;
+            Unit::where('id', $id)->update([
+                'status' => $status
+            ]); 
+            return response()->json([
+                'status' => 200,
+                'message' => "success"
+            ], 200);
+        }catch(\Exception $e){
+            return response()->json([
+                'status' => "failed",
+                'error' => $e->getMessage()
+            ], 400);
+        }  
     }
 
 }

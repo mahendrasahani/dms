@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\backend\{SubFolder, MainFolder};
 use App\Models\backend\DepartmentType;
 use App\Models\backend\Document;
+use App\Models\backend\Unit;
 use Illuminate\Http\Request;
 
 class ApiController extends Controller
@@ -74,6 +75,27 @@ class ApiController extends Controller
         "status" => "failed",
         "error" => $e->getMessage()
       ], 400);
+    }
+  }
+
+  public function checkUnitExistence(Request $request){
+    try{
+      $unit = Unit::where('name', $request->name)
+      ->where('city', $request->city)->exists();
+      if($unit){
+        return response()->json([
+          "status" => "unit_already_exist",
+        ]);
+      }else{
+        return response()->json([
+          "status" => "success"
+        ]);
+      }
+    }catch(\Exception $e){
+      return response()->json([
+        "status" => "failed",
+        "error" => $e->getMessage()
+      ]);
     }
   }
 }

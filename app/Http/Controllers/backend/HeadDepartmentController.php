@@ -25,7 +25,7 @@ class HeadDepartmentController extends Controller{
     public function index(){ 
         if(Auth::user()->role_type_id == 1){
             $head_users = User::with('getDepartmentType:id,name')
-            ->where('role_type_id', 2)
+            ->where('role_type_id', 2)->withTrashed()
             ->orderBy('id', 'desc')->paginate(10);  
             return view('backend.head_department.index', compact('head_users'));
         }else{
@@ -50,40 +50,26 @@ class HeadDepartmentController extends Controller{
     }
 
     public function update(Request $request, $id){
-        $decrypt_id= Crypt::decrypt($id);
-
+        $decrypt_id= Crypt::decrypt($id); 
         $request->validate([
             'f_name' => ['required', 'string', 'max:255', 'regex:/^[a-zA-Z\s]+$/'],
-            'l_name' => ['required', 'string', 'max:255', 'regex:/^[a-zA-Z\s]+$/'], 
-            // 'email' => ['required', 'string', 'lowercase', 'email', 'max:255'],
+            'l_name' => ['required', 'string', 'max:255', 'regex:/^[a-zA-Z\s]+$/'],  
             'phone' => ['required', 'numeric', 'digits:10']
-        ]);
-
-        // $unit_ids = array_map('intval', $request->units ?? []); 
+        ]); 
         $user_f_name = $request->f_name;
-        $user_l_name = $request->l_name; 
-        // $user_email = $request->email;
+        $user_l_name = $request->l_name;  
         $user_phone = $request->phone;
-        $department_type_id = $request->department;
-        
+        $department_type_id = $request->department; 
         $newUser = User::where('id', $decrypt_id)->update([
             'first_name' => $user_f_name,
             'last_name' => $user_l_name,
-            'name' => $user_f_name.' '.$user_l_name,
-            // 'email' => $user_email,
+            'name' => $user_f_name.' '.$user_l_name, 
             'phone' => $user_phone,
-            'department_type_id' => $department_type_id,
-            // "unit_ids" => $unit_ids,
+            'department_type_id' => $department_type_id,  
         ]);
         User::where('head_department_id', $decrypt_id)->update([ 
             'department_type_id' => $department_type_id,
-        ]);
-        
-        if($request->password != ''){
-            $newUser = User::where('id', $decrypt_id)->update([
-                'password' => Hash::make($request->password), 
-            ]);
-        }
+        ]); 
         return redirect()->route('backend.head_department.index')->with('success', "Head User has been updated successfully");
     }
  
@@ -108,6 +94,17 @@ class HeadDepartmentController extends Controller{
 
     public function statusChange(Request $request){
         try{
+            if($request->status == 0){
+                User::where('id', $request->id)->update([
+                    "status" => $request->status
+                ]); 
+                User::find($request->id)->delete();
+            }else{ 
+                User::onlyTrashed()->findOrFail($request->id)->restore();
+                User::where('id', $request->id)->update([
+                    "status" => $request->status
+                ]); 
+            }
             User::where('id', $request->id)->update([
                 "status" => $request->status
             ]); 

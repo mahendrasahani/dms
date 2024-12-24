@@ -26,7 +26,7 @@
                                     <div class="mb-3 col-md-6">
                                         <lable>First Name</lable>
                                         <input type="text" class="form-control" placeholder="Enter First Name" name="f_name" value="{{$head_department->first_name ?? ''}}"
-                                        oninput="capitalizeEachWord(this)"/>
+                                        oninput="capitalizeEachWord(this); allowOnlyLetters(event);" />
                                         @error('f_name')
                                         <p style="color:red">{{$message}}</p>
                                         @enderror
@@ -34,7 +34,7 @@
                                     <div class="mb-3 col-md-6">
                                         <lable>Last Name</lable>
                                         <input type="text" class="form-control" placeholder="Enter Last Name" name="l_name" value="{{$head_department->last_name ?? ''}}"
-                                        oninput="capitalizeEachWord(this)"/>
+                                        oninput="capitalizeEachWord(this); allowOnlyLetters(event);"/>
                                         @error('l_name')
                                         <p style="color:red">{{$message}}</p>
                                         @enderror
@@ -64,40 +64,13 @@
                                         <select name="department" required class="select2 js-programmatic form-control"  style="width: 100%; height: 36px">
                                             <option></option>
                                             @foreach ($head_department_type as $department)
-                                            <option value="{{$department->id}}" {{$department->id == $head_department->department_type_id ? 'selected':''}}>{{$department->name ?? ''}}</option>
+                                                <option value="{{$department->id}}" {{$department->id == $head_department->department_type_id ? 'selected':''}}>{{$department->name ?? ''}}</option>
                                             @endforeach
                                         </select>
-                                     @error('department')
-                                    <p style="color:red">{{$message}}</p>
-                                    @enderror
-                                    </div>
- 
-                                    {{-- <div class="col-md-6 mt-3">
-                                        @php 
-                                        $units = App\Models\backend\Unit::get();
-                                        
-                                        @endphp
-                                        <lable>Select Units</lable> 
-                                        <select class="select2 form-control" multiple="multiple" name="units[]" style="height: 40px; width: 100%" id="units">
-                                        @foreach($units as $unit)
-                                            <option value="{{$unit->id}}" {{in_array($unit->id, $head_department->unit_ids) ? 'selected':''}}>{{$unit->name}}</option>
-                                            @endforeach
-                                        </select>  
-                                    </div> --}}
- 
-                                    <div class="mb-3 col-md-6">
-                                        <label>Enter password if you want to change</label>
-                                        <div class="input-group">
-                                            <input type="password" class="form-control" id="password" placeholder="New Password" name="password" />
-                                            <span class="input-group-text" onclick="togglePassword()" style="cursor: pointer;">
-                                                <i class="fas fa-eye" id="togglePasswordIcon"></i>
-                                            </span>
-                                        </div>
-                                        @error('password')
+                                        @error('department')
                                             <p style="color:red">{{$message}}</p>
                                         @enderror
-                                    </div>
- 
+                                    </div> 
                                     <div class="mb-3">
                                         <button class="btn btn-primary rounded-pill px-4 mt-3" type="submit">
                                             <i data-feather="send" class="feather-sm ms-2 fill-white"></i>
@@ -130,8 +103,6 @@
                 }
             });
         </script>
-    @endif
-
-
+    @endif 
 @endsection
 @endsection

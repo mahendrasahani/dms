@@ -1,96 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>email</title>
-    <style>
-        *{
-            padding: 0px;
-            margin: 0px;
-            box-sizing: border-box;
-        }
-    </style>
+    <title>Welcome</title>
+
 </head>
+
 <body style="font-family: sans-serif;">
-
     <section>
-        <div class="main" style="width: 100%;">
-            <div class="email-box">
-                <div class="email_template" style="width: 100%; max-width: 800px; margin: 0 auto; box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px; position: relative;">
-                        <div class="top-email-header w-100" style="height: 100%; max-height: 250px; background-color:#253a76; position: relative;">
-                                <div class="email-icon"
-                                         style="height: 100%; width: 100%;">
-                                        <span class="" style="text-align: center;">
-                                            <img src="https://dms.toponsearch.in/public/assets/backend/assets/images/logos.png" style="width: 20%; margin-left: 40%;">
-                                            <!-- <h5 style="font-size: 1.4rem; color: #fff; padding-top: .7rem; padding-bottom: 1rem;">Welcome to cygnett </h5> -->
-                                        </span>
-                                </div>     
-                        </div>
-                        <div style=" border: 1px solid #253a76;">
-                            <div>
-                                <center>
-                                    <p class="" style="padding: 20px;">Welcome To Cygnett</p>
-                                </center>
-                            </div>
-                            <div>
-                                <hr style="max-width: 85%; margin: 0 auto; background-color:#253a76; height: 2.2px;">
-                            </div>
-                            <div class="user_details" style="padding: 20px;">
-                                <div class="userdetail" style="max-width: 400px; margin: 0 auto;"> 
-                                    <div> 
-                                        <div style=" margin-bottom: 1.2rem;">
-                                            <div style="display: inline-block; width: 50%; color: #253a76; font-weight: bold;">Full Name</div>
-                                            <div style="display: inline-block; float: right; width:50%;">{{$user_detail_mail_data['first_name'] .' '. $user_detail_mail_data['last_name']}}</div>
-                                        </div>
-
-                                        <div style="margin-bottom: 1.2rem;">
-                                            <div style="display: inline-block; width: 50%; color: #253a76; font-weight: bold;">Email</div>
-                                            <div style="display: inline-block; float: right; width:50%;">{{$user_detail_mail_data['email']}}</div>
-                                        </div>
-
-                                        <div style="margin-bottom: 1.2rem;">
-                                            <div style="display: inline-block; width: 50%; color: #253a76; font-weight: bold;">Mobile Number</div>
-                                            <div style="display: inline-block; float: right; width:50%;">{{$user_detail_mail_data['phone']}}</div>
-                                        </div>
- 
-
-                                        <div style=" margin-bottom: 1.2rem;">
-                                            <div style="display: inline-block; width: 50%; color: #253a76; font-weight: bold;">Your Password</div>
-                                            <div style="display: inline-block; float: right; width:50%;">{{$user_detail_mail_data['password']}}</div>
-                                        </div>
-                                        <div style=" margin-bottom: 1.2rem;">
-                                            <div style="display: inline-block; width: 50%; color: #253a76; font-weight: bold;">Role</div>
-                                            <div style="display: inline-block; float: right; width:50%;">{{$user_detail_mail_data['role']}}</div>
-                                        </div>
-
-                                          
-                                        <div class="forgetpass" style="margin: .2rem 0 1rem 0;">
-                                            <hr>
-                                                <div style="padding: 10px 0;">
-                                                     <p style="text-align: center; font-size: 16px;"><a href="{{$user_detail_mail_data['login_url']}}" style="text-decoration: none; color: #2196f3">Login</a></p>
-                                                </div>
-                                            <hr>
-                                        </div>
-                                    </div>  
-                                </div> 
-                                <div> 
-                                </div>
-                                <!-- <hr style="max-width: 85%; margin: 1rem auto; background-color:#253a76; "> -->
-                            </div>
-                        </div>
-                        <section>
-                            <div style="width: 100%;  background-color:#253a76;">
-                                <center><p style="color:white; padding:15px;">606, 6th Floor, Tower-D, Unitech Cyber Park, Sector 39, Gurgaon 122003, Haryana, India</p></center>
-                                <!-- <img src="img/logos2.png"  width="100" alt="" style="margin-left: 45%; padding: 2rem 0;"> -->
-                            </div>
-                        </section>
-                    
+        <div class="emailMSG" style="max-width: 600px; margin: 0 auto; border: 1px solid gainsboro;">
+            <div style="width: 100%; height: 8px; background-color:#FFAA1D"></div>
+            <div class="emailBox">
+                <div class="companylogo" style="border-bottom: 1px solid gainsboro;">
+                    <span style="">
+                        <center>
+                            <img src="{{url('public/assets/logo/cygnett-logo.png')}}" width="20%" alt="">
+                        </center>
+                    </span>
                 </div>
+                <div class="msgtext" style="padding: 1.5rem;">
+                    <center>
+                        <h4 style="margin: .5rem 0; color: #253a76;">Welcome to Cygnett</h4>
+                    </center>
+                    <p style="font-size: 15px;">Hi, <b style="color: #253a76;">{{$user_detail_mail_data['first_name'] .' '. $user_detail_mail_data['last_name']}}</b></p>
+              
+                    <p style="font-size: 15px;">These are your login details:</p>
+                    <div class="userForm">
+                        <div class="userDetails">
+
+                            <div style="border: 1px solid gainsboro; font-size: 15px;">
+                                <div class="w"
+                                    style="width: 49%; float: right; border-left: 1px solid gainsboro; padding: 7px 8px; font-size: 15px;">
+                                    {{$user_detail_mail_data['first_name'] .' '. $user_detail_mail_data['last_name']}}
+                                </div>
+                                <div class="w" style="width: 49%; padding: 7px 8px; font-size: 15px;">
+                                    <span><b style="color: #1a2c61;">Full Name</b></span>
+                                </div>
+                            </div>
+                            <div style="border: 1px solid gainsboro; border-top: none;">
+                                <div class="w"
+                                    style="width: 49%; float: right; border-left: 1px solid gainsboro; padding: 7px 8px; font-size: 15px;">
+                                    <a href="Email:{{$user_detail_mail_data['email']}}">{{$user_detail_mail_data['email']}}</a>
+                                </div>
+                                <div style="width: 49%; padding: 7px 8px; font-size: 15px;">
+                                    <span><b style="color: #1a2c61;">Email</b></span>
+                                </div>
+                            </div>
+                            <div style="border: 1px solid gainsboro; border-top: none;">
+                                <div class="w"
+                                    style="width: 49%; float: right; border-left: 1px solid gainsboro; padding: 7px 8px; font-size: 15px;">
+                                    {{$user_detail_mail_data['phone']}}
+                                </div>
+                                <div style="width: 49%; padding: 7px 8px; font-size: 15px;">
+                                    <span><b style="color: #1a2c61;">Mobile Number</b></span>
+                                </div>
+                            </div>
+                            <div style="border: 1px solid gainsboro; border-top: none;">
+                                <div class="w"
+                                    style="width: 49%; float: right; border-left: 1px solid gainsboro; padding: 7px 8px; font-size: 15px;">
+                                    {{$user_detail_mail_data['password']}}
+                                </div>
+                                <div style="width: 49%; padding: 7px 8px; font-size: 15px;">
+                                    <span><b style="color: #1a2c61;">Your Password</b></span>
+                                </div>
+                            </div>
+                            <div style="border: 1px solid gainsboro; border-top: none;">
+                                <div class="w"
+                                    style="width: 49%; float: right; border-left: 1px solid gainsboro; padding: 7px 8px; font-size: 15px;">
+                                    {{$user_detail_mail_data['role']}}
+                                </div>
+                                <div style="width: 49%; padding: 7px 8px; font-size: 15px;">
+                                    <span><b style="color: #1a2c61;">Role</b></span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div style="margin-top: 2rem;">
+                            <div style="width: fit-content; margin: 1rem auto;">
+                                <a href="{{$user_detail_mail_data['login_url']}}" style="text-decoration: none;">
+                                    <span
+                                        style="padding: 10px 20px; text-decoration: none; font-size: 15px; border: 1px solid #1a2c61; color: #1a2c61; border-radius: 5px;">
+                                        Login
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <footer style="background-color: #1a2c61; padding: .7rem 0">
+                    <div class="socil">
+                        <div style="width: fit-content; margin: 0 auto;">
+                            <a href="https://www.facebook.com/cygnetthotels/" style="margin-right: 6px;">
+                                <span>
+                                    <img src="http://cygnetthotels.com/mailer/images/f_icon.png" alt="">
+                                </span>
+                            </a>
+                            <a href="https://www.instagram.com/cygnett_hotels/" style="margin-right: 6px;">
+                                <span>
+                                    <img src="http://cygnetthotels.com/mailer/images/i_icon.png" alt="">
+                                </span>
+                            </a>
+                            <a href="https://www.linkedin.com/company/cygnett-hotels-&-resorts/?originalSubdomain=in"
+                                style="margin-right: 6px;">
+                                <span>
+                                    <img src="http://cygnetthotels.com/mailer/images/l_icon.png" alt="">
+                                </span>
+                            </a>
+                            <a href="https://www.youtube.com/user/CygnettHotels" style="">
+                                <span>
+                                    <img src="http://cygnetthotels.com/mailer/images/y_icon.png" alt="">
+                                </span>
+                            </a>
+
+                        </div>
+                    </div>
+                    <div class="footerdetails"
+                        style="color: #fff; border-top: 1px solid #fff; margin: .6rem 0 .7rem 0;">
+                        <center>
+                            <h4 style="margin:.7rem 0 .4rem 0;">Cygnett Hotels & Resorts</h4>
+                            <p style="margin-top: .3rem; font-size: 13.5px;">606, 6th Floor, Tower-D, Unitech Cyber
+                                Park, Sector 39, Gurgaon 122003, Haryana, India
+                                www.cygnetthotels.com</p>
+                        </center>
+                    </div>
+                </footer>
             </div>
         </div>
     </section>
-
- 
 </body>
+
 </html>

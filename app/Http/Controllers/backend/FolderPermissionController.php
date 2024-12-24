@@ -34,11 +34,11 @@ class FolderPermissionController extends Controller{
         try{
         $decrypt_user_id= Crypt::decrypt($user_id);
         $user = User::where('id', $decrypt_user_id);
-        if(Auth::user()->role_type_id != 1){
-            $user = $user->where('created_by', Auth::user()->id);
-        }
+        // if(Auth::user()->role_type_id != 1){
+        //     $user = $user->where('head_department_id', Auth::user()->head_department_id);
+        // }
         $user = $user->first(); 
-        if($user){
+        // if($user){
             $main_folder_permission_list = MainFolderPermissionList::all();
             $sub_folder_permission_list = FolderPermissionList::all();
             $user_main_folder_assigned_permission_list = UserMainFolderPermission::where('user_id', $decrypt_user_id)->pluck('main_folder_id')->toArray();
@@ -48,9 +48,10 @@ class FolderPermissionController extends Controller{
                 'user', 'sub_folder_permission_list', 'main_folder_permission_list', 
                 'user_main_folder_assigned_permission_list',
                 'user_folder_assigned_permission_list'));
-            }else{
-                return response()->view('errors.405', [], 405);
-            }
+                
+            // }else{
+            //     return response()->view('errors.405', [], 405);
+            // }
         }catch(\Exception $e){
             // return $e->getMessage();
             abort(404, 'Invalid User ID');
@@ -71,9 +72,6 @@ class FolderPermissionController extends Controller{
         UserMainFolderPermission::where('user_id', $user_id)->delete();
         UserFolderPermission::where('user_id', $user_id)->delete();
 
-
-      
-
         if($main_folder_permission_ids != null){ 
             foreach($main_folder_permission_ids as $permission){ 
                 UserMainFolderPermission::create([
@@ -93,10 +91,7 @@ class FolderPermissionController extends Controller{
                     ]);
                 }
             } 
-        }
-
- 
-        
+        } 
         $all_folder_permission_alert_data = [
             "user_name" => $user->first_name .' '. $user->last_name,
             "sub_folders" => $sub_permission_ids,
@@ -116,19 +111,24 @@ class FolderPermissionController extends Controller{
         $decrypt_s_folder = Crypt::decrypt($s_folder); 
         $main_folder = MainFolder::where('id', $decrypt_m_folder)->first();
         $sub_folder = SubFolder::where('id', $decrypt_s_folder)->first(); 
-        $users = User::select('*');
-        if(Auth::user()->role_type_id == 2){
-            $users = $users->where('head_department_id', Auth::user()->id);
-        }
-        if(Auth::user()->role_type_id == 5){
-            $users = $users->where('manager_id', Auth::user()->id);
-        }
-        if(Auth::user()->role_type_id == 6){
-            $users = $users->where('team_leader_id', Auth::user()->id);
-        }
-        $users = $users->get();   
+        $users = User::select('*')->where('role_type_id', '!=', 1)
+        ->where('id', '!=', Auth::user()->id);
+// -------------------
+            // if(Auth::user()->role_type_id == 2){
+            //     $users = $users->where('head_department_id', Auth::user()->id);
+            // }
+            if(Auth::user()->role_type_id == 5){
+                $users = $users->where('manager_id', Auth::user()->id);
+            }
+            if(Auth::user()->role_type_id == 6){
+                $users = $users->where('team_leader_id', Auth::user()->id);
+            }
+// ------------------- 
+        $users = $users->get(); 
         $assigned_users = UserFolderPermission::where('sub_folder_id', $decrypt_s_folder)
+        ->where('access_given_by', Auth::user()->id)
         ->where('user_id', '!=', 1)->pluck('user_id')->toArray();
+        
         $assigned_users_upload_access = FileUploadPermission::where('main_folder_id', $decrypt_m_folder)
         ->where('sub_folder_id', $decrypt_s_folder)
         ->where('access_given_by', Auth::user()->id)
@@ -145,15 +145,41 @@ class FolderPermissionController extends Controller{
     public function SyncFolderPermissionDirect(Request $request){
         $m_folder_id = $request->m_folder_id;
         $s_folder_id = $request->s_folder_id;
-        $users = $request->users;  
+        // return $s_folder_id;
+        $users = $request->users; 
+        
+        $existing_user = UserFolderPermission::where('sub_folder_id', $s_folder_id)
+        ->where('access_given_by', Auth::user()->id)->pluck('user_id')->toArray();
+       
+        // return $existing_user; 
+        $folder_detail = SubFolder::with('getMainFolder')->where('id', $s_folder_id)->first();
+        
+        if($users == null){
+            foreach($existing_user as $userId){ 
+                $sub_folder_existence = UserFolderPermission::where('sub_folder_id', $s_folder_id)
+                ->where('access_given_by', Auth::user()->id)->where('user_id', $userId)->delete();
 
-        $existing_user = UserFolderPermission::where('access_given_by', 1)->pluck('user_id')->toArray();
+                $getUser = User::where('id', $userId)->first();
+                $single_folder_permission_alert_data = [
+                 "user_name" => $getUser->first_name.' '. $getUser->last_name,
+                 "message" => "We regret to inform you that your access to this folder has been revoked. You no longer have permission to view its contents",
+                 "status" => 'denied',
+                 "main_folder" => $folder_detail->getMainFolder?->name,
+                 "sub_folder" => $folder_detail->name,
+             ];
+             Mail::to($getUser->email)->send(new SingleFolderPermissionAlertMail($single_folder_permission_alert_data));
+            }
+            return redirect()->back()->with('foler_permission_synced', 'Folder Permission has been updated successfully.');
+        }
+ 
         $main_folder_existence = UserMainFolderPermission::where('main_folder_id', $m_folder_id)
         ->where('access_given_by', Auth::user()->id)->delete();
+
         $sub_folder_existence = UserFolderPermission::where('sub_folder_id', $s_folder_id)
         ->where('access_given_by', Auth::user()->id)->delete();
 
         $folder_detail = SubFolder::with('getMainFolder')->where('id', $s_folder_id)->first();
+        
         foreach($existing_user as $userId){
             if(!in_array($userId, $users)){
                // removed user
@@ -164,9 +190,8 @@ class FolderPermissionController extends Controller{
                 "status" => 'denied',
                 "main_folder" => $folder_detail->getMainFolder?->name,
                 "sub_folder" => $folder_detail->name,
-                
             ];
-                Mail::to($getUser->email)->send(new SingleFolderPermissionAlertMail($single_folder_permission_alert_data));
+            Mail::to($getUser->email)->send(new SingleFolderPermissionAlertMail($single_folder_permission_alert_data));
             }
         }
 
@@ -237,22 +262,34 @@ class FolderPermissionController extends Controller{
         $folder_per = FolderPermissionList::get();
         return $folder_per;  
     }
-
-
+ 
         public function SyncFileUploadAccess(Request $request){
             $m_id = $request->m_folder_id;
             $s_id = $request->s_folder_id;
-            $users = $request->users;  
-
+            $users = $request->users;   
             $existingUsers = FileUploadPermission::where('main_folder_id', $m_id)
             ->where('sub_folder_id', $s_id)->where('access_given_by', Auth::user()->id)
-            ->pluck('user_id')->toArray();
-
+            ->pluck('user_id')->toArray(); 
             FileUploadPermission::where('main_folder_id', $m_id)
             ->where('sub_folder_id', $s_id)->where('access_given_by', Auth::user()->id)->delete();
-            
-
             $folder_detail = SubFolder::with('getMainFolder')->where('id', $s_id)->first();
+            if($users == null){
+                foreach($existingUsers as $userId){
+                    FileUploadPermission::where('main_folder_id', $m_id)->where('user_id', $userId)
+                    ->where('sub_folder_id', $s_id)->where('access_given_by', Auth::user()->id)
+                    ->delete();
+                    $getUser = User::where('id', $userId)->first(); 
+                    $document_upload_permission_alert_mail_data = [
+                     "user_name" => $getUser->first_name.' '. $getUser->last_name,
+                     "message" => "We are notifying you that your upload permissions for a specific folder have been removed. You no longer have access to upload documents to this folder.",
+                     "status" => 'denied',
+                     "main_folder" => $folder_detail->getMainFolder?->name,
+                     "sub_folder" => $folder_detail->name, 
+                 ];
+                     Mail::to($getUser->email)->send(new DocumentUploadPermissionAlertMail($document_upload_permission_alert_mail_data));
+                }
+                return redirect()->back()->with('folder_permission_synced', 'File Permission has been updated.'); 
+            } 
             foreach($existingUsers as $userId){
             if(!in_array($userId, $users)){
                // removed user
@@ -266,33 +303,27 @@ class FolderPermissionController extends Controller{
             ];
                 Mail::to($getUser->email)->send(new DocumentUploadPermissionAlertMail($document_upload_permission_alert_mail_data));
             }
-        }
- 
-            if($users != null){
-            foreach($users as $user){ 
-                if(!in_array($user, $existingUsers)){
-                    // new added user 
-                    $getUser = User::where('id', $user)->first(); 
-                    $document_upload_permission_alert_mail_data = [ 
-                        "user_name" => $getUser->first_name.' '. $getUser->last_name,
-                        "message" => "We are notifying you that you have been granted upload permissions for a specific folder. You can now upload documents to this folder." ,
-                        "status" => 'granted',
-                        "main_folder" => $folder_detail->getMainFolder?->name,
-                        "sub_folder" => $folder_detail->name,
-                    ];
-                    Mail::to($getUser->email)->send(new DocumentUploadPermissionAlertMail($document_upload_permission_alert_mail_data));
-                }
- 
-                FileUploadPermission::create([
-                    'main_folder_id' => $m_id,
-                    'sub_folder_id' => $s_id,
-                    'user_id' => $user,
-                    'access_given_by' => Auth::user()->id
-                ]);
-            }
-        }
-
-
+        } 
+        foreach($users as $user){ 
+            if(!in_array($user, $existingUsers)){
+                // new added user 
+                $getUser = User::where('id', $user)->first(); 
+                $document_upload_permission_alert_mail_data = [ 
+                    "user_name" => $getUser->first_name.' '. $getUser->last_name,
+                    "message" => "We are notifying you that you have been granted upload permissions for a specific folder. You can now upload documents to this folder." ,
+                    "status" => 'granted',
+                    "main_folder" => $folder_detail->getMainFolder?->name,
+                    "sub_folder" => $folder_detail->name,
+                ];
+                Mail::to($getUser->email)->send(new DocumentUploadPermissionAlertMail($document_upload_permission_alert_mail_data));
+            } 
+            FileUploadPermission::create([
+                'main_folder_id' => $m_id,
+                'sub_folder_id' => $s_id,
+                'user_id' => $user,
+                'access_given_by' => Auth::user()->id
+            ]);
+        } 
         return redirect()->back()->with('folder_permission_synced', 'File Permission has been updated.'); 
     }
 

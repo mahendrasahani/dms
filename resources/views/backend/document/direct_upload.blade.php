@@ -26,6 +26,8 @@
                 <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 d-flex align-items-center">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}" class="link"><i class="ri-home-3-line fs-5"></i></a></li> 
+                    <li class="breadcrumb-item active" aria-current="page"><a href="{{route('backend.folders.index', [Crypt::encrypt($m_folder->id)])}}" class="link">{{$m_folder->name}}</a></li>
+                    <li class="breadcrumb-item active" aria-current="page"><a href="{{ route('backend.folders.view_doc_list', [Crypt::encrypt($m_folder->id), Crypt::encrypt($s_folder->id)]) }}" class="link">{{$s_folder->name}}</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Add Document</li>
                 </ol>
             </nav>
@@ -45,27 +47,21 @@
                                 <div class="row">
                                     <div class="mb-3 col-md-6">
                                     <lable>Document Title</lable>
-                                        <input type="text" class="form-control" name="document_title" id="document_title" placeholder="Document Title" />
+                                        <input type="text" class="form-control" name="document_title" id="document_title" placeholder="Document Title"  value="{{old('document_title')}}" required/>
+                                        @error('document_title')
+                                            <p style="color:red;">{{$message}}</p>
+                                        @enderror
                                     </div>
-                                       
                                     <div class="col-md-6 mt-3">
                                         <input type="file" name="document" id="document" class="form-control" required accept=".pdf,.png,.doc,.docx,.xls,.xlsx,.xlsm,.pptx,.gif,.jpg"/>
                                         @error('document')
                                             <p style="color:red;">{{$message}}</p>
                                         @enderror
-                                    </div>
-                                    <!-- <div class="mt-3 check-box">
-                                        <input class="form-check-input" type="checkbox" id="check1" name="option1"
-                                            value="something">
-                                        <label class="form-check-label">Can Download?</label>
-                                    </div> -->
+                                    </div> 
                                     <div class="mt-3">
                                         <button
-                                            class=" btn rounded-pill px-4 btn-light-success text-success font-weight-medium waves-effect waves-light "
-                                            type="submit">
-                                            <i data-feather="send" class="feather-sm ms-2 fill-white"></i>
-                                            Upload
-                                        </button>
+                                            class="btn rounded-pill px-4 btn-light-success text-success font-weight-medium waves-effect waves-light" type="submit">
+                                            <i data-feather="send" class="feather-sm ms-2 fill-white"></i>Upload</button>
                                     </div>
                                 </div>
                             </form>

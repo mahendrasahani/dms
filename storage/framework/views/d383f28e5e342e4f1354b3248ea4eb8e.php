@@ -60,8 +60,11 @@ unset($__errorArgs, $__bag); ?>
                                 </div>
                                 <div class="form-group mb-4">
                                     <div class="">
-                                        <input class="form-control" type="password" required=""
-                                            placeholder="Password" name="password" />
+                                        <div class="d-flex align-items-end">
+                                             <input class="form-control" type="password" required="" placeholder="Password" name="password" id="user_password"/>
+                                             <i class="ri-eye-line text-dark" style="position:absolute; right:25px; cursor: pointer;" id="show_password"></i>
+                                             <i class="ri-eye-off-line text-dark" style="position:absolute; right:25px; display: none; cursor: pointer" id="hide_password"></i>
+                                        </div>
                                             <?php $__errorArgs = ['password'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -118,6 +121,17 @@ unset($__errorArgs, $__bag); ?>
             $("#to-recover").on("click", function() {
                 $("#loginform").slideUp();
                 $("#recoverform").fadeIn();
+            });
+        </script>
+        <script>
+            $(document).ready(function(){
+                $('#show_password, #hide_password').on('click', function(){
+                let user_password = $('#user_password');
+                  let user_password_type = $('#user_password').attr('type') === 'text'; 
+                  user_password.attr('type',user_password_type ? "password" : 'text');
+                  $('#show_password').toggle();
+                  $('#hide_password').toggle();
+                });
             });
         </script>
 </body>

@@ -26,18 +26,14 @@
 
                 <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 d-flex align-items-center">
-                  <li class="breadcrumb-item">
-                    <a href="{{route('dashboard')}}" class="link"><i class="ri-home-3-line fs-5"></i></a>
-                  </li>
-                  <li class="breadcrumb-item" aria-current="page">
-                    <a href="{{route('backend.document.index')}}" class="link">All Document</a>
-                  </li>
-                  <li class="breadcrumb-item active" aria-current="page">
-                    Add Document
-                  </li>
-                </ol>
+                    <li class="breadcrumb-item"><a href="{{route('dashboard')}}" class="link"><i class="ri-home-3-line fs-5"></i></a></li>
+                    <li class="breadcrumb-item" aria-current="page"><a href="{{route('backend.folders.index', [Crypt::encrypt($document->main_folder_id)])}}" class="link">{{$document->getMainFolder?->name ?? ''}}</a></li>
+                    <li class="breadcrumb-item" aria-current="page"><a href="{{ route('backend.folders.view_doc_list', [Crypt::encrypt($document->getMainFolder?->id), Crypt::encrypt($document->getSubFolder?->id)]) }}" class="link">{{$document->getSubFolder?->name ?? ''}}</a></li>
+                    <li class="breadcrumb-item" aria-current="page"><a href="{{ route('backend.folders.view_doc_list', [Crypt::encrypt($document->getMainFolder?->id), Crypt::encrypt($document->getSubFolder?->id)]) }}" class="link">{{$document->document_title ?? 'No Title'}}</a></li>
+                    <li class="breadcrumb-item" aria-current="page"><a href="{{route('backend.document.index')}}" class="link">Upload New File</a></li>
+                 </ol>
               </nav>
-                    <h1 class="mb-0 fw-bold">Add Document</h1>
+                    <h1 class="mb-0 fw-bold">Upload New File</h1>
                 </div>
             </div>
         </div>

@@ -126,3 +126,14 @@
         display: flex;
         justify-content: end;
     }
+
+    .page-item.active .page-link{background-color: #253a76; color: #fff;}
+
+.form-check-input:checked {
+    background-color: #1a9bfc;
+    border-color: #1a9bfc;
+}
+
+.table_city>:not(caption)>*>* {
+    padding: 8px 16px;
+}

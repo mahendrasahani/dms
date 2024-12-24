@@ -26,7 +26,8 @@
                 <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 d-flex align-items-center">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}" class="link"><i class="ri-home-3-line fs-5"></i></a></li> 
-                    <li class="breadcrumb-item active" aria-current="page"><a href="Assign Task" class="link">Assign New Task</a></li>
+                    <li class="breadcrumb-item active" aria-current="page"><a href="{{route('admin.task.index')}}" class="link">Task</a></li> 
+                    <li class="breadcrumb-item active" aria-current="page"><a href="javascript:void(0);" class="link">Assign New Task</a></li>
                  </ol>
             </nav>
                     <h1 class="mb-0 fw-bold">Assign New Task</h1>
@@ -169,6 +170,23 @@
             }else{
                 alert('something went wrong');
             } 
+        }); 
+
+        $(document).ready(function() {
+            const $startDateInput = $('#start_date');
+            const $endDateInput = $('#end_date'); 
+            $endDateInput.prop('disabled', true); 
+            const today = new Date().toISOString().split('T')[0];
+            $startDateInput.attr('min', today); 
+            $startDateInput.on('change', function() {
+                const startDateValue = $(this).val();
+                if (startDateValue) {
+                    $endDateInput.prop('disabled', false);
+                    $endDateInput.attr('min', startDateValue);
+                } else {
+                    $endDateInput.prop('disabled', true);
+                }
+            });
         });
     </script>
      

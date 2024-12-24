@@ -7,7 +7,10 @@
                 <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 d-flex align-items-center">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}" class="link"><i class="ri-home-3-line fs-5"></i></a></li> 
-                    <li class="breadcrumb-item active" aria-current="page"><a href="Assign Task" class="link">Assign Permission</a></li>
+                    <li class="breadcrumb-item active" aria-current="page"><a href="{{route('backend.folders.index', [Crypt::encrypt($main_folder->id)])}}" class="link">{{$main_folder->name}}</a></li>
+                    <!-- <li class="breadcrumb-item active" aria-current="page"><a href="{{ route('backend.folders.view_doc_list', [Crypt::encrypt($main_folder->id), Crypt::encrypt($sub_folder->id)]) }}" class="link">{{$sub_folder->name}}</a></li> -->
+                    <li class="breadcrumb-item active" aria-current="page"><a href="{{ route('backend.folders.view_doc_list', [Crypt::encrypt($main_folder->id), Crypt::encrypt($sub_folder->id)]) }}" class="link">{{$sub_folder->name}}</a></li>
+                    <li class="breadcrumb-item activex" aria-current="page">Assign Permission</li>
                  </ol>
             </nav>
                     <h1 class="mb-0 fw-bold">{{$main_folder->name ?? ''}}/{{$sub_folder->name ?? ''}}</h1>
@@ -22,7 +25,7 @@
                 <input type="hidden" name="s_folder_id" value="{{$sub_folder->id}}">
                 <div class="col-md-6 mt-3">
                 <lable>Folder Access</lable> 
-                <select class="select2 form-control" multiple="multiple" name="users[]" style="height: 40px; width: 100%" required>
+                <select class="select2 form-control" multiple="multiple" name="users[]" style="height: 40px; width: 100%">
                 @foreach($users as $user)
                 <option value="{{$user->id}}" {{in_array($user->id, $assigned_users) ? 'selected':''}}>{{$user->name}}</option>  
                 @endforeach

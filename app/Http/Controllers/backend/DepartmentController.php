@@ -21,6 +21,31 @@ class DepartmentController extends Controller{
             return response()->view('errors.405', [], 405);
         }
     }
+
+    public function getAllDepartmentList(){
+        try{
+            $permission_check = UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 38)->exists();
+            if($permission_check){
+            $roles = DepartmentType::orderBy('id', 'desc')->get();
+            
+            return response()->json([
+                "status" => "success",
+                "data" => $roles
+            ], 200);
+             }else{
+                return response()->json([
+                    "status" => "permission_denied"
+                ], 403);
+            }
+        }catch(\Exception $e){
+            return response()->json([
+                "status" => "failed",
+                "error" => $e->getMessage()
+            ] ,400);
+        }
+    }
+
+
     public function update(Request $request, $id){
         $validate = $request->validate([
             "department_full_name" => ['required'],
@@ -57,8 +82,8 @@ class DepartmentController extends Controller{
  
     public function store(Request $request){
         $validate = $request->validate([
-            "department_full_name" => ['required'],
-            "department_short_name" => ['required']
+            "department_full_name" => ['required', 'max:50'],
+            "department_short_name" => ['required', 'max:10']
         ]); 
         $permission_check = UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 41)->exists();
         if($permission_check){
@@ -97,34 +122,50 @@ class DepartmentController extends Controller{
     }
  
     public function updateStatus(Request $request){
-        $id = $request->id;
-        $status = $request->status;
-        DepartmentType::where('id', $id)->update([
-            'status' => $status
-        ]);
-        return response()->json([
-            'status' => 200,
-            'message' => "success"
-        ]);
-    }
-    public function destroy($id){
         try{
-        $decrypt_id = Crypt::decrypt($id);
-        $permission_check = UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 43)->exists();
-            if($permission_check){
+            $id = $request->id;
+            $status = $request->status;
+            DepartmentType::where('id', $id)->update([
+                'status' => $status
+            ]); 
+            return response()->json([
+                'status' => 200,
+                'message' => "success"
+            ], 200);
+        }catch(\Exception $e){
+            return response()->json([
+                'status' => "failed",
+                'error' => $e->getMessage()
+            ], 400);
+        }  
+    }
+    public function destroy(Request $request){
+        try{
+        $decrypt_id = $request->id;
+        // $permission_check = UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 43)->exists();
+        //     if($permission_check){
             $user = User::where('department_type_id', $decrypt_id)->exists();
             if($user){
-                return redirect()->back()->with('already_in_use', 'This department has user you cant delete directly');
-            } 
+                return response()->json([
+                    "status" => "already_in_use",
+                    "message" => "This department has user you cant delete directly"
+                ], 200);
+             } 
             $main_folder = MainFolder::where('department_type_id', $decrypt_id)->exists();
             if($main_folder){
-                return redirect()->back()->with('main_folder_already_in_use', 'Main Folder is using this department. You cant delete directly.');
-            }
+                return response()->json([
+                    "status" => "already_in_use",
+                    "message" => "Main Folder is using this department. You cant delete directly."
+                ], 200);
+             }
             DepartmentType::where('id', $decrypt_id)->delete();
-            return redirect()->route('backend.department.index')->with('update', "Department has been Deleted successfully");
-            }else{
-                return response()->view('errors.405', [], 405);
-            }
+            return response()->json([
+                "status" => "success",
+                "message" => "Department has been Deleted successfully"
+            ], 200);
+             // }else{
+            //     return response()->view('errors.405', [], 405);
+            // }
         }catch(\Exception $e){
             abort('404');
         }

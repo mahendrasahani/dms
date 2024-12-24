@@ -25,18 +25,14 @@
                 <div class="col-lg-8 col-md-6 col-12 align-self-center">
                 <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 d-flex align-items-center">
-                  <li class="breadcrumb-item">
-                    <a href="{{route('dashboard')}}" class="link"><i class="ri-home-3-line fs-5"></i></a>
-                  </li>
-                  <li class="breadcrumb-item" aria-current="page">
-                    <a href="{{route('backend.document.index')}}" class="link">All Document</a>
-                  </li>
-                  <li class="breadcrumb-item active" aria-current="page">
-                    Edit
-                  </li>
+                  <li class="breadcrumb-item"><a href="{{route('dashboard')}}" class="link"><i class="ri-home-3-line fs-5"></i></a></li>
+                  <li class="breadcrumb-item" aria-current="page"><a href="{{route('backend.document.index')}}" class="link">All Document</a></li>
+                  <li class="breadcrumb-item" aria-current="page"><a href="{{route('backend.folders.index', [Crypt::encrypt($document->getMainFolder?->id)])}}" class="link">{{$document->getMainFolder?->name ?? ''}}</a></li>
+                    <li class="breadcrumb-item" aria-current="page"><a href="{{ route('backend.folders.view_doc_list', [Crypt::encrypt($document->getMainFolder?->id), Crypt::encrypt($document->getSubFolder?->id)]) }}" class="link">{{$document->getSubFolder?->name ?? ''}}</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{$document->document_title ?? 'No Title'}}</li>
                 </ol>
               </nav>
-                    <h1 class="mb-0 fw-bold">Add Document</h1>
+                    <h1 class="mb-0 fw-bold">Edit Document</h1>
                 </div>
             </div>
         </div>

@@ -10,15 +10,9 @@
 
                 <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 d-flex align-items-center">
-                  <li class="breadcrumb-item">
-                    <a href="{{route('dashboard')}}" class="link"><i class="ri-home-3-line fs-5"></i></a>
-                  </li>
-                  <li class="breadcrumb-item" aria-current="page">
-                    <a href="{{route('backend.document.index')}}" class="link">All Document</a>
-                  </li>
-                  <li class="breadcrumb-item active" aria-current="page">
-                    Edit
-                  </li>
+                  <li class="breadcrumb-item"><a href="{{route('dashboard')}}" class="link"><i class="ri-home-3-line fs-5"></i></a></li>
+                  <li class="breadcrumb-item" aria-current="page"><a href="{{route('backend.department.index')}}" class="link">All Department</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Edit</li>
                 </ol>
               </nav>
                     <h1 class="mb-0 fw-bold">Edit Department</h1>

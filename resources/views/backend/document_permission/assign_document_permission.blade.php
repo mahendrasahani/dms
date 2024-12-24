@@ -11,9 +11,9 @@
                   <li class="breadcrumb-item">
                     <a href="{{route('dashboard')}}" class="link"><i class="ri-home-3-line fs-5"></i></a>
                   </li> 
-                  <li class="breadcrumb-item active" aria-current="page">
-                    Document Access
-                  </li>
+                  <li class="breadcrumb-item active" aria-current="page"><a href="{{route('backend.folders.index', [Crypt::encrypt($document->getMainFolder?->id)])}}" class="link">{{$document->getMainFolder?->name}}</a></li>
+                  <li class="breadcrumb-item active" aria-current="page"><a href="{{ route('backend.folders.view_doc_list', [Crypt::encrypt($document->getMainFolder?->id), Crypt::encrypt($document->getSubFolder?->id)]) }}" class="link">{{$document->getSubFolder?->name}}</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Document Access</li>
                 </ol>
               </nav>
                 <h1 class="mb-0 fw-bold">Document Access</h1>
@@ -29,7 +29,7 @@
             <div class="col-md-12">
               <div class="card overflow-hidden">
                 <div class="card-body border-bottom">
-                  <h4 class="mb-0">Document Access</h4>
+                  <h4 class="mb-0">{{$document->document_title ?? "No Title"}}</h4>
                 </div>
                 <div class="row justify-content-center bg-light p-3">
                   <div class="col-md-12">

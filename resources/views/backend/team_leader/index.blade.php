@@ -61,7 +61,7 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 d-flex align-items-center">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}" class="link"><i class="ri-home-3-line fs-5"></i></a></li> 
-                    <li class="breadcrumb-item active" aria-current="page"><a href="{{route('backend.team_leader.index')}}" class="link">Team Leader</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Team Leader</li>
                 </ol>
             </nav>
                 <h1 class="mb-0 fw-bold">All Team Leader</h1>
@@ -107,7 +107,9 @@
                                                 </label>
                                             </td> 
                                             <td>{{Carbon\Carbon::parse($tl->created_at)->format('d M, Y h:i A')}}</td>
-                                            <td>
+                                            <td> 
+
+                                            @if($tl->status == 1)
                                             <div class="button-container">
                                             <a href="{{route('backend.assign_custom_permission', [Crypt::encrypt($tl->id)])}}">Permission</a> |
                                             <a href="{{route('backend.assign_folder_permission.assign', [Crypt::encrypt($tl->id)])}}">Folder Permission</a>
@@ -119,6 +121,8 @@
                                                     </button>
                                                 </a> 
                                             </div>
+                                            @endif 
+
                                         </td>
                                         </tr>
                                     @endforeach 
@@ -180,7 +184,7 @@
         const statusValue = isActive ? 1 : 0;
         const statusText = isActive ? "Active" : "Inactive";
         const id = $(this).data('id');
-        const url = "{{route('backend.team_leader.status_change')}}";
+        const url = "{{route('backend.team_leader.status_change')}}"; 
         Swal.fire({
             title: 'Are you sure?',
             text: `Do you want to change the status to ${statusText}?`,
@@ -197,12 +201,18 @@
                     text: `The status has been changed successfully.`,
                     icon: 'success',
                     confirmButtonText: 'OK'
-                });  
+                }).then((result)=>{
+                    window.location.reload();
+                }); 
             }else{
                 checkbox.checked = !isActive;
             }
         });
     });
+
+
+
+    
 </script>
 @endif
 @endsection

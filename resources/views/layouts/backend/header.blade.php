@@ -5,6 +5,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>DMS</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}"> 
     <link rel="stylesheet" href="{{ url('public/assets/backend/assets/libs/apexcharts/dist/apexcharts.css') }}" />
     <link href="{{ url('public/assets/backend/assets/extra-libs/calendar/calendar.css') }}" rel="stylesheet" />
     <link href="{{ url('public/assets/backend/assets/libs/fullcalendar/dist/fullcalendar.min.css') }}"rel="stylesheet" />
@@ -543,8 +544,7 @@
  
                                 @endforeach
                             </ul>
-                        </li>
-                
+                        </li> 
                         --}}
 
                         @if(Auth::user()->role_type_id == 1) 
@@ -553,7 +553,29 @@
                                     aria-expanded="false">
                                     <i data-feather="pie-chart"></i><span class="hide-menu">Archived Documents</span>
                                 </a>
-                            </li>
+                            </li>  
+                            <li class="sidebar-item">
+                                <a class="sidebar-link has-arrow waves-effect waves-dark iconcolortext" href="javascript:void(0)" aria-expanded="false">
+                                <i class="ri-settings-line"></i><span class="hide-menu">Setting</span>
+                                </a>
+                                <ul aria-expanded="false" class="collapse first-level" style="background-color: #253a76;">
+                                    <li class="sidebar-item">
+                                        <a class="sidebar-link  waves-effect waves-dark iconcolortext" href="{{route('backend.state.index')}}" aria-expanded="false">
+                                            <i data-feather="edit-3"></i><span class="hide-menu">State</span>
+                                        </a>
+                                    </li>
+                                    <li class="sidebar-item">
+                                        <a class="sidebar-link  waves-effect waves-dark iconcolortext" href="{{route('backend.city.index')}}" aria-expanded="false">
+                                            <i data-feather="edit-3"></i><span class="hide-menu">City</span>
+                                        </a>
+                                    </li> 
+                                   <li class="sidebar-item" style="background-color: #253a76;" >
+                                        <a class="sidebar-link  waves-effect waves-dark iconcolortext" href="{{route('backend.role_type.index')}}" aria-expanded="false">
+                                        <i data-feather="edit-3"></i><span class="hide-menu">Role</span>
+                                        </a>
+                                    </li> 
+                                </ul>
+                            </li> 
                         @endif
                     </ul>
 

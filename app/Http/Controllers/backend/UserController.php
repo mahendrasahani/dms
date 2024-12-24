@@ -4,7 +4,12 @@ namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\backend\DepartmentType;
+use App\Models\backend\MainFolder;
+use App\Models\backend\RoleType;
+use App\Models\backend\SubFolder;
 use App\Models\backend\Unit;
+use App\Models\backend\UserFolderPermission;
+use App\Models\backend\UserMainFolderPermission;
 use App\Models\User;
 use Auth;
 use Illuminate\Http\Request;
@@ -16,8 +21,19 @@ class UserController extends Controller
 {
     public function create(){
         if(Auth::user()->role_type_id == 1 || Auth::user()->role_type_id == 2 || Auth::user()->role_type_id == 5){
-        $units = Unit::get();
-            return view('backend.user.create', compact('units'));
+        $units = Unit::where('status', 1)->get(); 
+        $role_types = RoleType  ::select('*');
+        if(Auth::user()->role_type_id == 1){
+            $role_types = $role_types->whereIn('id', [2, 5, 6, 7]);
+        }
+        if(Auth::user()->role_type_id == 2){
+            $role_types = $role_types->whereIn('id', [5, 6, 7]);
+        }
+        if(Auth::user()->role_type_id == 5){
+            $role_types = $role_types->whereIn('id', [6, 7]);
+        }
+        $role_types = $role_types->where('status', 1)->get(); 
+            return view('backend.user.create', compact('units', 'role_types'));
         }else{  
             return response()->view('errors.405', [], 405);
         }
@@ -25,12 +41,12 @@ class UserController extends Controller
 
     public function store(Request $request){
         $request->validate([
-            'f_name' => ['required', 'string', 'max:255', 'regex:/^[a-zA-Z\s]+$/'],
-            'l_name' => ['required', 'string', 'max:255', 'regex:/^[a-zA-Z\s]+$/'],
-            'email' => ['required', 'string', 'lowercase', 'email:dns', 'max:255', 'unique:'.User::class],
+            'f_name' => ['required', 'string', 'max:20', 'regex:/^[a-zA-Z\s]+$/'],
+            'l_name' => ['required', 'string', 'max:20', 'regex:/^[a-zA-Z\s]+$/'],
+            'email' => ['required', 'string', 'lowercase', 'email:dns', 'max:50', 'unique:'.User::class],
             'phone' => ['required', 'numeric', 'digits:10', 'unique:'.User::class],
             'role_type' => ['required']
-        ]);  
+        ]);
         $randompassword = substr(str_shuffle('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'), 0, 10);
         $password = Hash::make($randompassword); 
         $role_type =  $request->role_type;
@@ -44,6 +60,7 @@ class UserController extends Controller
         }else if($role_type == 7){
             $role = "Employee";
         } 
+       
         if(Auth::user()->role_type_id == 1 && $role_type == 2){
             $check_dep_head = User::where('department_type_id', $request->department_type)
             ->where('role_type_id', 2)->first();
@@ -63,6 +80,23 @@ class UserController extends Controller
                 "department_type_id" => $request->department_type,
                 "created_by" => Auth::user()->id
             ]); 
+            $main_folder = MainFolder::where('department_type_id', $request->department_type)
+            ->first();
+            UserMainFolderPermission::create([
+                "main_folder_id" => $main_folder->id,
+                "user_id" => $new_user->id,
+                "access_given_by" => Auth::user()->id,
+                "status" => 1
+            ]);
+            $sub_folder_list = SubFolder::where('main_folder_id', $main_folder->id)->get();
+            foreach($sub_folder_list as $s_f_list){
+                UserFolderPermission::create([
+                    "sub_folder_id" => $s_f_list->id,
+                    "user_id" => $new_user->id,
+                    "access_given_by" => Auth::user()->id,
+                    "status" => 1
+                ]); 
+            } 
            $user_detail_mail_data = [
                 "message" => "Email Message",
                 "first_name" => $request->f_name,
@@ -99,6 +133,16 @@ class UserController extends Controller
                     "unit_id" => $request->unit,
                     "created_by" => Auth::user()->id
                 ]);
+                if($department_head != ''){
+                    $main_folder = MainFolder::where('department_type_id', $department_head->department_type_id)
+                    ->first();
+                    UserMainFolderPermission::create([
+                        "main_folder_id" => $main_folder->id,
+                        "user_id" => $new_user->id,
+                        "access_given_by" => Auth::user()->id,
+                        "status" => 1
+                    ]);
+                }
             }else if(Auth::user()->role_type_id == 2){
                 $department_head = User::where('id', Auth::user()->id)->first();
                 $old_manager = User::where('head_department_id', $department_head->id)
@@ -120,6 +164,16 @@ class UserController extends Controller
                     "unit_id" => $request->unit,
                     "created_by" => Auth::user()->id
                ]);  
+               if($department_head != ''){
+                $main_folder = MainFolder::where('department_type_id', $department_head->department_type_id)
+                ->first();
+                UserMainFolderPermission::create([
+                    "main_folder_id" => $main_folder->id,
+                    "user_id" => $new_user->id,
+                    "access_given_by" => Auth::user()->id,
+                    "status" => 1
+                ]);
+            }
             }
             $user_detail_mail_data = [
                 "message" => "Email Message",
@@ -152,6 +206,16 @@ class UserController extends Controller
                     "manager_id" => $request->manager,
                     "created_by" => Auth::user()->id
                 ]);
+                if($department_head != ''){
+                    $main_folder = MainFolder::where('department_type_id', $department_head->department_type_id)
+                    ->first();
+                    UserMainFolderPermission::create([
+                        "main_folder_id" => $main_folder->id,
+                        "user_id" => $new_user->id,
+                        "access_given_by" => Auth::user()->id,
+                        "status" => 1
+                    ]);
+                }
             }elseif(Auth::user()->role_type_id == 2){  
                 $department_head = User::where('id', Auth::user()->id)->first();
                 $new_user =  User::create([
@@ -168,6 +232,16 @@ class UserController extends Controller
                     "manager_id" => $request->manager,
                     "created_by" => Auth::user()->id
                 ]); 
+                if($department_head != ''){
+                    $main_folder = MainFolder::where('department_type_id', $department_head->department_type_id)
+                    ->first();
+                    UserMainFolderPermission::create([
+                        "main_folder_id" => $main_folder->id,
+                        "user_id" => $new_user->id,
+                        "access_given_by" => Auth::user()->id,
+                        "status" => 1
+                    ]);
+                }
             }elseif(Auth::user()->role_type_id == 5){
                 $manager = User::where('id', Auth::user()->id)->first();
                 $new_user =  User::create([
@@ -184,6 +258,16 @@ class UserController extends Controller
                     "unit_id" => $manager->unit_id,
                     "created_by" => Auth::user()->id
                 ]);
+                if($manager != ''){
+                    $main_folder = MainFolder::where('department_type_id', $manager->department_type_id)
+                    ->first();
+                    UserMainFolderPermission::create([
+                        "main_folder_id" => $main_folder->id,
+                        "user_id" => $new_user->id,
+                        "access_given_by" => Auth::user()->id,
+                        "status" => 1
+                    ]);
+                }
             }
             $user_detail_mail_data = [
                 "message" => "Email Message",
@@ -217,6 +301,16 @@ class UserController extends Controller
                     "team_leader_id" => $request->team_leader,
                     "created_by" => Auth::user()->id
                 ]); 
+                if($department_head != ''){
+                    $main_folder = MainFolder::where('department_type_id', $department_head->department_type_id)
+                    ->first();
+                    UserMainFolderPermission::create([
+                        "main_folder_id" => $main_folder->id,
+                        "user_id" => $new_user->id,
+                        "access_given_by" => Auth::user()->id,
+                        "status" => 1
+                    ]);
+                }
             }else if(Auth::user()->role_type_id == 2){
                 $department_head = User::where('id', Auth::user()->id)->first();
                 $new_user =  User::create([
@@ -234,6 +328,16 @@ class UserController extends Controller
                     "team_leader_id" => $request->team_leader,
                     "created_by" => Auth::user()->id
                 ]);
+                if($department_head != ''){
+                    $main_folder = MainFolder::where('department_type_id', $department_head->department_type_id)
+                    ->first();
+                    UserMainFolderPermission::create([
+                        "main_folder_id" => $main_folder->id,
+                        "user_id" => $new_user->id,
+                        "access_given_by" => Auth::user()->id,
+                        "status" => 1
+                    ]);
+                }
             }else if(Auth::user()->role_type_id == 5){
                 $manager = User::where('id', Auth::user()->id)->first();
                 $new_user =  User::create([
@@ -251,6 +355,16 @@ class UserController extends Controller
                     "team_leader_id" => $request->team_leader,
                     "created_by" => Auth::user()->id
                 ]);
+                if($manager != ''){
+                    $main_folder = MainFolder::where('department_type_id', $manager->department_type_id)
+                    ->first();
+                    UserMainFolderPermission::create([
+                        "main_folder_id" => $main_folder->id,
+                        "user_id" => $new_user->id,
+                        "access_given_by" => Auth::user()->id,
+                        "status" => 1
+                    ]);
+                }
             }
         $user_detail_mail_data = [
             "message" => "Email Message",
@@ -272,7 +386,7 @@ class UserController extends Controller
     public function getDepartmentList(){
         try{
             if(Auth::user()->role_type_id == 1){
-                $department_type_list = DepartmentType::get();
+                $department_type_list = DepartmentType::where('status', 1)->get();
                 $unit_list = Unit::get();
                 return response()->json([
                     "status" => "success",
@@ -400,8 +514,6 @@ class UserController extends Controller
     public function getManagerList(Request $request){
         try{
              $manager_list = User::where('unit_id', $request->unit_id);
-
-
              $team_leader_list = User::where('head_department_id', $request->department_head)
              ->where('unit_id', $request->unit_id)
              ->where('role_type_id', 6)
@@ -411,7 +523,7 @@ class UserController extends Controller
             if(Auth::user()->role_type_id == 1){
                 $manager_list = $manager_list->where('head_department_id', $request->department_head);
             }elseif(Auth::user()->role_type_id == 2){
-                $manager_list = $manager_list->where('head_department_id', Auth::user()->id)->where('unit_id', $request->unit_id);
+                $manager_list = $manager_list->where('head_department_id', Auth::user()->id);
             } 
             $manager_list = $manager_list->where('role_type_id', 5)->get();
             return response()->json([
