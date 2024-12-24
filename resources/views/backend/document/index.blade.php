@@ -83,7 +83,7 @@
                                                     <li><a class="dropdown-item" href="{{route('backend.document.comment', [Crypt::encrypt($document->id)])}}">Comment</a></li>
                                                     <li><a class="dropdown-item" href="{{route('backend.document.download', [Crypt::encrypt($document->id)])}}">Download</a></li>
                                                     <li><a class="dropdown-item" href="{{route('backend.document.upload_new_file', [Crypt::encrypt($document->id)])}}" >Upload New Version File</a></li>
-                                                    <li><a class="dropdown-item" href="{{route('backend.document.delete', [Crypt::encrypt($document->id)])}}">Delete</a></li>
+                                                    <li><a class="dropdown-item" id="delete_btn" data-id="{{$document->id}}" href="javascript:void(0)">Delete</a></li>
                                                 </ul>
                                             </div>
                                         </td>
@@ -103,32 +103,27 @@
 @section('javascript-section')
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-    document.querySelectorAll('.delete-link').forEach(link => {
-        link.addEventListener('click', function (event) {
-            event.preventDefault(); // Prevent the default link behavior
-
-            Swal.fire({
-                title: "Are you sure?",
-                text: "You won't be able to revert this!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, delete it!"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // If confirmed, proceed with the deletion
-                    Swal.fire({
-                        title: "Deleted!",
-                        text: "Your file has been deleted.",
-                        icon: "success"
-                    });
-                    // Add your deletion logic here
-                    // For example, you can submit a form or make an AJAX request to delete the item
-                }
-            });
-        });
-    });
+    $(document).on("click", "#delete_btn", async function(){
+        let id = $(this).data('id');
+        let url = "{{route('backend.document.delete')}}"; 
+        Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+        }).then(async (result) => {
+            if (result.isConfirmed) { 
+                let response = await fetch (`${url}?id=${id}`); 
+                let responseData = await response.json();
+                if(responseData.status == "deleted"){ 
+                    location.reload();
+                } 
+            }
+        });   
+    });   
 </script>
 @endsection
 

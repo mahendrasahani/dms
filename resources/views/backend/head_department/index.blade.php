@@ -111,10 +111,13 @@
                                             </td>
                                             <td>{{Carbon\Carbon::parse($head_user->created_at)->format('d M, Y h:i A')}}</td>
                                             <td>
+                                            @if($head_user->status == 1)
                                                 <a href="{{route('backend.assign_custom_permission', [Crypt::encrypt($head_user->id)])}}">Permission</a> |
                                                 <a href="{{route('backend.assign_folder_permission.assign', [Crypt::encrypt($head_user->id)])}}">Folder Permission</a>
+                                            @endif
                                             </td> 
-                                            <td>
+                                            <td> 
+                                                @if($head_user->status == 1)
                                                 <div class="button-container">
                                                     <a href="{{route('backend.head_department.edit', [Crypt::encrypt($head_user->id)])}}">
                                                         <button class="editBtn">
@@ -124,6 +127,7 @@
                                                         </button>
                                                     </a> 
                                                 </div> 
+                                                @endif
                                             </td> 
                                         </tr> 
                                 @endforeach 
@@ -160,36 +164,50 @@
     @endif
  
     <script>
-        $(document).on("change", "#status", async function() {
-            const checkbox = this;
-            const isActive = checkbox.checked;
-            const statusValue = isActive ? 1 : 0;
-            const statusText = isActive ? "Active" : "Inactive";
-            const id = $(this).data('id');
-            const url = "{{route('backend.head_department.status_change')}}";
-            Swal.fire({
-                title: 'Are you sure?',
-                text: `Do you want to change the status to ${statusText}?`,
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Yes, change it!',
-                cancelButtonText: 'No, keep it',
-            }).then(async (result) => {
-                if (result.isConfirmed){
+    $(document).on("change", "#status", async function () {
+        const checkbox = this;
+        const isActive = checkbox.checked;
+        const statusValue = isActive ? 1 : 0;
+        const statusText = isActive ? "Active" : "Inactive";
+        const id = $(this).data('id');
+        const url = "{{route('backend.head_department.status_change')}}";
+ 
+        Swal.fire({
+            title: 'Are you sure?',
+            text: `Do you want to change the status to ${statusText}?`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, change it!',
+            cancelButtonText: 'No, keep it',
+        }).then(async (result) => {
+            if (result.isConfirmed){
+                try {
                     let response = await fetch(`${url}?status=${statusValue}&id=${id}`);
-                    let responseData = await response.json(); 
+                    let responseData = await response.json();
                     Swal.fire({
                         title: 'Success',
                         text: `The status has been changed successfully.`,
                         icon: 'success',
                         confirmButtonText: 'OK'
-                    });  
-                }else{
-                    checkbox.checked = !isActive;
+                    }).then((result) => { 
+                            window.location.href(); 
+                    });
+                }catch(error){
+                    console.error("Error changing status:", error);
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'An error occurred while changing the status.',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
                 }
-            });
+            } else {
+                checkbox.checked = !isActive; 
+            }
         });
-    </script> 
+    });
+</script>
+ 
 @endsection
 
 @endsection

@@ -24,6 +24,11 @@
             <div class="row">
                 <div class="col-lg-8 col-md-6 col-12 align-self-center">
                     <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-0 d-flex align-items-center">
+                            <li class="breadcrumb-item"><a href="{{route('dashboard')}}" class="link"><i class="ri-home-3-line fs-5"></i></a></li> 
+                            <li class="breadcrumb-item active" aria-current="page"><a href="{{route('admin.task.index')}}" class="link">Task</a></li> 
+                            <li class="breadcrumb-item active" aria-current="page">Edit</li> 
+                        </ol>
                     </nav>
                     <h1 class="mb-0 fw-bold">Edit Task</h1>
                 </div>
@@ -34,7 +39,14 @@
                 <div class="col-12">
                     <div class="card">
                     <div class="border-bottom title-part-padding">
-                        <a href="{{route('admin.task.view_doc', [Crypt::encrypt($task->document_id)])}}"><h4>{{$task->getDocument?->document_title ?? 'No Title'}}</h4></a>
+                        @php
+                        $current_date = \Carbon\Carbon::now();
+                        @endphp
+                        @if($task->end_date < $current_date)
+                        <h4>{{$task->getDocument?->document_title ?? 'No Title'}}</h4>
+                        @else
+                        <h4><a href="{{route('admin.task.view_doc', [Crypt::encrypt($task->id)])}}">{{$task->getDocument?->document_title ?? 'No Title'}}</a></h4>
+                        @endif
                     </div>
                         <div class="card-body">
                                  <div class="row">

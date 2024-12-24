@@ -1,5 +1,7 @@
 <?php
+use App\Http\Controllers\backend\ApiController;
 use App\Http\Controllers\backend\AssignedCheckListController;
+use App\Http\Controllers\backend\CityController;
 use App\Http\Controllers\backend\CustomPermissionController;
 use App\Http\Controllers\backend\DashboardController;
 use App\Http\Controllers\backend\DepartmentController;
@@ -10,6 +12,9 @@ use App\Http\Controllers\backend\HotelDepartmentController;
 use App\Http\Controllers\backend\LocationController;
 use App\Http\Controllers\backend\MainCategoryController;
 use App\Http\Controllers\backend\ManagerController;
+use App\Http\Controllers\backend\RoleTypeController;
+use App\Http\Controllers\backend\RollController;
+use App\Http\Controllers\backend\StateController;
 use App\Http\Controllers\backend\SubCategoryController;
 use App\Http\Controllers\backend\LoginAuditController;
 use App\Http\Controllers\backend\TaskController;
@@ -54,7 +59,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         });
     });
 
-    // All document 
+    // All document
     Route::get('/admin/document', [DocumentController::class, 'index'])->name('backend.document.index');
     Route::get('/admin/document/create', [DocumentController::class, 'create'])->name('backend.document.create');
     Route::post('/admin/document/store', [DocumentController::class, 'store'])->name('backend.document.store');
@@ -75,9 +80,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     
     Route::get('/admin/document/download/{id}', [DocumentController::class, 'download'])->name('backend.document.download');
     Route::get('/admin/document/archived_document', [DocumentController::class, 'archivedDocuments'])->name('backend.document.archived_document');
+    Route::get('/admin/document/archived_document/search', [DocumentController::class, 'searchArchivedDocuments'])->name('backend.document.search_archived_document');
     Route::get('/admin/document/restore/{id}', [DocumentController::class, 'restore'])->name('backend.document.restore');
-    Route::get('/admin/document/permanent-delete/{id}', [DocumentController::class, 'PermanentDelete'])->name('backend.document.permanent_delete');
-
+    Route::get('/admin/document/permanent-delete/', [DocumentController::class, 'PermanentDelete'])->name('backend.document.permanent_delete');
+    Route::get('/public/folders/{m_f}/{s_f}/{file}', [DocumentController::class, 'viewFileInBrowser']);
+    
     Route::controller(CustomPermissionController::class)->group(function(){
         Route::prefix('/admin')->group(function(){
             Route::get('assign-custom-permission/{id}', 'assignCustomPermission')->name('backend.assign_custom_permission');
@@ -109,6 +116,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/view', 'viewDocFolder')->name('backend.all_document.folderView');
             Route::get('/doc-view', 'docView')->name('backend.all_document.docView');
             Route::get('/folder-data', 'viewFolderData')->name('backend.view_folder_data');   
+            Route::post('update-main-status', 'updateMainFolderStatus')->name('backend.folders.update_main_folder_status');
+            Route::post('update-sub-status', 'updateSubFolderStatus')->name('backend.folders.update_sub_folder_status');
         });
     });
  
@@ -137,7 +146,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::post('store', 'store')->name('backend.department.store');
             Route::get('edit/{id}', 'edit')->name('backend.department.edit');
             Route::get('update/{id}', 'update')->name('backend.department.update');
-            Route::get('delete/{id}', 'destroy')->name('backend.department.delete');
+            Route::get('delete', 'destroy')->name('backend.department.delete');
+            Route::get('get-all-department-list', 'getAllDepartmentList')->name('backend.department.get_all_department_list');
+            Route::post('update-status', 'updateStatus')->name('backend.department.update_status');
         });
     });
     Route::controller(HeadDepartmentController::class)->group(function () {
@@ -172,6 +183,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::post('/update/{unit_id}', 'update')->name('backend.unit.update');
             Route::get('delete', 'destroy')->name('backend.unit.delete');
             Route::get('city', 'getCity')->name('backend.get_city');
+            Route::post('update-status', 'updateStatus')->name('backend.unit.update_status');
         });
     });
 
@@ -198,6 +210,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             // Route::get('/get-hotel-department-list', 'getHotelDepartmentList')->name('backend.manager.get_hotel_department_list');
             Route::get('status-change', 'statusChange')->name('backend.manager.status_change');
             Route::get('delete/{id}', 'destroy')->name('backend.get_hotel_department_list.delete');
+            Route::post('get-team-leader-list', 'getTeamLeaderList')->name('backend.manager.get_team_leader_list');
         });
     });
     Route::controller(TeamLeaderController::class)->group(function(){
@@ -210,6 +223,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             // Route::get('/get-manager-list', 'getManagerList')->name('backend.get_manager_list');
             Route::get('delete/{id}', 'destroy')->name('backend.team_leader.delete');
             Route::get('status-change', 'statusChange')->name('backend.team_leader.status_change');
+            Route::post('get-team-leader-list', 'getTeamLeaderList')->name('backend.team_leader.get_team_leader_list');
         });
     });
 
@@ -237,13 +251,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/viewDoc/{id}', 'viewDoc')->name('admin.task.view_doc');
             Route::get('/view/{id}', 'view')->name('admin.task.view');
             Route::post('/task_comment', 'TaskComment')->name('admin.task.comment');
+            Route::post('/task_update_comment/{id}', 'updateComment')->name('admin.task.update_comment');
+
             Route::post('/reply-on-comment', 'ReplyOnComment')->name('admin.task.comment.reply');
             Route::get('/new', 'createNewTask')->name('admin.task.create_new_task');
+            Route::get('get-all-task-list', 'getAllTaskList')->name('backend.department.get_all_task_list');
+        
         });
     });
 
     Route::get('/admin/login-audit', [LoginAuditController::class, 'index'])->name('backend.login_audit.index');
     Route::get('/admin/document-audit', [DocumentAuditController::class, 'index'])->name('backend.document_audit.index');
+    Route::get('/admin/document-audit/view/{id}', [DocumentAuditController::class, 'view'])->name('backend.document_audit.view');
 
     // user Profile
     Route::get('/admin/profile', [UserProfileController::class, 'index'])->name('backend.user_profile.index');
@@ -272,6 +291,35 @@ Route::middleware(['auth', 'verified'])->group(function () {
         });
     });
 
+    Route::controller(StateController::class)->group(function(){
+        Route::prefix('admin/state')->group(function(){
+            Route::get('/', 'index')->name('backend.state.index');
+            Route::get('edit/{id}', 'edit')->name('backend.state.edit');
+            Route::post('update/{id}', 'update')->name('backend.state.update');
+            Route::get('/search', 'searchState')->name('backend.state.search');
+            Route::post('update-status', 'updateStatus')->name('backend.state.update_status');
+        });
+    });
+
+    Route::controller(CityController::class)->group(function (){
+        Route::prefix('admin/city')->group(function(){
+            Route::get('/', 'index')->name('backend.city.index');
+            Route::get('edit/{id}', 'edit')->name('backend.city.edit');
+            Route::post('/update/{id}', 'update')->name('backend.city.update');
+            Route::get('/search', 'searchCity')->name('backend.city.search');
+            Route::post('update-status', 'updateStatus')->name('backend.city.update_status');
+        });
+    });
+
+    Route::controller(RoleTypeController::class)->group(function(){
+        Route::prefix('admin/role_type')->group(function(){
+            Route::get('/', 'index')->name('backend.role_type.index');
+            Route::get('/edit/{id}', 'edit')->name('backend.role_type.edit');
+            Route::post('update/{id}', 'update')->name('backend.role_type.update');
+            Route::post('update-status', 'updateStatus')->name('backend.role_type.update_status');
+        });
+    });
+
     // This (employee) route is only for testing purpose delete after project complete
     Route::get('/admin/employee', [EmployeeController::class, 'index'])->name('backend.employee.index');
     Route::get('/admin/create/publicly_shared_url/{id}', [DocumentController::class, 'PubliclySharedDocument'])->name('backend.create_publicly_shared_url');
@@ -290,5 +338,3 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
      
- 
- 

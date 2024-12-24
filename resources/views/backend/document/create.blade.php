@@ -49,11 +49,11 @@
                                 @csrf
                                 <div class="row">
                                     <div class="mb-3 col-md-6">
-                                    <lable>Document Title</lable>
-                                        <input type="text" class="form-control" name="document_title" id="document_title" placeholder="Document Title" />
+                                        <lable>Document Title</lable>
+                                        <input type="text" class="form-control" name="document_title" id="document_title" placeholder="Document Title" value="{{old('document_title')}}"/>
                                         @error('document_title')
-                                             <p style="color:red">{{ $message }}</p>
-                                            @enderror
+                                            <p style="color:red">{{ $message }}</p>
+                                        @enderror
                                     </div>
                                       
                                     <div class="col-md-6 mt-3">
@@ -61,7 +61,7 @@
                                         <select name="department" id="department" class="select2 custom-select js-programmatic-user form-control" style="width: 100%; height: 36px">
                                         <option value=""></option>  
                                         @foreach ($departments_list as $department)
-                                            <option value="{{ $department->id }}">{{ $department->name }}</option>
+                                            <option value="{{ $department->id }}" {{old('department') == $department->id ? 'selected':''}}>{{ $department->name }}</option>
                                         @endforeach
                                         </select>
                                         @error('department')
@@ -108,7 +108,6 @@
                                     </div>
                                 </div>
                             </form>
-                            
                         </div>
                     </div>
                 </div>
@@ -127,6 +126,22 @@
         }); 
     </script>
     <script>
+        $(document).ready(async function(){
+            let html_to_append = '<option value=""></option>';
+            let department_id = $("#department").val(); 
+            if(department_id != ''){
+            let url = "{{route('api.get_sub_folder_list')}}";
+            let response = await fetch(`${url}/?department_id=${department_id}`);
+            let responseData = await response.json(); 
+           if(responseData.status === 'success'){
+            responseData.folders.forEach(element => {
+                html_to_append += `<option value="${element.id}">${element.name}</option>`;
+            });
+                $('#sub_folder').html(html_to_append);
+            }
+            }
+        });
+
         $(document).on("change", "#department", async function(){
             let html_to_append = '<option value=""></option>';
             let department_id = $(this).val();
@@ -139,7 +154,7 @@
             });
             $(sub_folder).html(html_to_append);
            }
-        })
+        }); 
     </script>
 
     <!-- <script>

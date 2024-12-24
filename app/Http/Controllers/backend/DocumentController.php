@@ -5,7 +5,8 @@ namespace App\Http\Controllers\backend;
 use App\Http\Controllers\Controller;
 use App\Mail\DocumentReadWritePermissionAlertMail;
 use App\Mail\PubliclySharedDocumentMail;
-use App\Models\Backend\DocumentComment;
+use App\Models\backend\DocumentAudit;
+use App\Models\backend\DocumentComment;
 use App\Models\backend\DocumentPermission;
 use App\Models\backend\FileUploadPermission;
 use App\Models\backend\PubliclySharedDocument;
@@ -25,35 +26,33 @@ use PhpOffice\PhpWord\IOFactory as WordIOFactory;
 use Spatie\PdfToImage\Pdf;
 use Mpdf\Mpdf;
 
-
 class DocumentController extends Controller{
     protected $documentAuditService;
     public function __construct(DocumentAuditService $documentAuditService){
         $this->documentAuditService = $documentAuditService;
-    } 
+    }
    
-
     private function convertToImageOrPdf($filePath, $extension, $outputPath){
         try {
             $convertedFileName = null;
-            try {  
-            } catch (\PhpOffice\PhpWord\Exception\Exception $e) {
+            try{  
+            }catch(\PhpOffice\PhpWord\Exception\Exception $e) {
                 return 'Error reading Word file: ' . $e->getMessage();
-            } 
+            }
             return $convertedFileName;
-        }catch (\Exception $e){
+        }catch(\Exception $e){
             return 'General error: ' . $e->getMessage();
         }
     } 
     public function index(){
         $permission_check = UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 14)->exists();
         if($permission_check){
-        $documents = Document::with('getMainFolder:id,name', 'getSubFolder:id,name', 'getDepartmentType:id,name');
-        if(Auth::user()->role_type_id != 1){
-            $documents = $documents->whereJsonContains('assigned_users', Auth::user()->id)->orWhere('owner_id', Auth::user()->id);
-        }
-        $documents = $documents->orderBy('id', 'desc')->paginate(10);
-        return view('backend.document.index', compact('documents'));
+            $documents = Document::with('getMainFolder:id,name', 'getSubFolder:id,name', 'getDepartmentType:id,name');
+            if(Auth::user()->role_type_id != 1){
+                $documents = $documents->whereJsonContains('assigned_users', Auth::user()->id)->orWhere('owner_id', Auth::user()->id);
+            }
+            $documents = $documents->orderBy('id', 'desc')->paginate(10);
+            return view('backend.document.index', compact('documents'));
         }else{  
             return response()->view('errors.405', [], 405);
         }
@@ -61,34 +60,40 @@ class DocumentController extends Controller{
     public function create(){
         $permission_check = UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 15)->exists();
         if($permission_check){
-        // here default department type is not getting this is an issue check latter
-        $departments_list = DepartmentType::select('*');
-        if(Auth::user()->role_type_id != 1 ){
-            $departments_list = $departments_list->whereHas('getAccessibleDepartmentList', callback: function($query){
-                $query = $query->where('user_id', Auth::user()->id);
-            });
-        }
-        $departments_list = $departments_list->get();  
-        $users = User::where('created_by', Auth::user()->id)->get();   
-        return view('backend.document.create', compact('departments_list', 'users'));
+            // here default department type is not getting this is an issue check latter
+            $departments_list = DepartmentType::select('*');
+            if(Auth::user()->role_type_id != 1 ){
+                $departments_list = $departments_list->whereHas('getAccessibleDepartmentList', callback: function($query){
+                    $query = $query->where('user_id', Auth::user()->id);
+                });
+            }
+            $departments_list = $departments_list->get();  
+            $users = User::where('created_by', Auth::user()->id)->get();   
+            return view('backend.document.create', compact('departments_list', 'users'));
         }else{
             return response()->view('errors.405', [], 405);
         }
     }
     public function store(Request $request){ 
         $validate = $request->validate([
-            'document_title' => ['max:100'],
+            'document_title' => ['required', 'max:100'],
             'department' => ['required'],
             'sub_folder' => ['required'],
-          'document' => ['required', 'mimes:pdf,png,doc,docx,xls,xlsx,xlsm,pptx,gif,jpg', 'max:512000',]
+            'document' => ['required', 'mimes:pdf,png,doc,docx,xls,xlsx,xlsm,pptx,gif,jpg', 'max:512000',]
         ],
         [
             'document.max' => 'The document field must not be greater than 500 MB.',
         ]); 
-
         $permission_check = UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 15)->exists();
         if($permission_check){
-        $title = $request->document_title;
+         $existingDocument = Document::where('document_title', strip_tags($request->document_title))
+        ->where('main_folder_id', $request->department)
+        ->where('sub_folder_id', $request->sub_folder)
+        ->first(); 
+        if($existingDocument) {
+            return redirect()->back()->withErrors(['document_title' => 'A document with the same title already exists in the selected folder.']);
+        }
+        $title = strip_tags($request->document_title); 
         $department_id = $request->department;
         $assigned_users = $request->users;
         if($assigned_users != ''){
@@ -104,72 +109,95 @@ class DocumentController extends Controller{
             'department_type_id' => $department_id, 
             'assigned_users' => $assigned_users,
             'owner_id' => Auth::user()->id
-        ]);
+        ]); 
         if($request->hasFile('document')){
             $documentFile = $request->file('document');
             $extension = $documentFile->getClientOriginalExtension();
-            $documentName = time() . '.' . $extension; 
-              // Define the paths
-              $documentPath = public_path('folders/' . $main_folder->name . '/' . $sub_folder->name);
-              $documentFilePath = $documentPath . '/' . $documentName; 
-              // Move the uploaded file to the desired folder
-              $documentFile->move($documentPath, $documentName);
-              // $document_name = time().'.'.$request->file('document')->getClientOriginalExtension();
-              // $request->file('document')->move(public_path('folders/'.$main_folder->name.'/'.$sub_folder->name), $document_name); 
-              // Convert file (to image if needed) 
-              $convertedFileName = null;
-              if (in_array($extension, ['doc', 'docx', 'xls', 'xlsx', 'xlsm', 'pdf'])) {
-                  $convertedFileName = $this->convertToImageOrPdf($documentFilePath, $extension, $documentPath);
-              } 
-            // Document::where('id', $document->id)->update([
-            //    'doc_file'  => $document_name,
-            //    'doc_path' => 'public/folders/'.$main_folder->name.'/'.$sub_folder->name
-            // ]); 
+            $documentName = time() . '.' . $extension;  
+            $documentPath = public_path('folders/' . $main_folder->name . '/' . $sub_folder->name);
+            $documentFilePath = $documentPath . '/' . $documentName;  
+            $documentFile->move($documentPath, $documentName); 
             Document::where('id', $document->id)->update([
                 'doc_file' => $documentName,
-                'doc_path' => 'public/folders/' . $main_folder->name . '/' . $sub_folder->name,
-                'converted_file' => $convertedFileName
+                'doc_path' => 'public/folders/' . $main_folder->name . '/' . $sub_folder->name, 
             ]); 
         }
         return redirect()->route('backend.document.index')->with('created', 'Document has been uploaded successfully.');
         }else{
             return response()->view('errors.405', [], 405);
-        }
-    
+        } 
     } 
     public function edit($id){
         try{
         $decrypt_id = Crypt::decrypt($id);
-        $document = Document::where('id', $decrypt_id)->first();
-        $departments_list = DepartmentType::get();
-
-        $users = User::select('*');
+        $document = Document::with('getMainFolder:id,name,status', 'getSubFolder:id,name,status')->where('id', $decrypt_id)->first();
+        $departments_list = DepartmentType::get(); 
         if(Auth::user()->role_type_id != 1){
-            $users = $users->where('created_by', Auth::user()->id);
+            if($document->getMainFolder?->status == 0 || $document->getSubFolder?->status == 0){
+                abort('404');
+            }
+        }
+        $users = User::select('*'); 
+        if(Auth::user()->role_type_id == 5){
+            $users = $users->where('manager_id', Auth::user()->id);
+        }
+        if(Auth::user()->role_type_id == 6){
+            $users = $users->where('team_leader_id', Auth::user()->id);
         }
         $users = $users->get();
         $sub_folder_list = SubFolder::where('main_folder_id', $document->main_folder_id)->get();
-        // $permission_check = UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 17)->exists();
-            if(Auth::user()->role_type_id == 1 || $document->owner_id == Auth::user()->id){
-                $document = Document::where('id', $decrypt_id)->first();
-                return view('backend.document.edit', compact('document', 'departments_list', 'users', 'sub_folder_list'));
-            }else{
-            $permission_check = DocumentPermission::where('user_id', Auth::user()->id)
-            ->where('write', 1)->where('document_id', $decrypt_id)->exists();
-            if($permission_check){  
-                return view('backend.document.edit', compact('document', 'departments_list', 'users', 'sub_folder_list'));
-                }else{
-                    return response()->view('errors.405', [], 405);
-                }     
+        $permission_check_write = DocumentPermission::where('user_id', Auth::user()->id)
+        ->where('write', 1)->where('document_id', $document->id)->exists();
+        if(Auth::user()->role_type_id == 2){
+            $user_ids = User::where('head_department_id', Auth::user()->id)->pluck('id')->toArray(); 
         }
+        if(Auth::user()->role_type_id == 5){
+            $user_ids = User::where('manager_id', Auth::user()->id)->pluck('id')->toArray(); 
+        }
+        if(Auth::user()->role_type_id == 6){
+            $user_ids = User::where('team_leader_id', Auth::user()->id)->pluck('id')->toArray(); 
+        }
+        $user_ids[] = Auth::user()->id;
+        if(Auth::user()->role_type_id == 1 || $permission_check_write || in_array($document->owner_id, $user_ids)){
+            $document = Document::where('id', $decrypt_id)->first();
+            return view('backend.document.edit', compact('document', 
+            'departments_list', 'users', 'sub_folder_list'));
+        } 
+        // $permission_check = UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 17)->exists();
+        //     if(Auth::user()->role_type_id == 1 || $document->owner_id == Auth::user()->id){
+        //         $document = Document::where('id', $decrypt_id)->first();
+        //         return view('backend.document.edit', compact('document', 
+        //         'departments_list', 'users', 'sub_folder_list'));
+
+        //     }else{
+        //     $permission_check = DocumentPermission::where('user_id', Auth::user()->id)
+        //     ->where('write', 1)->where('document_id', $decrypt_id)
+        //     ->exists();
+        //     if($permission_check){
+        //         return view('backend.document.edit', compact('document', 'departments_list', 'users', 'sub_folder_list'));
+        //         }else{
+        //             return response()->view('errors.405', [], 405);
+        //         }     
+        // }
         }catch(\Exception $e){
             abort('404');
-        }   
+        } 
     } 
     public function update(Request $request, $id){ 
-        $permission_check = UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 17)->exists();
-        if($permission_check){
-        $title = $request->document_title;
+        // $permission_check = UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 17)->exists();
+        // if($permission_check){
+        
+        $validate = $request->validate([
+            'document_title' => ['required', 'max:100'],
+            'department' => ['required'],
+            'sub_folder' => ['required'],
+            'document' => ['mimes:pdf,png,doc,docx,xls,xlsx,xlsm,pptx,gif,jpg', 'max:512000',]
+        ],
+        [
+            'document.max' => 'The document field must not be greater than 500 MB.',
+        ]); 
+
+        $title =  strip_tags($request->document_title);
         $department_id = $request->department;
         $assigned_users = $request->users;
         if($assigned_users != ''){
@@ -178,58 +206,100 @@ class DocumentController extends Controller{
         $main_folder = MainFolder::where('department_type_id', $department_id)->first();
         $sub_folder_id = $request->sub_folder;
         $sub_folder = SubFolder::where('id', $sub_folder_id)->first();
+// ----------------------------------------------------------------------------------------------------------
+            // Fetch the existing document
+            $existingDocument = Document::find($id);    
+            // Prepare the new values
+            $newValues = [
+                'document_title' => $title,
+                'main_folder_id' => $main_folder->id,
+                'sub_folder_id' => $sub_folder_id,
+                'department_type_id' => $department_id,
+                'assigned_users' => $assigned_users,
+            ];
+             // Compare and log changes
+             $changes = [];
+
+            foreach ($newValues as $field => $newValue) {
+                $oldValue = $existingDocument->{$field}; 
+                if($oldValue != $newValue) {
+                    $changes[$field] = [
+                        'old' => $oldValue,
+                        'new' => $newValue
+                    ];
+                }
+            }
+            if (!empty($changes)) {
+            DocumentAudit::create([
+                'user_id' => Auth::user()->id,
+                'document_id' => $id,
+                'main_folder_id' => $main_folder->id,
+                'sub_folder_id' => $sub_folder_id,
+                'operation' => 'update',
+                'changes' => $changes
+            ]);
+        }
+// ----------------------------------------------------------------------------------------------------------
+ 
         $document_id = Document::where('id', $id)->update([
             'document_title' => $title,
             'main_folder_id' => $main_folder->id,
             'sub_folder_id' => $sub_folder_id,
             'department_type_id' => $department_id, 
             'assigned_users' => $assigned_users
-        ]);
+        ]); 
+        $doc_per = DocumentPermission::where('document_id', $id)
+        ->where('access_given_by', Auth::user()->id)->get(); 
+        if($assigned_users!= ''){ 
+            foreach($assigned_users as $user){
+            $doc_per = DocumentPermission::where('document_id', $id)
+            ->where('access_given_by', Auth::user()->id)
+            ->where('user_id', $user)->first();
+                if($doc_per == ''){
+                    DocumentPermission::create([
+                        "user_id" => $user,
+                        "document_id" => $id,
+                        "read" => 1,
+                        "write" => 0,
+                        "access_given_by" => Auth::user()->id,
+                    ]);
+                }
+            } 
+        }   
         if($request->hasFile('document')){
-                $document_name = time().'.'.$request->file('document')->getClientOriginalExtension();
-                $request->file('document')->move(public_path('folders/'.$main_folder->name.'/'.$sub_folder->name), $document_name); 
-                Document::where('id', $id)->update([
-                   'doc_file'  => $document_name,
-                   'doc_path' => 'public/folders/'.$main_folder->name.'/'.$sub_folder->name
-                ]);
+            $document_name = time().'.'.$request->file('document')->getClientOriginalExtension();
+            $request->file('document')->move(public_path('folders/'.$main_folder->name.'/'.$sub_folder->name), $document_name); 
+            Document::where('id', $id)->update([
+               'doc_file'  => $document_name,
+               'doc_path' => 'public/folders/'.$main_folder->name.'/'.$sub_folder->name
+            ]);
         }
-        $this->documentAuditService->CreateDocumentAudit(
-            Auth::user()->id,
-            $id,
-            $main_folder->id,
-            $sub_folder_id,
-            "update" 
-        );
+        // $this->documentAuditService->CreateDocumentAudit(
+        //     Auth::user()->id,
+        //     $id,
+        //     $main_folder->id,
+        //     $sub_folder_id,
+        //     "update" 
+        // );
         return redirect()->back()->with('updated', 'Document has been updated successfully.');
-        // return redirect()->route('backend.document.index')->with('updated', 'Document has been updated successfully.');
-        }else{
-            return response()->view('errors.405', [], 405);
-        }
-    } 
+         // }else{
+        //     return response()->view('errors.405', [], 405);
+        // }
+    }
     public function view($file){
         try{
-        $decrypt_file = Crypt::decrypt($file);
-        $doc = Document::withTrashed()->where('doc_file', $decrypt_file)->first();
-        $file_type = File::extension($decrypt_file);
-        // $permission_check = UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 21)->exists();
-        if(Auth::user()->role_type_id == 1 || $doc->owner_id == Auth::user()->id){
-            $document = Document::withTrashed()->where('doc_file', $decrypt_file)->first(); 
-            $this->documentAuditService->CreateDocumentAudit(
-                Auth::user()->id,
-                $doc->id,
-                $doc->main_folder_id,
-                $doc->sub_folder_id,
-                "view" 
-            );
-            return view('backend.document.view', compact('document', 'file_type')); 
-        }else{
-            $permission_check = DocumentPermission::where('user_id', Auth::user()->id)->where('read', 1)->where('document_id', $doc->id)->exists();
-            if($permission_check){
-                $document = Document::where('doc_file', $decrypt_file);
-                if(Auth::user()->role_type_id != 1){
-                    $document = $document->whereJsonContains('assigned_users', Auth::user()->id);
+            $decrypt_file = Crypt::decrypt($file);
+            $doc = Document::withTrashed()->where('doc_file', $decrypt_file)->first();
+            $file_type = File::extension($decrypt_file);
+            $can_download = 0;
+            // $permission_check = UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 21)->exists();
+            $document = Document::with('getMainFolder:id,name,status', 'getSubFolder:id,name,status')->withTrashed()->where('doc_file', $decrypt_file)->first(); 
+            if(Auth::user()->role_type_id != 1){
+                if($document->getMainFolder?->status == 0 || $document->getSubFolder?->status == 0){
+                    abort('404');
                 }
-                $document = $document->first(); 
+            }
+            if(Auth::user()->role_type_id == 1 || $doc->owner_id == Auth::user()->id){
                 $this->documentAuditService->CreateDocumentAudit(
                     Auth::user()->id,
                     $doc->id,
@@ -237,34 +307,65 @@ class DocumentController extends Controller{
                     $doc->sub_folder_id,
                     "view" 
                 ); 
-                if($document){
-                    return view('backend.document.view', compact('document','file_type'));
+                $can_download = 1; 
+                return view('backend.document.view', compact('document',
+                'file_type', 'can_download')); 
+            }elseif( Auth::user()->role_type_id == 2){
+                $owner = User::where('id', $doc->owner_id)->first();
+                if($owner->head_department_id == Auth::user()->id){
+                    return view('backend.document.view', compact('document',
+                    'file_type', 'can_download')); 
                 }else{
-                 return response()->view('errors.405', [], 405);
+                    return response()->view('errors.405', [], 405);
                 }
-             }else{
-                 return response()->view('errors.405', [], 405);
-             }
-        }
+            }
+            else{
+                // $permission_check = DocumentPermission::where('user_id', Auth::user()->id)
+                // ->where('read', 1)->where('document_id', $doc->id)->exists();
+                // if($permission_check){ 
+                    $document = Document::with('getMainFolder:id,name', 'getSubFolder:id,name')
+                    ->where('doc_file', $decrypt_file)->whereJsonContains('assigned_users', Auth::user()->id);
+                    // if(Auth::user()->role_type_id != 1){
+                    //     $document = $document->whereJsonContains('assigned_users', Auth::user()->id);
+                    // } 
+                    $document = $document->first();
+                    $this->documentAuditService->CreateDocumentAudit(
+                        Auth::user()->id,
+                        $doc->id,
+                        $doc->main_folder_id,
+                        $doc->sub_folder_id,
+                        "view" 
+                    ); 
+                    $chek_wirte_permision = DocumentPermission::where('user_id', Auth::user()->id)
+                    ->where('document_id', $doc->id)->where('write', 1)->exists();
+                     if($chek_wirte_permision){
+                            $can_download = 1;
+                     } 
+                    if($document){
+                        return view('backend.document.view', compact('document','file_type', 'can_download'));
+                    }else{
+                    return response()->view('errors.405', [], 405);
+                    }
+                // }else{
+                //     return response()->view('errors.405', [], 405);
+                // } 
+            }
         }catch(\Exception $e){  
             abort('404');
         }
-        
-       
     }
     public function comment($id){
         try{
-        $decrypt_id = Crypt::decrypt($id); 
-        $document = Document::where('id', $decrypt_id)->first();
-        $comments = DocumentComment::with(['getUser:id,name,email',
-         'getReplys', 'getReplys.getUser:id,name'])
-        ->where('document_id', $decrypt_id)->where('parent_id', NULL)->get();
-        // return $comments;    
-        return view('backend.document.comment', compact('document', 'comments'));
+            $decrypt_id = Crypt::decrypt($id); 
+            $document = Document::where('id', $decrypt_id)->first();
+            $comments = DocumentComment::with(['getUser:id,name,email',
+            'getReplys', 'getReplys.getUser:id,name'])
+            ->where('document_id', $decrypt_id)->where('parent_id', NULL)->get(); 
+            return view('backend.document.comment', compact('document', 'comments'));
         }catch(\Exception $e){
-                abort('404');
+            abort('404');
         }
-    } 
+    }
     public function commentStore(Request $request){
         $comment = $request->comment;
         $doc_id = $request->document_id;
@@ -275,9 +376,8 @@ class DocumentController extends Controller{
             "publish_status" => 1,
             "status" => 1
         ]);
-
-        return redirect()->back(); 
-    } 
+        return redirect()->back();
+    }
     public function replyStore(Request $request){
         $reply = $request->reply;
         $doc_id = $request->document_id;
@@ -291,46 +391,57 @@ class DocumentController extends Controller{
             "status" => 1
         ]);
         return redirect()->back(); 
-    } 
+    }
     public function directUpload($m_id, $s_id){
         try{
             $decrypt_m_id = Crypt::decrypt($m_id);
             $decrypt_s_id = Crypt::decrypt($s_id);
+            $m_folder = MainFolder::where('id', $decrypt_m_id)->first();
+            $s_folder = SubFolder::where('id', $decrypt_s_id)->first();
             if(Auth::user()->role_type_id == 1 || Auth::user()->department_type_id == $decrypt_m_id){
-                return view('backend.document.direct_upload', compact('decrypt_m_id', 'decrypt_s_id'));
+                return view('backend.document.direct_upload', compact('decrypt_m_id',
+                 'decrypt_s_id', 'm_folder', 's_folder'));
             }else{
             $check_permission = FileUploadPermission::where('main_folder_id', $decrypt_m_id)->where('sub_folder_id', $decrypt_s_id)->where('user_id', Auth::user()->id)->exists();
             if($check_permission){
-                return view('backend.document.direct_upload', compact('decrypt_m_id', 'decrypt_s_id'));
+                return view('backend.document.direct_upload', compact('decrypt_m_id',
+                 'decrypt_s_id', 'm_folder', 's_folder'));
             }else{
                 return response()->view('errors.405', [], 405);
             }
-        } 
+        }
         }catch(\Exception $e){
             abort('404');
         }
-    } 
+    }
+ 
     public function DirectUploadStore(Request $request){
         $validate = $request->validate([
+            'document_title' => ['required', 'max:100'],
             'document' => ['required', 'mimes:pdf,png,doc,docx,xls,xlsx,xlsm,pptx,gif,jpg', 'max:512000',]
-        ],
-        [
+            ],
+    [
             'document.max' => 'The document field must not be greater than 500 MB.',
-        ]
-    );
+            ]
+        );
         $m_id = $request->m_id;
         $s_id = $request->s_id;
         $title = $request->document_title;
         $main_folder = MainFolder::where('id', $m_id)->first();
         $sub_folder = SubFolder::where('id', $s_id)->first();
+
+        $document_exists = Document::where('document_title', strip_tags($request->document_title))
+        ->where('main_folder_id', $m_id)->where('sub_folder_id', $s_id)->first();
+        if($document_exists){
+            return redirect()->back()->withErrors(['document_title' => 'A document with the same title already exists in this folder.']);
+        }
         $document_id = Document::create([
-            'document_title' => $title,
+            'document_title' => strip_tags($title),
             'main_folder_id' => $m_id,
             'sub_folder_id' => $s_id,
             'department_type_id' => $m_id,
             'owner_id' => Auth::user()->id
         ]);
-
          if($request->hasFile('document')){
             $document_name = time().'.'.$request->file('document')->getClientOriginalExtension();
             $request->file('document')->move(public_path('folders/'.$main_folder->name.'/'.$sub_folder->name), $document_name); 
@@ -340,23 +451,28 @@ class DocumentController extends Controller{
             ]);
         }
         return redirect()->route('backend.folders.view_doc_list',[Crypt::encrypt($m_id), Crypt::encrypt($s_id)]);
-    } 
-    public function DocumentAccess($id){ 
+    }
+    public function DocumentAccess($id){
         try{
-        $decrypt_id = Crypt::decrypt($id); 
-        $document = Document::where('id', $decrypt_id)->first();  
-        $users = User::with('getDocumentPermission')->whereIn('role_type_id', [2,3,4,5,6,7])
-        ->with('getDocumentPermission', function ($query) use ($decrypt_id){
-            $query->where('document_id', $decrypt_id);
-        })
-        ->orderBy('role_type_id', 'asc')->get();   
-        // return $users;
-        // getDocumentPermission
-        return view('backend.document_permission.assign_document_permission', compact('document', 'users'));
+            $decrypt_id = Crypt::decrypt($id); 
+            $document = Document::with('getSubFolder', 'getMainFolder')
+            ->where('id', $decrypt_id)->first(); 
+            if(Auth::user()->role_type_id != 1){
+                if($document->getMainFolder?->status == 0 || $document->getSubFolder?->status == 0){
+                    abort('404');
+                }
+            }  
+            $users = User::with('getDocumentPermission')
+            ->whereIn('role_type_id', [2,3,4,5,6,7])
+            ->whereIn('id', $document->assigned_users)
+            ->with('getDocumentPermission', function ($query) use ($decrypt_id){
+                $query->where('document_id', $decrypt_id);
+            })->orderBy('role_type_id', 'asc')->get();    
+            return view('backend.document_permission.assign_document_permission', compact('document', 'users'));
         }catch(\Exception $e){
             abort('404');
         }
-    } 
+    }
     public function DocumentAccessSync(Request $request, $id){ 
         $allRecords = json_decode($request->input('all_records'), true);
         $w = '';
@@ -423,17 +539,21 @@ class DocumentController extends Controller{
             ]);
         } 
         return redirect()->back()->with('document_access_synced', 'Document access has been assigned successfully.'); 
-    } 
-    
+    }
     public function PubliclySharedDocument($id){
         try{
-        $decrypt_id = Crypt::decrypt($id)  ;
-        return view('backend.document.publicly_shared_document', compact('decrypt_id'));
+        $decrypt_id = Crypt::decrypt($id);
+        $document = Document::with('getMainFolder:id,name,status', 'getSubFolder:id,name,status')->where('id', $decrypt_id)->first();
+        if(Auth::user()->role_type_id != 1){
+            if($document->getMainFolder?->status == 0 || $document->getSubFolder?->status == 0){
+                abort('404');
+            }
+        }
+        return view('backend.document.publicly_shared_document', compact('decrypt_id', 'document'));
         }catch(\Exception $e){
             abort('404');
         }
     }
-
     public function PubliclySharedDocumentSend(Request $request){
         $emails = explode(',', $request->email);
         $doc_id = $request->doc_id;
@@ -459,7 +579,6 @@ class DocumentController extends Controller{
         return redirect()->back();
         //return route('frontend.publicly_shared_document_view', $document->doc_file);
     }
-
     public function PubliclySharedDocumentView($file, $row_id){ 
         try{ 
             $file_type = '';
@@ -484,15 +603,21 @@ class DocumentController extends Controller{
         }else{
             return response()->view('errors.404', [], 404);
         }
-
-    }catch(\Exception $e){
-        abort('404');
-    } 
+        }catch(\Exception $e){
+            abort('404');
+        } 
     } 
     public function delete(Request $request){
         try{
         $decrypt_id = Crypt::decrypt($request->id);
-        $document = Document::find($decrypt_id);
+        $document = Document::with('getMainFolder:id,name,status', 'getSubFolder:id,name,status')->where('id', $decrypt_id)->first();
+        if(Auth::user()->role_type_id != 1){
+            if($document->getMainFolder?->status == 0 || $document->getSubFolder?->status == 0){
+                return response()->json([
+                    "status" => "folder_not_available"
+                ]);
+            }
+        }
         if($document->owner_id == Auth::user()->id || Auth::user()->role_type_id == 1){
         $document->delete();
         $this->documentAuditService->CreateDocumentAudit(
@@ -503,9 +628,8 @@ class DocumentController extends Controller{
             "delete" 
         );
         return response()->json([
-            "status" => "deleted"
-        ]);
-        // return redirect()->back();
+            "status" => "deleted", 
+        ]); 
         }else{
             return response()->json([
                 "status" => "permission_denied"
@@ -514,20 +638,28 @@ class DocumentController extends Controller{
         }
         }catch(\Exception $e){
             return response()->json([
-                "status" => "something_went_wrong"
+                "status" => "something_went_wrong",
+                "error" => $e->getMessage(),
+                'document' => $document
             ]);
             // abort('404');
         }
 
-    } 
+    }
     public function uploadNewFile($id){
         try{
             $document_id = Crypt::decrypt($id);
+            $document = Document::with('getMainFolder:id,name,status', 'getSubFolder:id,name,status')->where('id', $document_id)->first();
+            if(Auth::user()->role_type_id != 1){
+                if($document->getMainFolder?->status == 0 || $document->getSubFolder?->status == 0){
+                    abort('404');
+                }
+            }
         }catch(\Exception $e){
             abort('404');
         }
-        return view('backend.document.upload_new_file', compact('document_id'));
-    } 
+        return view('backend.document.upload_new_file', compact('document_id', 'document'));
+    }
     public function uploadNewFileStore(Request $request, $id){
         $validate = $request->validate([
             'document' => ['required', 'mimes:pdf,png,doc,docx,xls,xlsx,xlsm,pptx,gif,jpg', 'max:512000',]
@@ -553,7 +685,7 @@ class DocumentController extends Controller{
         );
         return redirect()->back();
 
-    } 
+    }
     public function download($id){ 
         try{
         $decrypt_id = Crypt::decrypt($id);
@@ -573,7 +705,7 @@ class DocumentController extends Controller{
         }catch(\Exception $e){
             abort('404');
         }
-    } 
+    }
     public function archivedDocuments(){
         if(Auth::user()->role_type_id == 1){
             $documents = Document::onlyTrashed()->with('getMainFolder:id,name', 'getSubFolder:id,name', 'getDepartmentType:id,name');
@@ -604,15 +736,52 @@ class DocumentController extends Controller{
             abort('404');
         }
     }
-
-    public function PermanentDelete($id){
+    public function PermanentDelete(Request $request){
         try{
-            $decrypt_id = Crypt::decrypt($id);
+            $decrypt_id = $request->id;
             $document = Document::onlyTrashed()->findOrFail($decrypt_id); 
             $document->forceDelete(); 
-            return redirect()->back()->with('success', 'Document permanently deleted successfully.');
+            return response()->json([
+                "status" => "deleted"
+            ]);
         }catch(\Exception $e){
-            abort('404');
+           return response()->json([
+            "status" => "failed",
+            "error" => $e->getMessage()
+           ]);
         }
     }
+  
+    public function searchArchivedDocuments(Request $request){
+        try{
+            if(Auth::user()->role_type_id == 1){ 
+                $documents = Document::onlyTrashed()->with('getMainFolder:id,name', 'getSubFolder:id,name', 'getDepartmentType:id,name');
+                if(Auth::user()->role_type_id != 1){
+                    $documents = $documents->whereJsonContains('assigned_users', Auth::user()->id)->orWhere('owner_id', Auth::user()->id);
+                } 
+                if(isset($_GET['search_text'])){
+                    $documents = $documents->where('document_title', 'LIKE', '%'.$request->search_text.'%');
+                }
+                $documents = $documents->orderBy('id', 'desc')->get();
+                $documents->transform(function ($document) {
+                    $document->encrypted_id = Crypt::encrypt($document->id);
+                    return $document;
+                }); 
+                return response()->json([
+                "status" => "success",
+                "document_list" => $documents
+               ]); 
+            }else{
+                abort('404');
+            } 
+        }catch(\Exception $e){
+            return response()->json([
+                "status" => "failed",
+                "error" => $e->getMessage()
+            ]);
+        }
+
+
+    }
+    
 }

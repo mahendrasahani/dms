@@ -205,6 +205,10 @@ function capitalizeEachWord(input) {
       .join(' ');
 }
 
+function capitalizeAllCharacters(input) {
+  input.value = input.value.toUpperCase();
+}
+
 function allowOnlyLetters(event) {
   const input = event.target;
   const value = input.value; 

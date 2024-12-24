@@ -39,7 +39,8 @@ class TaskController extends Controller
     }
 
     public function index(){
-        $tasks = Task::with(['getDocument', 'getAssignedTo', 'getAssignedBy', 'getAssignedTo']);
+        $tasks = Task::with(['getDocument', 'getAssignedTo',
+        'getMainFolder', 'getSubFolder', 'getAssignedBy', 'getAssignedTo']);
         if(Auth::user()->role_type_id != 1){
         if(isset($_GET['task_type']) && $_GET['task_type'] == 1){
                 $tasks = $tasks->where('assigned_to', Auth::user()->id);
@@ -50,34 +51,76 @@ class TaskController extends Controller
                 ->orWhere('assigned_by', Auth::user()->id);
             }
         }
-        $tasks = $tasks->orderBy('id', 'desc')->paginate(10);  
+        $tasks = $tasks->orderBy('id', 'desc')->paginate(10); 
         return view('backend.task.index', compact('tasks'));
+    }
+ 
+    public function getAllTaskList(Request $request){
+        try{
+            $search = $request->search;
+            $tasks = Task::with([
+                    'getDocument:id,document_title',
+                    'getAssignedTo:id,name,email',
+                    'getMainFolder:id,name',
+                    'getSubFolder:id,name',
+                    'getAssignedBy:id,name,email',
+                    'getAssignedTo:id,name,email'
+                    ]);
+            if(Auth::user()->role_type_id != 1){
+                if(isset($_GET['task_type']) && $_GET['task_type'] == 1){
+                    $tasks = $tasks->where('assigned_to', Auth::user()->id);
+                }else if(isset($_GET['task_type']) && $_GET['task_type'] == 2){
+                    $tasks = $tasks->where('assigned_by', Auth::user()->id);
+                }else{
+                    $tasks = $tasks->where('assigned_to', Auth::user()->id)
+                    ->orWhere('assigned_by', Auth::user()->id);
+                }
+            }
+            if(!empty($search)){
+                $tasks = $tasks->where(function($query) use ($search){
+                    $query->whereHas('getDocument', function($q) use ($search){
+                        $q->where('document_title', 'LIKE', '%'.$search.'%');
+                    });
+                });
+            }
+            $tasks = $tasks->orderBy('id', 'desc')->get();
+            
+            $tasks->transform(function ($task) {
+                $task->encrypted_id = Crypt::encrypt($task->id);
+                return $task;
+            }); 
+
+            return response()->json([
+                "status" => "success",
+                "data" => $tasks
+            ]);
+        }catch(\Exception $e){
+            return response()->json([
+                "status" => "failed",
+                "error" => $e->getMessage()
+            ]);
+        }
     }
 
     public function create($id){
         try{
             $decrypt_id = Crypt::decrypt($id);
-            $document = Document::where('id', $decrypt_id)->first(); 
-        $users = User::select('*');
+            $document = Document::with('getMainFolder:id,name,status', 'getSubFolder:id,name,status')->where('id', $decrypt_id)->first(); 
+            if(Auth::user()->role_type_id != 1){
+                if($document->getMainFolder?->status == 0 || $document->getSubFolder?->status == 0){
+                    abort('404');
+                }
+            }
+            $users = User::select('*');
         if(Auth::user()->role_type_id != 1){
             if(Auth::user()->role_type_id == 2){
                 $user = $users->where('head_department_id', Auth::user()->id);
             }
-            // else if(Auth::user()->role_type_id == 3){
-            //     $user = $users->whereHas('getUserHierarchie', function($query){
-            //         $query = $query->where('hotel_id', Auth::user()->id);
-            //     });
-            // }else if(Auth::user()->role_type_id == 4){
-            //     $user = $users->whereHas('getUserHierarchie', function($query){
-            //         $query = $query->where('hoted_department_id', Auth::user()->id);
-            //     });
-            // }
             else if(Auth::user()->role_type_id == 5){
                 $user = $users->where('manager_id', Auth::user()->id);
              
             }else if(Auth::user()->role_type_id == 6){
                 $user = $users->where('team_leader_id', Auth::user()->id);
-                
             } 
         }
         $users = $users->where('role_type_id', '!=', 1)->get();  
@@ -115,7 +158,9 @@ class TaskController extends Controller
                 $task->id, $task->document_id, 0, route('admin.task.view', [Crypt::encrypt($task->id)]), '<i class="fa fa-tasks" aria-hidden="true"></i>');  
         $task_assign_data = [
             "assign_by" => Auth::user()->name,
+            "assign_to" => $user->first_name.' '.$user->last_name,
             "document_title" => $document->document_title ?? "No Title",
+            "description" => $request->description,
             "start_date" => $request->start_date,
             "end_date" => $request->end_date,
             "task_url" => route('admin.task.view', [Crypt::encrypt($task->id)])
@@ -158,7 +203,7 @@ class TaskController extends Controller
                 return view('backend.task.viewDoc', compact('task', 'file_type'));
             }else{
                 return response()->view('errors.410', [], 410);
-            }    
+            }
         }catch(\Exception $e){
             return $e->getMessage();
             // abort('404');
@@ -167,7 +212,6 @@ class TaskController extends Controller
 
     public function view($id){ 
         try{
-
             $decrypt_id = Crypt::decrypt($id);
             $task = Task::with(['getDocument', 'getAssignedTo', 'getAssignedBy', 'getAssignedTo'])->where('id', $decrypt_id)->first(); 
             $comments = DocumentComment::with(['getUser:id,name,email',
@@ -193,9 +237,9 @@ class TaskController extends Controller
             "comment" => $comment,
             "publish_status" => 1,
             "status" => 1
-        ]);  
+        ]);
         $task = Task::where('id', $task_id)->first();
-        if(Auth::user()->id == $task->assigned_by){ 
+        if(Auth::user()->id == $task->assigned_by){
             $this->UpdateNotification(Auth::user()->id, "New Comment", 
             Auth::user()->name ." Commented", $task->assigned_to, 
             $task->id, $task->document_id, 0, route('admin.task.view', [Crypt::encrypt($task_id)]), '<i class="fa fa-comment" aria-hidden="true"></i>');
@@ -203,8 +247,20 @@ class TaskController extends Controller
             $this->UpdateNotification(Auth::user()->id, "New Comment", 
             Auth::user()->name ." Commented", $task->assigned_by, 
             $task->id, $task->document_id, 0, route('admin.task.view', [Crypt::encrypt($task_id)]), '<i class="fa fa-comment" aria-hidden="true"></i>'); 
+        }
+        return redirect()->back()->with('commented', 'You comment has been posted.');
+    }
+
+    public function updateComment(Request $request, $id){
+        try{
+            $decrypt_id = Crypt::decrypt($id);
+            DocumentComment::where('id', $decrypt_id)->update([
+                'comment' => $request->comment
+            ]);
+            return redirect()->back()->with('comment_updated', 'Your comment has been updated.');
+        }catch(\Exception $e){
+            abort('404');
         } 
-        return redirect()->back();  
     }
 
     public function ReplyOnComment(Request $request){

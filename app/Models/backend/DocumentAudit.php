@@ -15,8 +15,16 @@ class DocumentAudit extends Model
     "main_folder_id",
     "sub_folder_id",
     "operation",
-    "status"
+    "status",
+    "status",
+    "status",
+    "changes",
+    "batch_code",
    ];
+
+   protected $casts = [
+     'changes' => 'array', // Cast JSON to PHP array
+ ];
 
 
    public function getUser(){

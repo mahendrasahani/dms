@@ -26,7 +26,10 @@
                 <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 d-flex align-items-center">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}" class="link"><i class="ri-home-3-line fs-5"></i></a></li> 
-                    <li class="breadcrumb-item active" aria-current="page"><a href="Assign Task" class="link">Assign Task</a></li>
+                    <li class="breadcrumb-item" aria-current="page"><a href="{{route('backend.folders.index', [Crypt::encrypt($document->main_folder_id)])}}" class="link">{{$document->getMainFolder?->name ?? ''}}</a></li>
+                    <li class="breadcrumb-item" aria-current="page"><a href="{{ route('backend.folders.view_doc_list', [Crypt::encrypt($document->getMainFolder?->id), Crypt::encrypt($document->getSubFolder?->id)]) }}" class="link">{{$document->getSubFolder?->name ?? ''}}</a></li>
+                     <li class="breadcrumb-item" aria-current="page">Upload New File</li>
+                    <li class="breadcrumb-item active" aria-current="page">Assign Task</li>
                  </ol>
             </nav>
                     <h1 class="mb-0 fw-bold">Assign Task</h1>
@@ -111,6 +114,23 @@
         $("#sub_folder").select2({
             placeholder: "Select Folder",
         }); 
+        
+        $(document).ready(function() {
+            const $startDateInput = $('#start_date');
+            const $endDateInput = $('#end_date'); 
+            $endDateInput.prop('disabled', true); 
+            const today = new Date().toISOString().split('T')[0];
+            $startDateInput.attr('min', today); 
+            $startDateInput.on('change', function() {
+                const startDateValue = $(this).val();
+                if (startDateValue) {
+                    $endDateInput.prop('disabled', false);
+                    $endDateInput.attr('min', startDateValue);
+                } else {
+                    $endDateInput.prop('disabled', true);
+                }
+            });
+        });
     </script>
      
     <script>

@@ -74,7 +74,10 @@
                                         <select name="role_type" class="select2 hotel form-control"
                                             style="width: 100%;" id="role_type" onchange="removeError('role_type_error');"> 
                                             <option value="">--Select--</option>
-                                            @if(Auth::user()->role_type_id == 1)
+                                            @foreach($role_types as $role)
+                                            <option value="{{$role->id ?? ''}}">{{$role->name ?? ''}}</option>
+                                            @endforeach
+                                            {{-- @if(Auth::user()->role_type_id == 1)
                                             <option value="2">Department Head</option>
                                             @endif
                                             @if(Auth::user()->role_type_id == 1 || AutH::user()->role_type_id == 2)
@@ -83,7 +86,9 @@
                                             @if(Auth::user()->role_type_id == 1 || Auth::user()->role_type_id == 2 || Auth::user()->role_type_id == 5)
                                             <option value="6">Team Leader</option>
                                             <option value="7">Team Member</option>
-                                            @endif
+                                            @endif --}}
+
+
                                         </select>
                                         <p id="role_type_error" style="color:red;"></p>  
                                         @error('role_type')
@@ -230,9 +235,11 @@
                                       <p id="department_type_error" style="color:red;"></p>
                                       </div>`;
                     $("#row_container").html(html_to_append); 
+
                     responseData.department_type_list.forEach(function(department) {
                         $('#department_type').append(`<option value="${department.id}">${department.name}</option>`);
                     });  
+                    $("#unit_list").hide();
                     // responseData.unit_list.forEach(function(unit) {
                     //     $('#units').append(`<option value="${unit.id}">${unit.name}</option>`);
                     // });  
@@ -282,6 +289,7 @@
                 if(responseData.status == "success"){
                     let html_to_append = '';
                     auth_role = responseData.auth_role;
+                    
                     if(responseData.auth_role == 1){
                         html_to_append = `<div class="mb-3 col-md-6">
                                           <lable>Department Head</lable>

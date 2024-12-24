@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\backend\Document;
+use App\Models\backend\MainFolder;
+use App\Models\backend\SubFolder;
 
 class Task extends Model
 {
@@ -43,6 +45,14 @@ class Task extends Model
 
     public function getAssignedBy(){
         return $this->belongsTo(User::class, 'assigned_by');
+    }
+
+    public function getMainFolder(){
+        return $this->belongsTo(MainFolder::class, 'main_folder_id');
+    }
+
+    public function getSubFolder(){
+        return $this->belongsTo(SubFolder::class, 'sub_folder_id');
     }
 
     

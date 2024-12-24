@@ -62,7 +62,7 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 d-flex align-items-center">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}" class="link"><i class="ri-home-3-line fs-5"></i></a></li> 
-                    <li class="breadcrumb-item active" aria-current="page"><a href="{{route('backend.manager.index')}}" class="link">Manager</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Manager</li>
                  </ol>
             </nav>
                 <h1 class="mb-0 fw-bold">All Manager</h1>
@@ -96,7 +96,7 @@
                                         <tr>
                                             <td>{{$sn++}}</td>
                                             <td>{{$manager->first_name ?? ''}} {{$manager->last_name ?? ''}}</td> 
-                                            <td>{{$manager->email}}</td> 
+                                            <td>{{$manager->email}}</td>
                                             <td>{{$manager->getUnit?->name ?? ''}}</td>  
                                             <td>{{$manager->getDepartmentType?->name ?? ''}}</td> 
                                             <td>{{$manager->getHead?->name ?? ''}}</td>  
@@ -109,6 +109,7 @@
                                             <td>{{Carbon\Carbon::parse($manager->created_at)->format('d M, Y h:i A')}}</td>
                                             <td>
                                             <div class="button-container">
+                                            @if($manager->status == 1)
                                             <a href="{{route('backend.assign_custom_permission', [Crypt::encrypt($manager->id)])}}">Permission</a> |
                                             <a href="{{route('backend.assign_folder_permission.assign', [Crypt::encrypt($manager->id)])}}">Folder Permission</a>
                                                 <a href="{{route('backend.manager.edit', [Crypt::encrypt($manager->id)])}}">
@@ -119,6 +120,7 @@
                                                     </button>
                                                 </a> 
                                             </div>
+                                            @endif
                                         </td>
                                         </tr>
                                     @endforeach 
@@ -179,6 +181,8 @@
                     text: `The status has been changed successfully.`,
                     icon: 'success',
                     confirmButtonText: 'OK'
+                }).then((result) =>{
+                    window.location.reload();
                 });  
             }else{
                 checkbox.checked = !isActive;

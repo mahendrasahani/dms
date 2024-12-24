@@ -2,6 +2,7 @@
 
 namespace App\Models\backend;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -53,5 +54,10 @@ class Document extends Model
     public function getTask(){
         return $this->hasMany(Task::class, 'document_id');
     }
+
+    public function getOwner(){
+        return $this->belongsTo(User::class, 'owner_id');
+    }
+    
     
 }

@@ -71,112 +71,107 @@
                 </div> 
             </div>
 
-            <div class="row"> 
-            <div class="col-lg-8">  
-                    <div class="card-body">
-                        <div class="table-responsive">
-                        @if(count($recently_added_documents)> 0)
-                            <h2><b>Recently Added Documents</b></h2> 
-                            <table id="" class="table table-striped table-bordered text-nowrap">
-                            <thead>
-                                    <tr>
-                                        <th>SN</th>
-                                        <th>Title</th>    
-                                        <th>File Type</th>    
-                                        <th>Department</th>
-                                        <th>Main Folder</th>
-                                        <th>Sub Folder</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-
-                                  <tbody>
-                                    @php  
-                                    $count = '1';
-                                    @endphp  
+                    <div class="row"> 
+                        <div class="col-lg-8">  
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    @if(count($recently_added_documents) > 0)
+                                        <h2><b>Recently Added Documents</b></h2> 
+                                        <table id="" class="table table-striped table-bordered text-nowrap">
+                                            <thead>
+                                                <tr>
+                                                    <th>SN</th>
+                                                    <th>Title</th>    
+                                                    <th>File Type</th>    
+                                                    <th>Department</th>
+                                                    <th>Main Folder</th>
+                                                    <th>Sub Folder</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @php $count = '1'; @endphp 
+                                                @foreach($recently_added_documents as $doc)
+                                                <tr>
+                                                    <td>{{$count++}}</td>
+                                                    <td><a href="{{route('backend.document.view', [Crypt::encrypt($doc->doc_file)])}}">{{$doc->document_title ?? 'No Title'}}</a></td>
+                                                    <td>{{ strtoupper(pathinfo($doc->doc_file, PATHINFO_EXTENSION)) }}</td> 
+                                                    <td>{{$doc->getDepartmentType->name ?? '' }}</td>  
+                                                    <td>{{$doc->getMainFolder->name ?? ''}}</td>  
+                                                    <td>{{$doc->getSubFolder->name ?? ''}}</td>  
+                                                    <td>
+                                                        <div class="dropown dropstart d-flex justify-content-around" style="cursor: pointer;">
+                                                            <span>
+                                                                <a href="{{route('backend.document.view', [Crypt::encrypt($doc->doc_file)])}}">
+                                                                    <i class="far fa-eye" class="feather-sm"></i>
+                                                                </a>
+                                                            </span>
+                                                        </div>
+                                                    </td>
+                                                </tr> 
+                                                @endforeach 
+                                            </tbody>  
+                                        </table>
+                                    @else
+                                        <h2><b>No Recent data available</b></h2>  
+                                    @endif
+                                </div>
+                            </div>  
+                            <br><br> 
+                            @if(count($recently_added_users) > 0)
+                            <div class="card-body">
+                                <h2><b>Recently Added User</b></h2>
+                                <div class="table-responsive">
+                                    <table id="" class="table table-striped table-bordered text-nowrap">
+                                    <thead>
+                                        <tr>
+                                            <th>SN</th> 
+                                            <th>Name</th> 
+                                            <th>Phone</th> 
+                                            <th>Email</th> 
+                                            <th>User Type</th>  
+                                        </tr>
+                                    </thead> 
+                                    <tbody>
+                                        @php $count = '1'; @endphp  
+                                        @foreach($recently_added_users as $user)
+                                        <tr>
+                                            <td>{{$count++}}</td> 
+                                            <td>{{$user->name ?? ''}}</td>
+                                            <td>{{$user->phone ?? ''}}</td>  
+                                            <td>{{$user->email ?? ''}}</td>  
+                                            <td>{{$user->roleType->name}}</td>  
+                                        </tr>
+                                        @endforeach
                                     
-                                    @foreach($recently_added_documents as $doc)
-                                    <tr>
-                                        <td>{{$count++}}</td>
-                                        <td><a href="{{route('backend.document.view', [Crypt::encrypt($doc->doc_file)])}}">{{$doc->document_title ?? 'No Title'}}</a></td>
-                                        <td>{{ strtoupper(pathinfo($doc->doc_file, PATHINFO_EXTENSION)) }}</td> 
-                                        <td>{{$doc->getDepartmentType->name ?? '' }}</td>  
-                                        <td>{{$doc->getMainFolder->name ?? ''}}</td>  
-                                        <td>{{$doc->getSubFolder->name ?? ''}}</td>  
-                                        <td>
-                                        <div class="dropown dropstart d-flex justify-content-around" style="cursor: pointer;">
-                                            <span>
-                                                <a href="{{route('backend.document.view', [Crypt::encrypt($doc->doc_file)])}}">
-                                                    <i class="far fa-eye" class="feather-sm"></i>
-                                                </a>
-                                            </span>
-                                        </div>
-                                        </td>
-                                    </tr> 
-                                    @endforeach 
-                                </tbody>  
-                            </table>
-                            @else
-                            <h2><b>No Recent data available</b></h2>
-                            <table> 
-                            </table>
-                            @endif
+                                    </tbody>  
+                                    </table>
+                                    @else
+                                    <h2><b>No Recent User Available</b></h2>
+                                    @endif
+                                </div>
+                            </div>
                         </div>
-                    </div>  
-                    <br><br>
- 
-                    @if(count($recently_added_users) > 0)
-                    <div class="card-body">
-                    <h2><b>Recently Added User</b></h2>
-                        <div class="table-responsive">
-                            <table id=" " class="table table-striped table-bordered text-nowrap">
-                            <thead>
-                                    <tr>
-                                        <th>SN</th> 
-                                        <th>Name</th> 
-                                        <th>Phone</th> 
-                                        <th>Email</th> 
-                                        <th>User Type</th>  
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-                                    @php  
-                                    $count = '1';
-                                    @endphp 
-                                  
-                                    @foreach($recently_added_users as $user)
-                                    <tr>
-                                        <td>{{$count++}}</td> 
-                                        <td>{{$user->name ?? ''}}</td>
-                                        <td>{{$user->phone ?? ''}}</td>  
-                                        <td>{{$user->email ?? ''}}</td>  
-                                        <td>{{$user->roleType->name}}</td>  
-                                    </tr>
-                                    @endforeach
-                                  
-                                </tbody>  
-                            </table>
-                            @else
-                            <h2><b>No Recent User Available</b></h2>
-                            @endif
+                        
+                        <div class="col-lg-4">
+                            <div>
+                                <h3>Documents Share Departmentwise</h3>
+                                <canvas id="myChart"></canvas>
+                            </div>
                         </div>
                     </div>
-            </div>
-
-            <div class="col-lg-4">
-                <div>
-                    <h3>Documents Share Departmentwise</h3>
-                    <canvas id="myChart"></canvas>
-                </div>
-            </div>
-            
-            </div> 
         </div>
+      
+
+
+      
         
      
     @section('javascript-section')
-    <script>
+    
+
+
+      <script>
         async function fetchChartData(){
             try{
                 let url = "{{route('fetch_chart_data')}}";

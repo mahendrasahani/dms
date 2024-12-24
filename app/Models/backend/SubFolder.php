@@ -13,7 +13,8 @@ class SubFolder extends Model
 
     protected $fillable = [
         "name",
-        "main_folder_id"
+        "main_folder_id",
+        "status",
     ];
 
     public function getDocument(){

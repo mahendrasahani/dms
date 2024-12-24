@@ -36,6 +36,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    
                                     @foreach($login_audits as $audit)
                                     <tr>
                                         <td>{{$audit->getUser?->name}}</td>

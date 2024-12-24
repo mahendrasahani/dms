@@ -13,7 +13,8 @@ class MainFolder extends Model
 
     protected $fillable = [
         "name",
-        "department_type_id"
+        "department_type_id",
+        "status"
     ];
 
     public function getDocumnet(){

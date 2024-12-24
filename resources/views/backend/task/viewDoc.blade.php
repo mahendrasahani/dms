@@ -9,7 +9,9 @@
                   <li class="breadcrumb-item">
                     <a href="{{route('dashboard')}}" class="link"><i class="ri-home-3-line fs-5"></i></a>
                   </li>
-                  <li class="breadcrumb-item" active aria-current="page">View Document</li> 
+                  <li class="breadcrumb-item" active aria-current="page">{{$task->getMainFolder?->name}}</li> 
+                  <li class="breadcrumb-item" active aria-current="page">{{$task->getSubFolder?->name}}</li> 
+                  <li class="breadcrumb-item" active aria-current="page">{{$document->document_title ?? "No Title"}}</li> 
                 </ol>
             </nav> 
             </div> 

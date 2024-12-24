@@ -83,13 +83,13 @@
                   <div class="mb-3">
                       <label class="col-md-12">First Name</label>
                       <div class="col-md-12">
-                        <input type="text" name="f_name" placeholder="Enter First Name" class="form-control form-control-line" value="{{$user->first_name}}" required/>
+                        <input type="text" name="f_name" placeholder="Enter First Name" class="form-control form-control-line" value="{{$user->first_name}}" required oninput="capitalizeEachWord(this); allowOnlyLetters(event);"/>
                       </div>
                     </div>
                     <div class="mb-3">
                       <label class="col-md-12">Last Name</label>
                       <div class="col-md-12">
-                        <input type="text" name="l_name" placeholder="Enter Last Name" class="form-control form-control-line" value="{{$user->last_name}}" required/>
+                        <input type="text" name="l_name" placeholder="Enter Last Name" class="form-control form-control-line" value="{{$user->last_name}}" required oninput="capitalizeEachWord(this); allowOnlyLetters(event);"/>
                       </div>
                     </div>
                     
@@ -120,7 +120,16 @@
                     <div class="mb-3">
                       <label class="col-md-12">Enter password if you want to change</label>
                       <div class="col-md-12">
-                        <input type="text" name="new_password" class="form-control form-control-line" placeholder="New Password"/>
+                        <div class="d-flex align-items-center">
+                           <span class="inline-block w-100" >
+                              <input type="password" name="new_password" class="form-control form-control-line w-100" placeholder="New Password" id="set_password" />
+                           </span>
+                           <span style="cursor: pointer;">
+                            <i class="ri-eye-line" id="show_password"></i>
+                            <i class="ri-eye-off-line" id="hide_password" style="display:none"></i>
+                          </span>
+                        </div>
+                        
                       </div>
                     </div>
                     
@@ -150,14 +159,27 @@
 </div>
 @section('javascript-section')
   @if(Session::has('profile_updated'))
-    <script>
-      Swal.fire({
-        title: "Updated!",
-        text: "{{Session::get('profile_updated')}}",
-        icon: "success"
-      });
-    </script>
+  <script>
+  Swal.fire({
+  title: "Updated!",
+  text: "{{Session::get('profile_updated')}}",
+  icon: "success"
+  });
+  </script>
   @endif
+
+<script>
+$(document).ready(function(){
+    $('#show_password, #hide_password').on('click', function(){
+        const set_password = $('#set_password');
+        const passwordVisivel = set_password.attr('type')==='text';
+        set_password.attr('type', passwordVisivel ? 'password' : 'text');
+        $('#show_password').toggle();
+        $('#hide_password').toggle();
+    });
+
+});
+</script>
 
 @endsection
 

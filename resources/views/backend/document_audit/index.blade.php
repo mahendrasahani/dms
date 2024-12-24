@@ -37,6 +37,7 @@
                                         <th>Sub Folder</th> 
                                         <th>Operation</th> 
                                         <th>By Whom</th> 
+                                        <th>Action</th> 
                                     </tr>
                                 </thead>
                                 <tbody> 
@@ -48,6 +49,7 @@
                                         <td>{{$audit->getSubFolder?->name}}</td> 
                                         <td>{{strtoupper($audit->operation)}}</td>
                                         <td>{{$audit->getUser?->name}}</td>
+                                        <td><a href="{{route('backend.document_audit.view', [Crypt::encrypt($audit->id)])}}">View</a></td>
                                     </tr> 
                                     @endforeach
                                 </tbody>
