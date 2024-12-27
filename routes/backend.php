@@ -75,9 +75,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/admin/document/direct_upload_store', [DocumentController::class, 'DirectUploadStore'])->name('backend.document.direct_upload_store');
     Route::get('/admin/document/document_access/{id}', [DocumentController::class, 'DocumentAccess'])->name('backend.document.document_access');
     Route::post('/admin/document/document_access_sync/{id}', [DocumentController::class, 'DocumentAccessSync'])->name('backend.document.document_access_sync');
-    
     Route::get('/admin/document/delete/', [DocumentController::class, 'delete'])->name('backend.document.delete');
-    
+    Route::post('check-document-title_existence', [DocumentController::class, 'checkDocumentTitleExistence'])->name('backend.document.check_document_title_existence');
+
     Route::get('/admin/document/download/{id}', [DocumentController::class, 'download'])->name('backend.document.download');
     Route::get('/admin/document/archived_document', [DocumentController::class, 'archivedDocuments'])->name('backend.document.archived_document');
     Route::get('/admin/document/archived_document/search', [DocumentController::class, 'searchArchivedDocuments'])->name('backend.document.search_archived_document');

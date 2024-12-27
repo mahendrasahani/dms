@@ -51,6 +51,7 @@
                                     <div class="mb-3 col-md-6">
                                         <lable>Document Title</lable>
                                         <input type="text" class="form-control" name="document_title" id="document_title" placeholder="Document Title" value="{{old('document_title')}}"/>
+                                        <p style="color:red; display:none;" id="title_exist_error">The title you have entered is already exists.</p>
                                         @error('document_title')
                                             <p style="color:red">{{ $message }}</p>
                                         @enderror
@@ -100,7 +101,7 @@
                                         <label class="form-check-label">Can Download?</label>
                                     </div> -->
                                     <div class="mt-3">
-                                        <button
+                                        <button id="submit_btn"
                                             class=" btn rounded-pill px-4 btn-light-success text-success font-weight-medium waves-effect waves-light" type="submit">
                                             <i data-feather="send" class="feather-sm ms-2 fill-white"></i>
                                             Submit
@@ -124,23 +125,24 @@
         $("#sub_folder").select2({
             placeholder: "Select Folder",
         }); 
-    </script>
-    <script>
-        $(document).ready(async function(){
-            let html_to_append = '<option value=""></option>';
-            let department_id = $("#department").val(); 
-            if(department_id != ''){
-            let url = "{{route('api.get_sub_folder_list')}}";
-            let response = await fetch(`${url}/?department_id=${department_id}`);
-            let responseData = await response.json(); 
-           if(responseData.status === 'success'){
-            responseData.folders.forEach(element => {
-                html_to_append += `<option value="${element.id}">${element.name}</option>`;
-            });
-                $('#sub_folder').html(html_to_append);
-            }
-            }
-        });
+    // -------------------------------------------------------
+        // $(document).ready(async function(){
+        //     let html_to_append = '<option value=""></option>';
+        //     let department_id = $("#department").val(); 
+        //     if(department_id != ''){
+        //         let url = "{{route('api.get_sub_folder_list')}}";
+        //         let response = await fetch(`${url}/?department_id=${department_id}`);
+        //         let responseData = await response.json(); 
+        //         console.log(responseData);
+        //         if(responseData.status === 'success'){
+        //             responseData.folders.forEach(element => {
+        //                 html_to_append += `<option value="${element.id}">${element.name}</option>`;
+        //             });
+        //             $('#sub_folder').html(html_to_append);
+        //         }
+        //     }
+        // }); 
+    // -------------------------------------------------------
 
         $(document).on("change", "#department", async function(){
             let html_to_append = '<option value=""></option>';
@@ -149,18 +151,55 @@
             let response = await fetch(`${url}/?department_id=${department_id}`);
             let responseData = await response.json(); 
            if(responseData.status === 'success'){
-            responseData.folders.forEach(element => {
-                html_to_append += `<option value="${element.id}">${element.name}</option>`;
-            });
-            $(sub_folder).html(html_to_append);
+                responseData.folders.forEach(element => {
+                    html_to_append += `<option value="${element.id}">${element.name}</option>`;
+                });
+                $(sub_folder).html(html_to_append);
            }
         }); 
-    </script>
-
-    <!-- <script>
-        $(document).ready(function() {
-    $('.js-example-basic-multiple').select2();
-});
-    </script> -->
+        
+        async function checkTitleExistence(){
+            const  title = $("#document_title").val();
+            const department_id = $("#department").val();
+            const sub_folder_id = $("#sub_folder").val();
+            const url = "{{route('backend.document.check_document_title_existence')}}";
+            const csrf_token = $('meta[name="csrf-token"]').attr('content'); 
+            if(title != ''){
+                const response = await fetch(url, {
+                    method:'POST',
+                    headers:{
+                        'Content-Type':'application/json',
+                        'X-CSRF-TOKEN':csrf_token
+                    },
+                    body:JSON.stringify({
+                        'title':title,
+                        'department_id':department_id,
+                        'sub_folder_id':sub_folder_id
+                    }),
+                });
+                if(response.ok){
+                    const responseData = await response.json();   
+                    if(responseData.status == 'success'){
+                        if(responseData.title_existence){
+                            $("#title_exist_error").show();
+                            $("#submit_btn").attr('disabled', true);
+                        }else{
+                            $("#title_exist_error").hide();
+                            $("#submit_btn").attr('disabled', false); 
+                        }
+                    }
+                }
+            }
+        } 
+        $(document).on("keyup", "#document_title", async function(){ 
+            await checkTitleExistence(); 
+        });
+        $(document).on("change", "#department", async function(){ 
+            await checkTitleExistence(); 
+        });
+        $(document).on("change", "#sub_folder", async function(){ 
+            await checkTitleExistence(); 
+        });
+    </script> 
 @endsection
 @endsection

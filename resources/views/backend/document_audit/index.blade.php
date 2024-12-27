@@ -48,7 +48,7 @@
                                         <td>{{$audit->getMainFolder?->name}}</td>
                                         <td>{{$audit->getSubFolder?->name}}</td> 
                                         <td>{{strtoupper($audit->operation)}}</td>
-                                        <td>{{$audit->getUser?->name}}</td>
+                                        <td>{{$audit->getUser?->name}}  ({{$audit->getRoleType?->name}})</td>
                                         <td><a href="{{route('backend.document_audit.view', [Crypt::encrypt($audit->id)])}}">View</a></td>
                                     </tr> 
                                     @endforeach

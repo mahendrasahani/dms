@@ -8,6 +8,7 @@ use Auth;
 use Hash;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules;
 
 class UserProfileController extends Controller
 {
@@ -17,6 +18,7 @@ class UserProfileController extends Controller
     }
 
     public function update(Request $request){
+         
         $validate = $request->validate([
             "f_name" => ['required'], 
             "l_name" => ['required'], 
@@ -25,17 +27,21 @@ class UserProfileController extends Controller
         $f_name = $request->f_name; 
         $l_name = $request->l_name; 
         $phone = $request->phone; 
+        if($request->new_password != ''){
+            $validate = $request->validate([ 
+                "new_password" => [Rules\Password::defaults()],
+            ]); 
+            User::where('id', Auth::user()->id)->update([
+                "password" => Hash::make($request->new_password)
+            ]);
+        } 
         User::where('id', Auth::user()->id)->update([
             "first_name" => $f_name, 
             "last_name" => $l_name, 
             "name" => $f_name.' '.$l_name, 
             "phone" => $phone
         ]); 
-        if($request->new_password != ''){
-            User::where('id', Auth::user()->id)->update([
-                "password" => Hash::make($request->new_password)
-            ]);
-        }
+        
         if($request->hasFile('profile_image')){
             $profile_name = time().''.$request->file('profile_image')->getClientOriginalExtension();
             $request->file('profile_image')->move(public_path('assets/backend/assets/images/upload/profile_image'), $profile_name);

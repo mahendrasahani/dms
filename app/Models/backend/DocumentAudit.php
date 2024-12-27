@@ -20,6 +20,7 @@ class DocumentAudit extends Model
     "status",
     "changes",
     "batch_code",
+    "role_type_id"
    ];
 
    protected $casts = [
@@ -41,6 +42,10 @@ class DocumentAudit extends Model
 
    public function getSubFolder(){
         return $this->belongsTo(SubFolder::class, 'sub_folder_id');
+   }
+
+   public function getRoleType(){
+     return $this->belongsTo(RoleType::class, 'role_type_id');
    }
 
 }

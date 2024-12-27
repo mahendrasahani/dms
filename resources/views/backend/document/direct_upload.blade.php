@@ -42,12 +42,13 @@
                         <div class="card-body">
                             <form class="mt-4" action="{{route('backend.document.direct_upload_store')}}" method="POST" enctype="multipart/form-data">
                                 @csrf
-                                <input type="hidden" name="m_id" value="{{$decrypt_m_id}}"/>
-                                <input type="hidden" name="s_id" value="{{$decrypt_s_id}}"/>
+                                <input type="hidden" name="m_id" id="m_id" value="{{$decrypt_m_id}}"/>
+                                <input type="hidden" name="s_id" id="s_id" value="{{$decrypt_s_id}}"/>
                                 <div class="row">
                                     <div class="mb-3 col-md-6">
                                     <lable>Document Title</lable>
                                         <input type="text" class="form-control" name="document_title" id="document_title" placeholder="Document Title"  value="{{old('document_title')}}" required/>
+                                        <p style="color:red; display:none;" id="title_exist_error">The title you have entered is already exists.</p>
                                         @error('document_title')
                                             <p style="color:red;">{{$message}}</p>
                                         @enderror
@@ -59,7 +60,7 @@
                                         @enderror
                                     </div> 
                                     <div class="mt-3">
-                                        <button
+                                        <button id="submit_btn"
                                             class="btn rounded-pill px-4 btn-light-success text-success font-weight-medium waves-effect waves-light" type="submit">
                                             <i data-feather="send" class="feather-sm ms-2 fill-white"></i>Upload</button>
                                     </div>
@@ -76,33 +77,42 @@
 
 @section('javascript-section')
     <script>
-        $("#department").select2({
-            placeholder: "Select Department",
-        }); 
-        $("#sub_folder").select2({
-            placeholder: "Select Folder",
-        }); 
+        $(document).on("keyup", "#document_title", async function(){
+            const title = $(this).val();
+            const main_folder_id = $("#m_id").val();
+            const sub_folder_id = $("#s_id").val(); 
+            const url = "{{route('backend.document.check_document_title_existence')}}";
+            const csrf_token = $('meta[name="csrf-token"]').attr('content'); 
+            if(title != ''){
+                const response = await fetch(url, {
+                    method:'POST',
+                    headers:{
+                        'Content-Type':'application/json',
+                        'X-CSRF-TOKEN':csrf_token
+                    },
+                    body:JSON.stringify({
+                        'title':title,
+                        'department_id':main_folder_id,
+                        'sub_folder_id':sub_folder_id
+                    }),
+                });
+                if(response.ok){
+                    const responseData = await response.json();   
+                    if(responseData.status == 'success'){
+                        if(responseData.title_existence){
+                            $("#title_exist_error").show();
+                            $("#submit_btn").attr('disabled', true);
+                        }else{
+                            $("#title_exist_error").hide();
+                            $("#submit_btn").attr('disabled', false); 
+                        }
+                    }
+                }
+            }
+        });
+   
+   
     </script>
-    <script>
-        $(document).on("change", "#department", async function(){
-            let html_to_append = '<option value=""></option>';
-            let department_id = $(this).val();
-            let url = "{{route('api.get_sub_folder_list')}}";
-            let response = await fetch(`${url}/?department_id=${department_id}`);
-            let responseData = await response.json(); 
-           if(responseData.status === 'success'){
-            responseData.folders.forEach(element => {
-                html_to_append += `<option value="${element.id}">${element.name}</option>`;
-            });
-            $(sub_folder).html(html_to_append);
-           }
-        })
-    </script>
-
-    <!-- <script>
-        $(document).ready(function() {
-    $('.js-example-basic-multiple').select2();
-});
-    </script> -->
+ 
 @endsection
 @endsection

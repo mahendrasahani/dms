@@ -12,7 +12,7 @@ class DocumentAuditController extends Controller
 {
     public function index(){
         if(Auth::user()->role_type_id == 1){
-            $document_audits = DocumentAudit::with(['getUser', 'getDocument', 
+            $document_audits = DocumentAudit::with(['getUser', 'getRoleType', 'getDocument', 
             'getMainFolder', 'getSubFolder'])
             ->orderBy('id', 'desc')->paginate(10);
             return view('backend.document_audit.index', compact('document_audits'));

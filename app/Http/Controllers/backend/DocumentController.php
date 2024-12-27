@@ -81,16 +81,16 @@ class DocumentController extends Controller{
             'sub_folder' => ['required'],
             'document' => ['required', 'mimes:pdf,png,doc,docx,xls,xlsx,xlsm,pptx,gif,jpg', 'max:512000',]
         ],
-        [
+[
             'document.max' => 'The document field must not be greater than 500 MB.',
-        ]); 
+        ]);
         $permission_check = UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 15)->exists();
         if($permission_check){
          $existingDocument = Document::where('document_title', strip_tags($request->document_title))
         ->where('main_folder_id', $request->department)
         ->where('sub_folder_id', $request->sub_folder)
-        ->first(); 
-        if($existingDocument) {
+        ->first();
+        if($existingDocument){
             return redirect()->back()->withErrors(['document_title' => 'A document with the same title already exists in the selected folder.']);
         }
         $title = strip_tags($request->document_title); 
@@ -109,7 +109,7 @@ class DocumentController extends Controller{
             'department_type_id' => $department_id, 
             'assigned_users' => $assigned_users,
             'owner_id' => Auth::user()->id
-        ]); 
+        ]);
         if($request->hasFile('document')){
             $documentFile = $request->file('document');
             $extension = $documentFile->getClientOriginalExtension();
@@ -120,13 +120,13 @@ class DocumentController extends Controller{
             Document::where('id', $document->id)->update([
                 'doc_file' => $documentName,
                 'doc_path' => 'public/folders/' . $main_folder->name . '/' . $sub_folder->name, 
-            ]); 
+            ]);
         }
         return redirect()->route('backend.document.index')->with('created', 'Document has been uploaded successfully.');
         }else{
             return response()->view('errors.405', [], 405);
         } 
-    } 
+    }
     public function edit($id){
         try{
         $decrypt_id = Crypt::decrypt($id);
@@ -136,7 +136,7 @@ class DocumentController extends Controller{
             if($document->getMainFolder?->status == 0 || $document->getSubFolder?->status == 0){
                 abort('404');
             }
-        }
+        }   
         $users = User::select('*'); 
         if(Auth::user()->role_type_id == 5){
             $users = $users->where('manager_id', Auth::user()->id);
@@ -162,7 +162,7 @@ class DocumentController extends Controller{
             $document = Document::where('id', $decrypt_id)->first();
             return view('backend.document.edit', compact('document', 
             'departments_list', 'users', 'sub_folder_list'));
-        } 
+        }
         // $permission_check = UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 17)->exists();
         //     if(Auth::user()->role_type_id == 1 || $document->owner_id == Auth::user()->id){
         //         $document = Document::where('id', $decrypt_id)->first();
@@ -183,10 +183,9 @@ class DocumentController extends Controller{
             abort('404');
         } 
     } 
-    public function update(Request $request, $id){ 
+    public function update(Request $request, $id){
         // $permission_check = UserPermission::where('user_id', Auth::user()->id)->where('menu_id', 17)->exists();
-        // if($permission_check){
-        
+        // if($permission_check){ 
         $validate = $request->validate([
             'document_title' => ['required', 'max:100'],
             'department' => ['required'],
@@ -195,8 +194,7 @@ class DocumentController extends Controller{
         ],
         [
             'document.max' => 'The document field must not be greater than 500 MB.',
-        ]); 
-
+        ]);  
         $title =  strip_tags($request->document_title);
         $department_id = $request->department;
         $assigned_users = $request->users;
@@ -206,7 +204,7 @@ class DocumentController extends Controller{
         $main_folder = MainFolder::where('department_type_id', $department_id)->first();
         $sub_folder_id = $request->sub_folder;
         $sub_folder = SubFolder::where('id', $sub_folder_id)->first();
-// ----------------------------------------------------------------------------------------------------------
+        // ----------------------------------------------------------------------------------------------------------
             // Fetch the existing document
             $existingDocument = Document::find($id);    
             // Prepare the new values
@@ -232,6 +230,7 @@ class DocumentController extends Controller{
             if (!empty($changes)) {
             DocumentAudit::create([
                 'user_id' => Auth::user()->id,
+                'role_type_id' => Auth::user()->role_type_id,
                 'document_id' => $id,
                 'main_folder_id' => $main_folder->id,
                 'sub_folder_id' => $sub_folder_id,
@@ -239,7 +238,7 @@ class DocumentController extends Controller{
                 'changes' => $changes
             ]);
         }
-// ----------------------------------------------------------------------------------------------------------
+        // ----------------------------------------------------------------------------------------------------------
  
         $document_id = Document::where('id', $id)->update([
             'document_title' => $title,
@@ -302,11 +301,12 @@ class DocumentController extends Controller{
             if(Auth::user()->role_type_id == 1 || $doc->owner_id == Auth::user()->id){
                 $this->documentAuditService->CreateDocumentAudit(
                     Auth::user()->id,
+                    Auth::user()->role_type_id,
                     $doc->id,
                     $doc->main_folder_id,
                     $doc->sub_folder_id,
                     "view" 
-                ); 
+                );
                 $can_download = 1; 
                 return view('backend.document.view', compact('document',
                 'file_type', 'can_download')); 
@@ -331,6 +331,7 @@ class DocumentController extends Controller{
                     $document = $document->first();
                     $this->documentAuditService->CreateDocumentAudit(
                         Auth::user()->id,
+                        Auth::user()->role_type_id,
                         $doc->id,
                         $doc->main_folder_id,
                         $doc->sub_folder_id,
@@ -416,14 +417,14 @@ class DocumentController extends Controller{
     }
  
     public function DirectUploadStore(Request $request){
-        $validate = $request->validate([
-            'document_title' => ['required', 'max:100'],
-            'document' => ['required', 'mimes:pdf,png,doc,docx,xls,xlsx,xlsm,pptx,gif,jpg', 'max:512000',]
-            ],
-    [
-            'document.max' => 'The document field must not be greater than 500 MB.',
-            ]
-        );
+            $validate = $request->validate([
+                'document_title' => ['required', 'max:100'],
+                'document' => ['required', 'mimes:pdf,png,doc,docx,xls,xlsx,xlsm,pptx,gif,jpg', 'max:512000',]
+                ],
+        [
+                'document.max' => 'The document field must not be greater than 500 MB.',
+                ]
+            );
         $m_id = $request->m_id;
         $s_id = $request->s_id;
         $title = $request->document_title;
@@ -622,6 +623,7 @@ class DocumentController extends Controller{
         $document->delete();
         $this->documentAuditService->CreateDocumentAudit(
             Auth::user()->id,
+            Auth::user()->role_type_id,
             $decrypt_id,
             $document->main_folder_id,
             $document->sub_folder_id,
@@ -678,6 +680,7 @@ class DocumentController extends Controller{
         }
         $this->documentAuditService->CreateDocumentAudit(
             Auth::user()->id,
+            Auth::user()->role_type_id,
             $decrypt_id,
             $document->main_folder_id,
             $document->sub_folder_id,
@@ -696,6 +699,7 @@ class DocumentController extends Controller{
          } 
          $this->documentAuditService->CreateDocumentAudit(
             Auth::user()->id,
+            Auth::user()->role_type_id,
             $decrypt_id,
             $document->main_folder_id,
             $document->sub_folder_id,
@@ -726,6 +730,7 @@ class DocumentController extends Controller{
             $document->restore();
             $this->documentAuditService->CreateDocumentAudit(
                 Auth::user()->id,
+                Auth::user()->role_type_id,
                 $decrypt_id,
                 $document->main_folder_id,
                 $document->sub_folder_id,
@@ -784,4 +789,42 @@ class DocumentController extends Controller{
 
     }
     
+    public function checkDocumentTitleExistence(Request $request){
+        try{
+            $title = $request->title;
+            $department_id = $request->department_id;
+            $sub_folder_id = $request->sub_folder_id; 
+            $doc_id = $request->doc_id;
+           $document = Document::select('*');
+           $document = $document->where('document_title', $title);
+           if($department_id != null){
+               $document = $document->where('main_folder_id', $department_id);
+           }
+           if($sub_folder_id != null){
+            $document = $document->where('sub_folder_id', $sub_folder_id);
+        }
+        if($doc_id != null){
+               $document = $document->where('id', '!=', $doc_id);
+           }
+           $document = $document->first(); 
+           if($document){
+            return response()->json([
+                "status" => "success",
+                "title_existence" => true,
+                "document" => $document
+            ], 200);
+        }else{
+            return response()->json([
+                "status" => "success",
+                "title_existence" => false,
+                "document" => $document
+            ], 200);
+        }
+        }catch(\Exception $e){
+            return response()->json([
+                "status" => "failed",
+                "error" => $e->getMessage()
+            ], 400);
+        }
+    }
 }

@@ -103,12 +103,15 @@ class FoldersController extends Controller
         if($check_permission || Auth::user()->role_type_id == 1){
             $main_folder = MainFolder::where('id', $decrypt_main_folder_id)->first();
             $sub_folder = SubFolder::where('id', $decrypt_sub_folder_id)->first();  
-             if($main_folder->status == 0){
+             if(Auth::user()->role_type_id != 1){ 
+            if($main_folder->status == 0){
                 abort('404');
              }
              if($sub_folder->status == 0){
                 abort('404');
              }
+            }
+
             if(Auth::user()->role_type_id == 2){
                 $user_ids = User::where('head_department_id', Auth::user()->id)->pluck('id')->toArray();
                 $user_ids[] = Auth::user()->id;

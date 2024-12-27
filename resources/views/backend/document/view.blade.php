@@ -1,6 +1,6 @@
 @extends('layouts/backend/main')
 @section('main-section') 
-<style>
+    <style>
         img {
             pointer-events: none; /* Disable dragging */
         }
@@ -36,10 +36,10 @@
             </div>
             @elseif($file_type == 'jpg' || $file_type == 'jpeg' || $file_type == 'png' || $file_type == 'gif' || $file_type == 'webp')
             @php
-                $imagePath = url($document->doc_path.'/'.$document->doc_file); // or storage_path() for images in storage
+                $imagePath = url(str_replace(' ', '%20', $document->doc_path).'/'.$document->doc_file); // or storage_path() for images in storage
                 $imageData = file_get_contents($imagePath);
                 $base64 = base64_encode($imageData);
-                $base64Url = "data:$file_type;base64,$base64"; // B
+                $base64Url = "data:$file_type;base64,$base64";
             @endphp
             <div class="col-12" style="position: relative; height: 600px; width: 100%; text-align:center;">  
             <img src="{{ $base64Url }}" alt="Image" width="100%">
@@ -47,7 +47,7 @@
             @endif  
         </div>
     </div>
-</div> 
+</div>
 @section('javascript-section') 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script> 
     @if($file_type == 'pdf') 

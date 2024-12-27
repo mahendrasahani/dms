@@ -123,7 +123,10 @@
                         <div class="d-flex align-items-center">
                            <span class="inline-block w-100" >
                               <input type="password" name="new_password" class="form-control form-control-line w-100" placeholder="New Password" id="set_password" />
-                           </span>
+                              @error('new_password')
+                          <p style="color:red;">{{$message}}</p>
+                        @enderror
+                            </span>
                            <span style="cursor: pointer;">
                             <i class="ri-eye-line" id="show_password"></i>
                             <i class="ri-eye-off-line" id="hide_password" style="display:none"></i>
