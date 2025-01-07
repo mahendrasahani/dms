@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('check_list_information', function (Blueprint $table) {
-            $table->id()->nullable();
+            $table->id();
             $table->String('hotel_name')->nullable();
             $table->String('hotel_detail')->nullable();
             $table->String('title')->nullable();
