@@ -7,7 +7,7 @@
     <meta name="robots" content="noindex,nofollow" />
     <title>DMS</title>
     <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon.png" />
-    <link href="<?php echo e(url('public/assets/backend/dist/css/style.min.css')); ?>" rel="stylesheet" />
+    <link href="<?php echo e(url('assets/backend/dist/css/style.min.css')); ?>" rel="stylesheet" />
 </head>
 
 <body>
@@ -31,7 +31,7 @@
             </svg>
         </div>
         <div class="auth-wrapper d-flex  no-block justify-content-center align-items-center"
-            style="background: url(<?php echo e(url('public/assets/backend/assets/images/big/auth-bg.jpg')); ?>) no-repeat center center;   background-size: cover;  ">
+            style="background: url(<?php echo e(url('assets/backend/assets/images/big/auth-bg.jpg')); ?>) no-repeat center center;   background-size: cover;  ">
             <div class="auth-box p-4 card1 rounded">
                 <div id="loginform">
                     <div class="logo">
@@ -113,8 +113,8 @@ unset($__errorArgs, $__bag); ?>
                 </div>
             </div>
         </div>
-        <script src="<?php echo e(url('public/assets/backend/assets/libs/jquery/dist/jquery.min.js')); ?>"></script>
-        <script src="<?php echo e(url('public/assets/backend/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js')); ?>"></script>
+        <script src="<?php echo e(url('assets/backend/assets/libs/jquery/dist/jquery.min.js')); ?>"></script>
+        <script src="<?php echo e(url('assets/backend/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js')); ?>"></script>
 
         <script>
             $(".preloader").fadeOut();
