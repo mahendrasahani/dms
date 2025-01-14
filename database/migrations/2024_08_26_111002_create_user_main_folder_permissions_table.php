@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('user_main_folder_permissions', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('main_folder_permission_lists_id')->nullable();
+            $table->unsignedBigInteger('main_folder_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->tinyInteger('status')->default(1);
             $table->timestamps();

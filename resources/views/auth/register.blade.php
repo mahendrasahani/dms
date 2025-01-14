@@ -8,7 +8,7 @@
     <link rel="canonical" href="https://www.wrappixel.com/templates/flexy-bootstrap-admin-template/" />
     <!-- Favicon icon -->
     {{-- <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon.png"  /> --}}
-    <link href="{{url('public/assets/backend/dist/css/style.min.css')}}" rel="stylesheet" />
+    <link href="{{url('assets/backend/dist/css/style.min.css')}}" rel="stylesheet" />
   </head>
 
   <body>
@@ -22,7 +22,7 @@
           <path id="steamR" d="M21 6C21 6 21 8.22727 19 9.5C17 10.7727 17 13 17 13" stroke="#fec80e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ></path>
         </svg>
       </div>
-      <div class=" auth-wrapper d-flex no-block justify-content-center  align-items-center " style="background: url({{url('public/assets/backend/assets/images/big/auth-bg.jpg')}}) no-repeat center center;">
+      <div class=" auth-wrapper d-flex no-block justify-content-center  align-items-center " style="background: url({{url('assets/backend/assets/images/big/auth-bg.jpg')}}) no-repeat center center;">
         <div class="auth-box  p-4 card1 rounded">
           <div>
             <div class="logo text-center">
@@ -89,8 +89,8 @@
         </div>
       </div>
     </div>
-    <script src="{{url('public/assets/backend/assets/libs/jquery/dist/jquery.min.js')}}"></script>
-    <script src="{{url('public/assets/backend/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{url('assets/backend/assets/libs/jquery/dist/jquery.min.js')}}"></script>
+    <script src="{{url('assets/backend/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
     <script type="text/javascript">
       $(".preloader").fadeOut();
     </script>

@@ -6,18 +6,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>DMS</title>
     <meta name="csrf-token" content="{{ csrf_token() }}"> 
-    <link rel="stylesheet" href="{{ url('public/assets/backend/assets/libs/apexcharts/dist/apexcharts.css') }}" />
-    <link href="{{ url('public/assets/backend/assets/extra-libs/calendar/calendar.css') }}" rel="stylesheet" />
-    <link href="{{ url('public/assets/backend/assets/libs/fullcalendar/dist/fullcalendar.min.css') }}"rel="stylesheet" />
+    <link rel="stylesheet" href="{{ url('assets/backend/assets/libs/apexcharts/dist/apexcharts.css') }}" />
+    <link href="{{ url('assets/backend/assets/extra-libs/calendar/calendar.css') }}" rel="stylesheet" />
+    <link href="{{ url('assets/backend/assets/libs/fullcalendar/dist/fullcalendar.min.css') }}"rel="stylesheet" />
     <link rel="canonical" href="https://www.wrappixel.com/templates/flexy-bootstrap-admin-template/" />
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ url('public/assets/backend/assets/images/favicon.png')}}" /> 
-    <link rel="stylesheet" href="{{ url('public/assets/backend/assets/extra-libs/taskboard/css/lobilist.css') }}" />
-    <link rel="stylesheet" href="{{ url('public/assets/backend/assets/extra-libs/taskboard/css/jquery-ui.min.css') }}" />
-    <link rel="stylesheet" type="text/css" href="{{ url('public/assets/backend/assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}" />
-    <link href="{{ url('public/assets/backend/dist/css/style.min.css') }}" rel="stylesheet" />
-    <link href="{{ url('public/assets/backend/dist/css/custom.css') }}" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="{{ url('public/assets/backend/assets/libs/dropzone/dist/min/dropzone.min.css')}}" />
-    <link rel="stylesheet" type="text/css" href="{{ url('public/assets/backend/assets/libs/select2/dist/css/select2.min.css')}}" />
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url('assets/backend/assets/images/favicon.png')}}" /> 
+    <link rel="stylesheet" href="{{ url('assets/backend/assets/extra-libs/taskboard/css/lobilist.css') }}" />
+    <link rel="stylesheet" href="{{ url('assets/backend/assets/extra-libs/taskboard/css/jquery-ui.min.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url('assets/backend/assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}" />
+    <link href="{{ url('assets/backend/dist/css/style.min.css') }}" rel="stylesheet" />
+    <link href="{{ url('assets/backend/dist/css/custom.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="{{ url('assets/backend/assets/libs/dropzone/dist/min/dropzone.min.css')}}" />
+    <link rel="stylesheet" type="text/css" href="{{ url('assets/backend/assets/libs/select2/dist/css/select2.min.css')}}" />
     <!-- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /> -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js" integrity="sha512-ykZ1QQr0Jy/4ZkvKuqWn4iF3lqPZyij9iRv6sGqLRdTPkY69YX6+7wvVGmsdBbiIfN/8OdsI7HABjvEok6ZopQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
@@ -96,15 +96,15 @@
                     <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)"><i class="ri-close-line ri-menu-2-line fs-6"></i></a>
                     <a class="navbar-brand" href="{{route('dashboard')}}">
                         <b class="logo-icon logoicon ">
-                            <img src="{{ url('public/assets/backend/assets/images/logos.png') }}" alt="homepage" class="dark-logo" />
-                            <img src="{{ url('public/assets/backend/assets/images/logos.png') }}" class="light-logo" alt="homepage" />
+                            <img src="{{ url('assets/backend/assets/images/logos.png') }}" alt="homepage" class="dark-logo" />
+                            <img src="{{ url('assets/backend/assets/images/logos.png') }}" class="light-logo" alt="homepage" />
                         </b>
                         <!-- <span class="logo-text">
                             <img
-                            src="{{ url('public/assets/backend/assets/images/airport_logol.png') }}"
+                            src="{{ url('assets/backend/assets/images/airport_logol.png') }}"
                             alt="homepage" class="dark-logo" style="display: none;"/>
                             <img
-                            src="{{ url('public/assets/backend/assets/images/airport_logol.png') }}"
+                            src="{{ url('assets/backend/assets/images/airport_logol.png') }}"
                              class="light-logo" alt="homepage" />
                         </span> -->
                     </a>
@@ -260,9 +260,9 @@
                             <a class="nav-link dropdown-toggle d-flex align-items-center"  href="{{route('backend.user_profile.index')}}"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 @if(Auth::user()->profile_image == NULL)
-                                <img src="{{url('public/assets/backend/assets/images/users/default_user.png')}}" alt="user" width="30" class="profile-pic rounded-circle" />
+                                <img src="{{url('assets/backend/assets/images/users/default_user.png')}}" alt="user" width="30" class="profile-pic rounded-circle" />
                                 @else
-                                <img src="{{ url('public/assets/backend/assets/images/upload/profile_image')}}/{{Auth::user()->profile_image}}" class="rounded-circle" height="50%" />
+                                <img src="{{ url('assets/backend/assets/images/upload/profile_image')}}/{{Auth::user()->profile_image}}" class="rounded-circle" height="50%" />
                                 @endif
 
                                 <div class="d-none d-md-flex">
@@ -286,9 +286,9 @@
                                         </div>
                                         <div class="d-flexalign-items-centermt-4pt-3pb-4border-bottom">
                                         @if(Auth::user()->profile_image == NULL)
-                                            <img src="{{url('public/assets/backend/assets/images/users/default_user.png')}}" alt="user" width="90" class="rounded-circle" />
+                                            <img src="{{url('assets/backend/assets/images/users/default_user.png')}}" alt="user" width="90" class="rounded-circle" />
                                             @else
-                                            <img src="{{ url('public/assets/backend/assets/images/upload/profile_image')}}/{{Auth::user()->profile_image}}" class="rounded-circle" width="30%" />
+                                            <img src="{{ url('assets/backend/assets/images/upload/profile_image')}}/{{Auth::user()->profile_image}}" class="rounded-circle" width="30%" />
                                             @endif
                                             <div class="ms-4">
                                                 <h4 class="mb-0">{{Auth::user()->first_name.' '.Auth::user()->last_name}}</h4>
