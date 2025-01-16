@@ -326,7 +326,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/admin/create/publicly_shared_url/send', [DocumentController::class, 'PubliclySharedDocumentSend'])->name('backend.create_publicly_shared_url_send');
      
     Route::get('email_template_testing', [Controller::class, 'emailTemplateTesting']); // remove after development
-    });
+    
+    Route::get('check_unit_existence', [ApiController::class, 'checkUnitExistence'])->name('api.check_unit_existence');
+    Route::get('/get_sub_folder_list', [ApiController::class, 'getSubFolderList'])->name('api.get_sub_folder_list');
+    Route::get('/fetch-chart-data', [ApiController::class, 'fetchChartData'])->name('fetch_chart_data');
+    Route::get('get_subfolder_with_m_f', [ApiController::class, 'getSFolderWithMfolderId'])->name('api.get_s_folder_list');
+    Route::get('get_document_list', [ApiController::class, 'getDocumentList'])->name('api.get_docuemnt_list');
+
+});
  
     Route::middleware(['auth', 'super-admin', 'web'])->group(function () {
     });

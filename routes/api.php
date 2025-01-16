@@ -22,8 +22,3 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::middleware('auth:sanctum')->group(function(){ 
 });
 
-Route::get('/get_sub_folder_list', [ApiController::class, 'getSubFolderList'])->name('api.get_sub_folder_list');
-Route::get('/fetch-chart-data', [ApiController::class, 'fetchChartData'])->name('fetch_chart_data');
-Route::get('get_subfolder_with_m_f', [ApiController::class, 'getSFolderWithMfolderId'])->name('api.get_s_folder_list');
-Route::get('get_document_list', [ApiController::class, 'getDocumentList'])->name('api.get_docuemnt_list');
-Route::get('check_unit_existence', [ApiController::class, 'checkUnitExistence'])->name('api.check_unit_existence');
